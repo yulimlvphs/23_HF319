@@ -9,7 +9,6 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
-    ;
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder1) {
@@ -34,9 +33,9 @@ public class UserService {
 
     public Boolean login(String id, String pw) {
         User user = userRepository.findByUserId(id);
-        if(user != null && passwordEncoder.matches(pw, user.getUser_pw())){
+        if (user != null && passwordEncoder.matches(pw, user.getUser_pw())) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
