@@ -33,7 +33,7 @@ public class UserController {
         return userService.login(id,pw);
     }
 
-    @GetMapping("/idcheck")
+    @GetMapping("/idCheck")
     public Boolean IdCheck(@RequestParam("userId") String id){
         return userService.idCheck(id);
     }
