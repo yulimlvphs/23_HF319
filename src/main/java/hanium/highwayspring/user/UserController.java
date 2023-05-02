@@ -24,12 +24,17 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<Optional<User>> findUserAPI(@RequestParam("user_no") Long user_no) {
+    public ResponseEntity<Optional<User>> findUserAPI(@RequestParam("userNo") Long user_no) {
         return ResponseEntity.ok(userService.findOne(user_no));
     }
 
     @GetMapping("/login")
-    public Boolean LoginAPI(@RequestParam("user_id") String id, @RequestParam("user_pw") String pw) {
+    public Boolean LoginAPI(@RequestParam("userId") String id, @RequestParam("userPw") String pw) {
         return userService.login(id,pw);
+    }
+
+    @GetMapping("/idcheck")
+    public Boolean IdCheck(@RequestParam("userId") String id){
+        return userService.idCheck(id);
     }
 }

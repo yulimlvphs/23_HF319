@@ -39,4 +39,11 @@ public class UserService {
             return false;
         }
     }
+    public Boolean idCheck(String id){
+        User user = userRepository.findByUserId(id);
+        if(user == null)
+            return true;
+        else
+            return false;
+    }
 }
