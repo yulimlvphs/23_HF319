@@ -8,12 +8,11 @@ import javax.persistence.*;
 @Data
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_no;
-    @Column(name = "user_id")
+    private Long userNo;
     private String userId;
-    private String user_pw;
-    private String user_name;
-    private String user_email;
-    private String user_sex;
-    private Long user_age;
+    private String userPw;
+    private String userName;
+    private String userEmail;
+    private String userSex;
+    private Long userAge;
 }
