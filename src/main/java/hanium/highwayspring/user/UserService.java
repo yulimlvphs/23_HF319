@@ -17,10 +17,10 @@ public class UserService {
     }
 
     public Long join(User user) {
-        String enPw = passwordEncoder.encode(user.getUser_pw());
-        user.setUser_pw(enPw);
+        String enPw = passwordEncoder.encode(user.getUserPw());
+        user.setUserPw(enPw);
         userRepository.save(user);
-        return user.getUser_no();
+        return user.getUserNo();
     }
 
     public List<User> findUsers() {
@@ -33,7 +33,7 @@ public class UserService {
 
     public Boolean login(String id, String pw) {
         User user = userRepository.findByUserId(id);
-        if (user != null && passwordEncoder.matches(pw, user.getUser_pw())) {
+        if (user != null && passwordEncoder.matches(pw, user.getUserPw())) {
             return true;
         } else {
             return false;
