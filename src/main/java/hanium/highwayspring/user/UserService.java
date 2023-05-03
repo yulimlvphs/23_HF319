@@ -31,12 +31,12 @@ public class UserService {
         return userRepository.findById(userNo);
     }
 
-    public Boolean login(String id, String pw) {
+    public User login(String id, String pw) {
         User user = userRepository.findByUserId(id);
         if (user != null && passwordEncoder.matches(pw, user.getUserPw())) {
-            return true;
+            return user;
         } else {
-            return false;
+            return null;
         }
     }
     public Boolean idCheck(String id){
