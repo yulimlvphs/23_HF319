@@ -41,7 +41,7 @@ public class UserService {
     }
     public Boolean idCheck(String id){
         User user = userRepository.findByUserId(id);
-        if(user == null)
+        if(user == null && id.length() > 0)
             return true;
         else
             return false;
