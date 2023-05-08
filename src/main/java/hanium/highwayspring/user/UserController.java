@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public User LoginAPI(@RequestParam("userId") String id, @RequestParam("userPw") String pw) {
+    public Long LoginAPI(@RequestParam("userId") String id, @RequestParam("userPw") String pw) {
         return userService.login(id,pw);
     }
 
