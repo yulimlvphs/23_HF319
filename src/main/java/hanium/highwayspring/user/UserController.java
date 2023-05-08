@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<Optional<User>> findUserAPI(@RequestParam("no") Long no) {
+    public ResponseEntity<Optional<User>> findUserAPI(@RequestParam("userNo") Long no) {
         return ResponseEntity.ok(userService.findOne(no));
     }
 
