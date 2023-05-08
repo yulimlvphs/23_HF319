@@ -1,5 +1,6 @@
 package hanium.highwayspring.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -39,9 +41,19 @@ public class UserService {
             return (long) -1;
         }
     }
-    public Boolean idCheck(String id){
+
+    public User SignIn(String id, String pw) {
         User user = userRepository.findByUserId(id);
-        if(user == null && id.length() > 0)
+        if (user != null && passwordEncoder.matches(pw, user.getUserPw())) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    public Boolean idCheck(String id) {
+        User user = userRepository.findByUserId(id);
+        if (user == null && id.length() > 0)
             return true;
         else
             return false;
