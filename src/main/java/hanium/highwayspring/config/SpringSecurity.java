@@ -31,7 +31,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 //                .formLogin().disable()
 //                .headers().frameOptions().disable();
         // http 시큐리티 빌더
-        http.cors().disable()                // WebMvcConfig에서 이미 설정했으므로 기본 cors 설정
+        http.cors().and()             // WebMvcConfig에서 이미 설정했으므로 기본 cors 설정
                 .csrf()                    // csrf는 현재 사용하지 않으므로 disable
                 .disable()
                 .formLogin().disable()
