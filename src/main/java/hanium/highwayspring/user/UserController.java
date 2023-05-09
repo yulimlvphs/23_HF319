@@ -1,13 +1,11 @@
 package hanium.highwayspring.user;
 
 import hanium.highwayspring.security.TokenProvider;
-import hanium.highwayspring.test.ResponseDTO;
+import hanium.highwayspring.todo.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.OPTIONS, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -30,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<Optional<User>> findUserAPI(@RequestParam("userNo") Long no) {
+    public ResponseEntity<UserDTO> findUserAPI(@RequestParam("userNo") Long no) {
         return ResponseEntity.ok(userService.findOne(no));
     }
 
@@ -52,7 +50,7 @@ public class UserController {
         if (user != null) {
             // 토큰 생성
             final String token = tokenProvider.create(user);
-            final User responseUserDTO = User.builder()
+            final UserDTO responseUserDTO = UserDTO.builder()
                     .userEmail(user.getUserEmail())
                     .userId(user.getUserId())
                     .token(token)          //반환된 토큰 적용

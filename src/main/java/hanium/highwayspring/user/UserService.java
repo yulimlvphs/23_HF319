@@ -29,8 +29,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findOne(Long userNo) {
-        return userRepository.findById(userNo);
+    public UserDTO findOne(Long userNo) {
+        Optional<User> user = userRepository.findById(userNo);
+        UserDTO dto = UserDTO.toEntity(user);
+        return dto;
     }
 
     public Long login(String id, String pw) {

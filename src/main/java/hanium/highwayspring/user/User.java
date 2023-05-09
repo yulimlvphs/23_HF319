@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userNo;
-    private String token;
+//    private String token;
     private String userId;
     private String userPw;
     private String userName;
