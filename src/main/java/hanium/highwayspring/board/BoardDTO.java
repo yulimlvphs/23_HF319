@@ -1,4 +1,4 @@
-package hanium.highwayspring.todo;
+package hanium.highwayspring.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,17 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class TodoDTO {
+public class BoardDTO {
 	private String id; 			
 	private String title; 	
 
-	public TodoDTO(final TodoEntity entity) {
+	public BoardDTO(final BoardEntity entity) {
 		this.id 	= entity.getId();
 		this.title 	= entity.getTitle();
 	}
 	
-	public static TodoEntity toEntity(final TodoDTO dto) {
-		return TodoEntity.builder()
+	public static BoardEntity toEntity(final BoardDTO dto) {
+		return BoardEntity.builder()
 				.id(dto.getId())
 				.title(dto.getTitle())
 				.build();

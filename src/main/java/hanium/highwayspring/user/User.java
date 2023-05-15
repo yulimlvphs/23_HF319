@@ -7,19 +7,21 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity(name = "TB_USER")
+@Entity(name = "USER_TB")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userNo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 //    private String token;
-    private String userId;
-    private String userPw;
-    private String userName;
-    private String userEmail;
-    private String userSex;
-    private Long userAge;
+    private String uid;
+    private String pwd;
+    private String name;
+    private String email;
+    private String gender;
+    private Long age;
+    private Long role;
 }

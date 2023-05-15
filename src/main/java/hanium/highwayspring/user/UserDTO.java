@@ -17,26 +17,29 @@ public class UserDTO {
     private String token;
     private String userName;
     private String userEmail;
-    private String userSex;
+    private String userGender;
     private Long userAge;
+    private Long userRole;
 
     public UserDTO(final User entity) {
-        this.userNo = entity.getUserNo();
-        this.userId = entity.getUserId();
-        this.userName = entity.getUserName();
-        this.userEmail = entity.getUserEmail();
-        this.userSex = entity.getUserSex();
-        this.userAge = entity.getUserAge();
+        this.userNo = entity.getId();
+        this.userId = entity.getUid();
+        this.userName = entity.getName();
+        this.userEmail = entity.getEmail();
+        this.userGender = entity.getGender();
+        this.userAge = entity.getAge();
+        this.userRole = entity.getRole();
     }
 
     public static UserDTO toEntity(final Optional<User> entity) {
         return UserDTO.builder()
-                .userNo(entity.get().getUserNo())
-                .userId(entity.get().getUserId())
-                .userName(entity.get().getUserName())
-                .userEmail(entity.get().getUserEmail())
-                .userSex(entity.get().getUserSex())
-                .userAge(entity.get().getUserAge())
+                .userNo(entity.get().getId())
+                .userId(entity.get().getUid())
+                .userName(entity.get().getName())
+                .userEmail(entity.get().getEmail())
+                .userGender(entity.get().getGender())
+                .userAge(entity.get().getAge())
+                .userRole(entity.get().getRole())
                 .build();
     }
 }

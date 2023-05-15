@@ -41,7 +41,7 @@ public class TokenProvider {
                 // header에 들어갈 내용 및 서명을 하기 위한 SECRET_KEY
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 // payload에 들어갈 내용
-                .setSubject(userEntity.getUserId()) // sub
+                .setSubject(userEntity.getUid()) // sub
                 .setIssuer("demo app")            // iss
                 .setIssuedAt(new Date())        // iat
                 .setExpiration(expiryDate)        // exp

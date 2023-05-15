@@ -1,7 +1,7 @@
 package hanium.highwayspring.user;
 
 import hanium.highwayspring.security.TokenProvider;
-import hanium.highwayspring.todo.ResponseDTO;
+import hanium.highwayspring.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,10 +51,10 @@ public class UserController {
             // 토큰 생성
             final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
-                    .userNo(user.getUserNo())
-                    .userEmail(user.getUserEmail())
-                    .userId(user.getUserId())
-                    .userName(user.getUserName())
+                    .userNo(user.getId())
+                    .userEmail(user.getEmail())
+                    .userId(user.getUid())
+                    .userName(user.getName())
                     .token(token)          //반환된 토큰 적용
                     .build();
             return ResponseEntity.ok().body(responseUserDTO);

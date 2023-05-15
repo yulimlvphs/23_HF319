@@ -9,7 +9,7 @@ public interface UserRepository {
 
     Optional<User> findById(Long user_no);
 
-    User findByUserId(String user_id);
+    User findByUid(String user_id);
 
     List<User> findAll();
 
