@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface SpringDataJpaUserRepository extends JpaRepository<User, Long>, UserRepository {
     @Override
-    User findByUid(String user_id);
+    Optional<User> findByUid(String user_id);
 }
