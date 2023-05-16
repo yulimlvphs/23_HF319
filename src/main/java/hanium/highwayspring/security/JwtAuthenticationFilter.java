@@ -1,11 +1,15 @@
 package hanium.highwayspring.security;
 
 import hanium.highwayspring.security.TokenProvider;
+import hanium.highwayspring.user.CustomUserDetails;
+import hanium.highwayspring.user.UserDTO;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Slf4j
 @Component
@@ -37,17 +42,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = parseBearerToken(request);
             log.info("Filter is running...");
 
+            // 토큰 정보를 가져온다.
+            Claims claims = tokenProvider.getAllClaims(token);
+
             // 토큰 검사하기. JWT이므로 인가 서버에 요청하지 않고도 검증 가능
             if(token != null && !token.equalsIgnoreCase(null)) {
                 // userId 가져오기. 위조된 경우 예외 처리된다.
                 String userId = tokenProvider.validateAndGetUserId(token);
                 log.info("Authenticated user ID : " + userId);
 
+                // 커스텀한 UserDetail 객체를 생성한다
+                UserDTO userDetails = UserDTO.builder()
+                        .userNo((Long) claims.get("user_no"))
+                        .userId((String) claims.get("user_id"))
+                        .userName((String) claims.get("user_name"))
+                        .userEmail((String) claims.get("user_email"))
+                        .userGender((String) claims.get("user_gender"))
+                        .userAge((Long) claims.get("user_age"))
+                        .authorities(Arrays.asList(new SimpleGrantedAuthority((String) claims.get("user_role"))))
+                        .build();
+
                 //인증 완료. SecurityContextHolder에 등록해야 인증된 사용자라고 생가한다.
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userId, // 인증된 사용자의 정보. 문자열이 아니어도 아무것이나 넣을 수 있다. 보통 UserDetails라는 오브젝트를 넣는데 우리는 넣지 않았다.
                         null,
-                        AuthorityUtils.NO_AUTHORITIES
+                        AuthorityUtils.NO_AUTHORITIES //인증된 사용자에게 할당된 권한이 없음을 의미합니다.
                 );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
