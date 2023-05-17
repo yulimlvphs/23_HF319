@@ -1,4 +1,4 @@
-package hanium.highwayspring;
+package hanium.highwayspring.res;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

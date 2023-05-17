@@ -1,4 +1,4 @@
-package hanium.highwayspring.dto;
+package hanium.highwayspring.res;
 
 import lombok.Builder;
 import lombok.Getter;

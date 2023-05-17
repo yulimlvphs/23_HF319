@@ -1,7 +1,6 @@
 package hanium.highwayspring.user;
 
-import hanium.highwayspring.ResponseDTO;
-import hanium.highwayspring.dto.UserRequest;
+import hanium.highwayspring.res.UserRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

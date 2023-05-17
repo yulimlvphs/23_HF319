@@ -20,7 +20,7 @@ public class JwtTokenProvider {
     @Value("ALhj1Js2Hsd45Gso0aNks25iuGh9sPklMn0sn8Hbs7V4aNMA8JPctFuna59f5ALhj1Js2Hcsd45Gso0aNks25iuGh9sj1Js")
     private String REFRESH_KEY;// = "ref";
 
-    private final long ACCESS_TOKEN_VALID_TIME = 1 * 60 * 1000L;   // 1분
+    private final long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;   // 30분
     private final long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 7 * 1000L;   // 1주
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
@@ -68,11 +68,6 @@ public class JwtTokenProvider {
         return request.getHeader("REFRESH_TOKEN");
     }
 
-    //Refresh 토큰의 DB상의 인덱스 번호를 해시로 받음
-    public Long resolveRefreshIndexToken(HttpServletRequest request) {
-        return Long.parseLong(request.getHeader("REFRESH_TOKEN_INDEX"));
-    }
-
     public Claims getClaimsFormToken(String token) {
         return Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
@@ -114,24 +109,6 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException exception) {
             System.out.println("Token Expired UserID : " + exception.getClaims().get("userId"));
             return false;
-        } catch (JwtException exception) {
-            System.out.println("Token Tampered");
-            return false;
-        } catch (NullPointerException exception) {
-            System.out.println("Token is null");
-            return false;
-        }
-    }
-    public boolean isOnlyExpiredToken(String token) {
-        System.out.println("isValidToken is : " +token);
-        try {
-            Claims accessClaims = getClaimsFormToken(token);
-            System.out.println("Access expireTime: " + accessClaims.getExpiration());
-            System.out.println("Access userId: " + accessClaims.get("userId"));
-            return false;
-        } catch (ExpiredJwtException exception) {
-            System.out.println("Token Expired UserID : " + exception.getClaims().get("userId"));
-            return true;
         } catch (JwtException exception) {
             System.out.println("Token Tampered");
             return false;

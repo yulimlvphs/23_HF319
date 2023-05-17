@@ -1,7 +1,7 @@
 package hanium.highwayspring.user;
 
-import hanium.highwayspring.dto.TokenResponse;
-import hanium.highwayspring.dto.UserRequest;
+import hanium.highwayspring.res.TokenResponse;
+import hanium.highwayspring.res.UserRequest;
 import hanium.highwayspring.jwt.Auth;
 import hanium.highwayspring.jwt.AuthRepository;
 import hanium.highwayspring.jwt.JwtTokenProvider;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
 
 //@Transactional
