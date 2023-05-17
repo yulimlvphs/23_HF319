@@ -1,5 +1,7 @@
 package hanium.highwayspring.user;
 
+import hanium.highwayspring.board.BoardDTO;
+import hanium.highwayspring.res.ResponseDTO;
 import hanium.highwayspring.res.TokenResponse;
 import hanium.highwayspring.res.UserRequest;
 import hanium.highwayspring.jwt.Auth;
@@ -8,6 +10,7 @@ import hanium.highwayspring.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,12 +127,26 @@ public class UserService {
                 .build();
     }
 
-    public Optional<User> findByUserId(String userID) {
-        return userRepository.findByUid(userID);
+    public ResponseEntity findByToken(HttpServletRequest request) {
+        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+        System.out.println("accessToken = " + accessToken);
+        System.out.println("refreshToken = " + refreshToken);
+        try {
+            Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
+            String userId = (String) claimsFormToken.get("userId");
+            Optional<User> user = userRepository.findByUid(userId);
+            UserDTO userDTO = UserDTO.toEntity(user);
+            return ResponseEntity.ok().body(userDTO);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
-    public Optional<User> findById(Long userNo) {
-        return userRepository.findById(userNo);
+    public Optional<User> findByUserId(String userID) {
+        return userRepository.findByUid(userID);
     }
 
     public Boolean idCheck(String id) {
