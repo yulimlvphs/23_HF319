@@ -16,7 +16,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    private String token;
     private String uid;
     private String pwd;
     private String name;
