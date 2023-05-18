@@ -80,6 +80,7 @@ public class UserService {
             return TokenResponse.builder()
                     .ACCESS_TOKEN(accessToken)
                     .REFRESH_TOKEN(refreshToken)
+                    .ACCESS_TOKEN_EXPIRATION(jwtTokenProvider.getTokenExpiration(accessToken))
                     .build();
         } else {
             //둘 다 새로 발급
