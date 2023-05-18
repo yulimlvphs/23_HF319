@@ -82,6 +82,11 @@ public class JwtTokenProvider {
                 .getBody();
     }
 
+    public Date getTokenExpiration(String token){
+        Claims claims = getClaimsFormToken(token);
+        return claims.getExpiration();
+    }
+
     public boolean isValidAccessToken(String token) {
         System.out.println("isValidToken is : " +token);
         try {
