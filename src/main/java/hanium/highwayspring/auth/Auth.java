@@ -1,4 +1,4 @@
-package hanium.highwayspring.jwt;
+package hanium.highwayspring.auth;
 
 import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;

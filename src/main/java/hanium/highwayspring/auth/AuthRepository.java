@@ -1,5 +1,6 @@
-package hanium.highwayspring.jwt;
+package hanium.highwayspring.auth;
 
+import hanium.highwayspring.auth.Auth;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
