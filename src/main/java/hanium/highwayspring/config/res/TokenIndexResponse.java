@@ -1,4 +1,4 @@
-package hanium.highwayspring.res;
+package hanium.highwayspring.config.res;
 
 import lombok.Builder;
 import lombok.Getter;

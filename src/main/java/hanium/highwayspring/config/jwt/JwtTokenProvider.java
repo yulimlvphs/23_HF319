@@ -1,4 +1,4 @@
-package hanium.highwayspring.jwt;
+package hanium.highwayspring.config.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;

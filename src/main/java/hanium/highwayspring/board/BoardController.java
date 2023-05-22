@@ -3,7 +3,7 @@ package hanium.highwayspring.board;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import hanium.highwayspring.res.ResponseDTO;
+import hanium.highwayspring.config.res.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

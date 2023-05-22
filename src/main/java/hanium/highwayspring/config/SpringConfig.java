@@ -1,7 +1,7 @@
 package hanium.highwayspring.config;
 
 import hanium.highwayspring.auth.AuthRepository;
-import hanium.highwayspring.jwt.JwtTokenProvider;
+import hanium.highwayspring.config.jwt.JwtTokenProvider;
 import hanium.highwayspring.school.SchoolRepository;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.UserRepository;

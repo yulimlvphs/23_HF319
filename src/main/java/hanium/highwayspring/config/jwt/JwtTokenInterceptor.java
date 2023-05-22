@@ -1,7 +1,5 @@
-package hanium.highwayspring.jwt;
+package hanium.highwayspring.config.jwt;
 
-import hanium.highwayspring.jwt.JwtTokenProvider;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

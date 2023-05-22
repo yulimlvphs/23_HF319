@@ -1,11 +1,11 @@
 package hanium.highwayspring.user;
 
-import hanium.highwayspring.res.ResponseDTO;
-import hanium.highwayspring.res.TokenResponse;
-import hanium.highwayspring.res.UserRequest;
+import hanium.highwayspring.config.res.ResponseDTO;
+import hanium.highwayspring.config.res.TokenResponse;
+import hanium.highwayspring.config.res.UserRequest;
 import hanium.highwayspring.auth.Auth;
 import hanium.highwayspring.auth.AuthRepository;
-import hanium.highwayspring.jwt.JwtTokenProvider;
+import hanium.highwayspring.config.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
