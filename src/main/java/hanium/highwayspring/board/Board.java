@@ -37,4 +37,10 @@ public class Board {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime modifiedDate;
+
+    public void updateBoard(BoardDTO dto){
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.category = dto.getCategory();
+    }
 }

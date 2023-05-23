@@ -57,7 +57,7 @@ CREATE TABLE board_TB
     title varchar(1000),
     content  varchar(1000),
     category bigint,
-    schNo bigint,
+    school_id bigint,
     userNo     bigint,
     userName   varchar(30),
     createDt   datetime,

@@ -40,9 +40,9 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<?> createTodo(BoardDTO dto, HttpServletRequest request) {
         UserDTO user = userService.getUserInfo(request);
-        Optional<School> school = schoolService.findBySchoolId(1L);
+        School school = schoolService.findBySchoolId(1L)
+                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
         Board entity = BoardDTO.toEntity(dto, school);
-        entity.setId(null);
         entity.setUserId(user.getUserId());
         return boardService.create(entity);
     }
@@ -54,18 +54,15 @@ public class BoardController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateTodo(BoardDTO dto, HttpServletRequest request) {
-        UserDTO user = userService.getUserInfo(request);
-        Optional<School> school = schoolService.findBySchoolId(1L);
-        Board entity = BoardDTO.toEntity(dto, school);
-        entity.setUserId(user.getUserId());
-        return ResponseEntity.ok().body(boardService.update(entity));
+    public ResponseEntity<?> updateTodo(BoardDTO dto) {
+        return ResponseEntity.ok().body(boardService.update(dto));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteTodo(BoardDTO dto, HttpServletRequest request) {
         UserDTO user = userService.getUserInfo(request);
-        Optional<School> school = schoolService.findBySchoolId(1L);
+        School school = schoolService.findBySchoolId(1L)
+                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
         Board entity = BoardDTO.toEntity(dto, school);
         entity.setUserId(user.getUserId());
         return ResponseEntity.ok().body(boardService.delete(entity));
