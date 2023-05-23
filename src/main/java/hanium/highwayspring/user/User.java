@@ -1,5 +1,6 @@
 package hanium.highwayspring.user;
 
+import hanium.highwayspring.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    private String token;
     private String uid;
     private String pwd;
     private String name;
@@ -24,4 +24,7 @@ public class User {
     private String gender;
     private Long age;
     private Long role;
+    /*@ManyToOne
+    @JoinColumn(name = "school_id")
+    private School school;*/
 }

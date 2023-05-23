@@ -25,21 +25,13 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     public ResponseEntity join(User user) {
-        if (userService.findByUserId(user.getUid()).isPresent()) return ResponseEntity.badRequest().build();
-        else return ResponseEntity.ok(userService.register(user));
+        return ResponseEntity.ok(userService.register(user));
     }
 
     // 로그인
     @PostMapping("/login")
     public ResponseEntity login(UserRequest userRequest) throws Exception {
         return ResponseEntity.ok().body(userService.doLogin(userRequest));
-    }
-
-    @PostMapping("/test")
-    public Map userResponseTest() {
-        Map<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return result;
     }
 
     //Access Token을 재발급 위한 api
@@ -50,7 +42,7 @@ public class UserController {
 
     @GetMapping("/info")
     public ResponseEntity findUserAPI(HttpServletRequest request) {
-        return userService.findByToken(request);
+        return ResponseEntity.ok().body(userService.findByToken(request));
     }
 
     @GetMapping("/idCheck")

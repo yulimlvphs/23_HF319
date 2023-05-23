@@ -131,16 +131,16 @@ public class UserService {
     }
 
     public ResponseEntity findByToken(HttpServletRequest request) {
-        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+        /*String accessToken = jwtTokenProvider.resolveAccessToken(request);
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
         System.out.println("accessToken = " + accessToken);
-        System.out.println("refreshToken = " + refreshToken);
+        System.out.println("refreshToken = " + refreshToken);*/
         try {
-            Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
+            /*Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
             String userId = (String) claimsFormToken.get("userId");
             Optional<User> user = userRepository.findByUid(userId);
-            UserDTO userDTO = UserDTO.toEntity(user);
-            return ResponseEntity.ok().body(userDTO);
+            UserDTO userDTO = UserDTO.toEntity(user);*/
+            return ResponseEntity.ok().body(getUserInfo(request));
         } catch (Exception e) {
             String error = e.getMessage();
             ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().error(error).build();
@@ -148,8 +148,16 @@ public class UserService {
         }
     }
 
-    public Optional<User> findByUserId(String userID) {
-        return userRepository.findByUid(userID);
+    public UserDTO getUserInfo(HttpServletRequest request) {
+        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+        System.out.println("accessToken = " + accessToken);
+        System.out.println("refreshToken = " + refreshToken);
+        Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
+        String userId = (String) claimsFormToken.get("userId");
+        Optional<User> user = userRepository.findByUid(userId);
+        UserDTO userDTO = UserDTO.toEntity(user);
+        return userDTO;
     }
 
     public Boolean idCheck(String id) {
