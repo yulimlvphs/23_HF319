@@ -11,17 +11,20 @@ import lombok.NoArgsConstructor;
 @Data
 public class BoardDTO {
 	private String id; 			
-	private String title; 	
+	private String title;
+	private String content;
 
-	public BoardDTO(final BoardEntity entity) {
+	public BoardDTO(final Board entity) {
 		this.id 	= entity.getId();
 		this.title 	= entity.getTitle();
+		this.content = entity.getContent();
 	}
 	
-	public static BoardEntity toEntity(final BoardDTO dto) {
-		return BoardEntity.builder()
+	public static Board toEntity(final BoardDTO dto) {
+		return Board.builder()
 				.id(dto.getId())
 				.title(dto.getTitle())
+				.content(dto.getContent())
 				.build();
 	}
 }

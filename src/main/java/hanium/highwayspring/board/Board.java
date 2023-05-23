@@ -12,12 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardEntity {
+public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id; 			//이 오브젝트의 아이디
 	private String userId;
 	private String title;
 	private String content;
-
 }

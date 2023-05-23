@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import hanium.highwayspring.config.res.ResponseDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,19 +15,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/board")
 @RestController
-@RequestMapping("todo")
+@Slf4j
 public class BoardController {
-	
+	private final BoardService boardService;
+
 	@Autowired
-	private BoardService service;
-	
+	public BoardController(BoardService boardService) {
+		this.boardService = boardService;
+	}
+
 	@PostMapping
 	public ResponseEntity<?> createTodo(@AuthenticationPrincipal String userId, BoardDTO dto){
 		try {
 			
 			// (1) TodoEntity로 변환한다.
-			BoardEntity entity = BoardDTO.toEntity(dto);
+			Board entity = BoardDTO.toEntity(dto);
 			
 			// (2) id를 null로 초기화한다. 생성 당시에는 id가 없어야하기 때문이다.
 			entity.setId(null);
@@ -35,7 +40,7 @@ public class BoardController {
 			entity.setUserId(userId);
 			
 			// (4) 서비스를 이용해 Todo 엔티티를 생성한다.
-			List<BoardEntity> entities = service.create(entity);
+			List<Board> entities = boardService.create(entity);
 			
 			// (5) 자바 스트림을 이용해 리턴된 엔티티 리스트를 TodoDTO 리스트로 변환한다.
 			List<BoardDTO> dtos = entities.stream().map(BoardDTO::new).collect(Collectors.toList());
@@ -57,7 +62,7 @@ public class BoardController {
 	public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId){
 		
 		// (1) 서비스 메서드 retrieve() 메서드를 사용해 Todo 리스트를 가져온다.
-		List<BoardEntity> entities = service.retrieve(userId);
+		List<Board> entities = boardService.retrieve(userId);
 		
 		// (2) 자바 스트림을 이용해 리턴된 엔티티 리스트를 TodoDTO 리스트로 변환한다.
 		List<BoardDTO> dtos = entities.stream().map(BoardDTO::new).collect(Collectors.toList());
@@ -73,13 +78,13 @@ public class BoardController {
 	public ResponseEntity<?> updateTodo(@AuthenticationPrincipal String userId, BoardDTO dto){
 		
 		// (1) dto를 entity로 변환한다.
-		BoardEntity entity = BoardDTO.toEntity(dto);
+		Board entity = BoardDTO.toEntity(dto);
 		
 		// (2) id를 userId로 초기화한다. 여기서 인증 추가
 		entity.setUserId(userId);
 		
 		// (3) 서비스를 이용해 entity를 업데이트한다.
-		List<BoardEntity> entities = service.update(entity);
+		List<Board> entities = boardService.update(entity);
 		
 		// (4) 자바 스트림을 이용해 리턴된 엔티티 리스트를 TodoDTO 리스트로 변환한다.
 		List<BoardDTO> dtos = entities.stream().map(BoardDTO::new).collect(Collectors.toList());
@@ -96,13 +101,13 @@ public class BoardController {
 		try {
 			
 			// (1) TodoEntity로 변환한다.
-			BoardEntity entity = BoardDTO.toEntity(dto);
+			Board entity = BoardDTO.toEntity(dto);
 			
 			// (2) 임시 사용자 아이디를 설정해 준다.
 			entity.setUserId(userId);
 			
 			// (3) 서비스를 이용해 entity를 삭제한다.
-			List<BoardEntity> entities = service.delete(entity);
+			List<Board> entities = boardService.delete(entity);
 			
 			// (4) 자바 스트림을 이용해 리턴된 엔티티 리스트를 TodoDTO 리스트로 변환한다.
 			List<BoardDTO> dtos = entities.stream().map(BoardDTO::new).collect(Collectors.toList());
