@@ -26,6 +26,6 @@ public class SchoolController {
 
     @GetMapping("/info")
     public ResponseEntity findSchool(@RequestParam("schId") Long id){
-        return schoolService.findBySchoolId(id);
+        return ResponseEntity.ok().body(schoolService.findBySchoolId(id));
     }
 }

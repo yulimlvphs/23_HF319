@@ -19,8 +19,8 @@ public class SchoolService {
         return ResponseEntity.ok().body(schoolList);
     }
 
-    public ResponseEntity findBySchoolId(Long id){
+    public Optional<School> findBySchoolId(Long id){
         Optional<School> sch = schoolRepository.findById(id);
-        return ResponseEntity.ok().body(sch);
+        return sch;
     }
 }
