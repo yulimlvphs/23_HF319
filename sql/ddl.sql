@@ -32,7 +32,8 @@ CREATE TABLE SCHOOL_TB
     SCHUL_RDNDA	VARCHAR(512),
     BNHH_YN	VARCHAR(512),
     SCHUL_NM	VARCHAR(512),
-    USER_TELNO_GA	VARCHAR(512)
+    USER_TELNO_GA	VARCHAR(512),
+    primary key (id)
 );
 
 /*회원가입 테이블 create문*/
