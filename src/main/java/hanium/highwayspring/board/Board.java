@@ -29,10 +29,7 @@ public class Board {
     private String content;
     private Long category;
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "school_id", referencedColumnName = "id"),
-            @JoinColumn(name = "school_name", referencedColumnName = "SCHUL_NM")
-    })
+    @JoinColumn(name = "school_id")
     private School school;
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")

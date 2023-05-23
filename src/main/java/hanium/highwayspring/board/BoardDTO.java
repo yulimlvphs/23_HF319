@@ -28,7 +28,6 @@ public class BoardDTO {
 	public static Board toEntity(final BoardDTO dto, final Optional<School> school) {
 		School Entity = School.builder()
 				.id(school.get().getId())
-				.SCHUL_NM(school.get().getSCHUL_NM())
 				.build();
 		return Board.builder()
 				.id(dto.getId())
