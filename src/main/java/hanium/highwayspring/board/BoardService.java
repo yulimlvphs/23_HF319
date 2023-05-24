@@ -1,10 +1,8 @@
 package hanium.highwayspring.board;
 
 import java.util.List;
-import java.util.Optional;
 
 import hanium.highwayspring.config.res.ResponseDTO;
-import hanium.highwayspring.school.School;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
