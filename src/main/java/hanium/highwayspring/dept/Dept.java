@@ -1,30 +1,30 @@
-package hanium.highwayspring.user;
+package hanium.highwayspring.dept;
 
 import hanium.highwayspring.school.School;
+import hanium.highwayspring.tag.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity(name = "USER_TB")
-@Data
-@Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Builder
+@Entity(name = "DEPT_TB")
+public class Dept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String uid;
-    private String pwd;
     private String name;
-    private String email;
-    private String gender;
-    private Long age;
-    private Long role;
-    /*@ManyToOne
+
+    @ManyToOne
     @JoinColumn(name = "school_id")
-    private School school;*/
+    private School school;
+
+    @OneToOne
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
 }

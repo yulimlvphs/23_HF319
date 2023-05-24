@@ -1,4 +1,4 @@
-package hanium.highwayspring.jwt;
+package hanium.highwayspring.config.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +80,11 @@ public class JwtTokenProvider {
                 .setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public Date getTokenExpiration(String token){
+        Claims claims = getClaimsFormToken(token);
+        return claims.getExpiration();
     }
 
     public boolean isValidAccessToken(String token) {

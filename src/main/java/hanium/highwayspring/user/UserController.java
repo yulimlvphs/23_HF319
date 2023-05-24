@@ -1,6 +1,6 @@
 package hanium.highwayspring.user;
 
-import hanium.highwayspring.res.UserRequest;
+import hanium.highwayspring.config.res.UserRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.OPTIONS, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -26,40 +25,24 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     public ResponseEntity join(User user) {
-        if(userService.findByUserId(user.getUid()).isPresent())
-            return ResponseEntity.badRequest().build();
-        else
-            return ResponseEntity.ok(userService.register(user));
+        return ResponseEntity.ok(userService.register(user));
     }
 
     // 로그인
     @PostMapping("/login")
     public ResponseEntity login(UserRequest userRequest) throws Exception {
-        return ResponseEntity
-                .ok()
-                .body(userService.doLogin(userRequest));
-    }
-
-    @PostMapping("/test")
-    public Map userResponseTest() {
-        Map<String, String> result = new HashMap<>();
-        result.put("result","success");
-        return result;
+        return ResponseEntity.ok().body(userService.doLogin(userRequest));
     }
 
     //Access Token을 재발급 위한 api
     @PostMapping("/issue")
     public ResponseEntity issueAccessToken(HttpServletRequest request) throws Exception {
-        return ResponseEntity
-                .ok()
-                .body(userService.issueAccessToken(request));
+        return ResponseEntity.ok().body(userService.issueAccessToken(request));
     }
 
     @GetMapping("/info")
-    public ResponseEntity findUserAPI(@RequestParam("userNo") Long no) {
-        Optional<User> user = userService.findById(no);
-        UserDTO userDTO = UserDTO.toEntity(user);
-        return ResponseEntity.ok().body(userDTO);
+    public ResponseEntity findUserAPI(HttpServletRequest request) {
+        return ResponseEntity.ok().body(userService.findByToken(request));
     }
 
     @GetMapping("/idCheck")

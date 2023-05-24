@@ -1,6 +1,5 @@
-package hanium.highwayspring.jwt;
+package hanium.highwayspring.config.jwt;
 
-import hanium.highwayspring.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -25,6 +24,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         System.out.println("RefreshToken:" + refreshToken);
 
         if (accessToken != null && jwtTokenProvider.isValidAccessToken(accessToken)) {
+            response.setHeader("ACCESS_TOKEN_EXPIRATION", jwtTokenProvider.getTokenExpiration(accessToken).toString());
             return true;
         }
 
