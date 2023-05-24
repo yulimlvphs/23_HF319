@@ -2,11 +2,17 @@ package hanium.highwayspring.config;
 
 import hanium.highwayspring.jwt.AuthRepository;
 import hanium.highwayspring.jwt.JwtTokenProvider;
+import hanium.highwayspring.review.Review;
+import hanium.highwayspring.review.ReviewService;
+import hanium.highwayspring.review.ReviewServiceImpl;
 import hanium.highwayspring.user.UserRepository;
 import hanium.highwayspring.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 @Configuration
 public class SpringConfig {
