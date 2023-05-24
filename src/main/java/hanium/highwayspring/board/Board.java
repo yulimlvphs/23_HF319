@@ -29,7 +29,7 @@ public class Board {
     private String content;
     private Long category;
     @ManyToOne
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "schoolId")
     private School school;
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")

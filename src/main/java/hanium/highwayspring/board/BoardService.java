@@ -32,6 +32,7 @@ public class BoardService {
     public List<Board> retrieve(final String userId) {
         log.info("Entity userId : {} is find.", userId);
         return boardRespository.findByUserId(userId);
+//        return boardRespository.findBySchoolId(1L);
     }
 
     // update
