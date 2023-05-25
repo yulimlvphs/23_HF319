@@ -1,6 +1,5 @@
-package hanium.highwayspring.config.res;
+package hanium.highwayspring.comment;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ResponseDTO<T> {
-	private String error;
-	private List<T> data;
+public class CommentRequestDto {
+	private Long id;
+	private String content;
+	private Long boardId;
+	private Long parentId;
 }

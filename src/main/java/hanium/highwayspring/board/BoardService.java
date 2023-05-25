@@ -2,6 +2,7 @@ package hanium.highwayspring.board;
 
 import java.util.List;
 
+import hanium.highwayspring.comment.CommentRespository;
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRespository boardRespository;
-
     // insert
     public ResponseEntity create(final Board entity) {
         try {
