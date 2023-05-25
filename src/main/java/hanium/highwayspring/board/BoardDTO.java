@@ -1,30 +1,27 @@
 package hanium.highwayspring.board;
 
-import hanium.highwayspring.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class BoardDTO {
-	private Long id;
-	private String title;
-	private String content;
-	private Long category;
+	private String id; 			
+	private String title; 	
+
+	public BoardDTO(final BoardEntity entity) {
+		this.id 	= entity.getId();
+		this.title 	= entity.getTitle();
+	}
 	
-	public static Board toEntity(final BoardDTO dto, final School school) {
-		return Board.builder()
+	public static BoardEntity toEntity(final BoardDTO dto) {
+		return BoardEntity.builder()
 				.id(dto.getId())
 				.title(dto.getTitle())
-				.content(dto.getContent())
-				.category(dto.getCategory())
-				.school(school)
 				.build();
 	}
 }

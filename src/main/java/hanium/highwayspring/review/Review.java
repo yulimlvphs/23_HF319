@@ -1,14 +1,18 @@
 package hanium.highwayspring.review;
+import hanium.highwayspring.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity(name = "review_TB")
 @Data
 @Builder
 @NoArgsConstructor
+@DynamicUpdate // 변경 필드만 반영되도록 함.
 @AllArgsConstructor
 public class Review {
     @Id
@@ -22,6 +26,8 @@ public class Review {
     private Integer cafeteriaRate;//별점 리뷰
     private Integer educationRate;//별점 리뷰
     private Integer employmentRate;//별점 리뷰
-    private Long schoolId; //학교 id
+    @ManyToOne
+    @JoinColumn(name = "schoolId")
+    private School schoolId; //학교 id
 
 }
