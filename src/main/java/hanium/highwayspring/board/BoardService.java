@@ -2,6 +2,7 @@ package hanium.highwayspring.board;
 
 import java.util.List;
 
+import hanium.highwayspring.comment.CommentRequestDto;
 import hanium.highwayspring.comment.CommentRespository;
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class BoardService {
             return ResponseEntity.ok().body(boardRespository.findById(entity.getId()));
         } catch (Exception e) {
             String error = e.getMessage();
-            ResponseDTO<BoardDTO> response = ResponseDTO.<BoardDTO>builder().error(error).build();
+            ResponseDTO<BoardDTO> response = ResponseDTO.fail("Error", error);
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -68,6 +69,11 @@ public class BoardService {
             log.warn("Unkown user.");
             throw new RuntimeException("Unknown user");
         }
+    }
+
+    public ResponseEntity create(CommentRequestDto dto){
+
+        return ResponseEntity.ok().body("");
     }
 }
  

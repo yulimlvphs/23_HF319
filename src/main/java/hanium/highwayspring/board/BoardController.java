@@ -1,5 +1,6 @@
 package hanium.highwayspring.board;
 
+import hanium.highwayspring.comment.CommentRequestDto;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.UserDTO;

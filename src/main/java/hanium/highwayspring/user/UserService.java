@@ -143,7 +143,7 @@ public class UserService {
             return ResponseEntity.ok().body(getUserInfo(request));
         } catch (Exception e) {
             String error = e.getMessage();
-            ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().error(error).build();
+            ResponseDTO<UserDTO> response = ResponseDTO.fail("Error", error);
             return ResponseEntity.badRequest().body(response);
         }
     }

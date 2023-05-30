@@ -50,5 +50,5 @@ public class SpringConfig {
     }
 
     @Bean
-    public CommentService commentService() {return new CommentService(commentRespository);}
+    public CommentService commentService() {return new CommentService(boardRespository, commentRespository);}
 }
