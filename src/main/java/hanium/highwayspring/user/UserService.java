@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-//@Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {

@@ -4,7 +4,6 @@ import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.user.UserDTO;
 import hanium.highwayspring.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,5 +26,10 @@ public class CommentController {
         UserDTO user = userService.getUserInfo(request);
         requestDto.setUserId(user.getUserId());
         return commentService.createComment(requestDto);
+    }
+
+    @GetMapping
+    public ResponseDTO<?> retrieveCommentList(@RequestParam(name = "boardId") Long boardId) {
+        return commentService.getAllCommentsByBoard(boardId);
     }
 }

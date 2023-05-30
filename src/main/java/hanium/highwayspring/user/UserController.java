@@ -2,13 +2,10 @@ package hanium.highwayspring.user;
 
 import hanium.highwayspring.config.res.UserRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.OPTIONS, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -17,7 +14,6 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -46,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/idCheck")
-    public Boolean IdCheck(@RequestParam("userId") String id) {
+      public Boolean IdCheck(@RequestParam("userId") String id) {
         return userService.idCheck(id);
     }
 }

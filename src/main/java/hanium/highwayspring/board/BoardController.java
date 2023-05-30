@@ -1,6 +1,5 @@
 package hanium.highwayspring.board;
 
-import hanium.highwayspring.comment.CommentRequestDto;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.UserDTO;
@@ -25,7 +24,6 @@ public class BoardController {
     private final SchoolService schoolService;
     private final UserService userService;
 
-    @Autowired
     public BoardController(BoardService boardService, SchoolService schoolService, UserService userService) {
         this.boardService = boardService;
         this.schoolService = schoolService;

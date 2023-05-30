@@ -1,10 +1,7 @@
 package hanium.highwayspring.comment;
 
 import hanium.highwayspring.board.Board;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,7 +25,7 @@ public class Comment {
     private String content;
     private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "boardId", nullable = false)
     private Board board;
 

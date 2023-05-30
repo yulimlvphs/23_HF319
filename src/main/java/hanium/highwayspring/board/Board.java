@@ -2,12 +2,10 @@ package hanium.highwayspring.board;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanium.highwayspring.comment.Comment;
 import hanium.highwayspring.school.School;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -32,9 +30,11 @@ public class Board {
     private String userId;
     @ManyToOne
     @JoinColumn(name = "schoolId")
+    @JsonIgnore
     private School school;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Comment> comments;
 
     @CreatedDate
