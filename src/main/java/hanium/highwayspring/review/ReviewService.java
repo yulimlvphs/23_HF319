@@ -63,7 +63,7 @@ public class ReviewService {
         return re;
     }
 
-    public void deleteReview(Long id){
+    public void delete(Long id){
         repository.deleteById(id);
     }
 }
