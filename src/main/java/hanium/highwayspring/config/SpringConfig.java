@@ -1,8 +1,10 @@
 package hanium.highwayspring.config;
 
 import hanium.highwayspring.auth.AuthRepository;
-import hanium.highwayspring.board.BoardRespository;
+import hanium.highwayspring.board.BoardRepository;
 import hanium.highwayspring.board.BoardService;
+import hanium.highwayspring.comment.repository.CommentRepository;
+import hanium.highwayspring.comment.CommentService;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
 import hanium.highwayspring.school.SchoolRepository;
 import hanium.highwayspring.school.SchoolService;
@@ -19,15 +21,17 @@ public class SpringConfig {
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
     private final SchoolRepository schoolRepository;
-    private final BoardRespository boardRespository;
+    private final BoardRepository boardRespository;
+    private final CommentRepository commentRepository;
 
-    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRespository boardRespository) {
+    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRespository, CommentRepository commentRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authRepository = authRepository;
         this.schoolRepository = schoolRepository;
         this.boardRespository = boardRespository;
+        this.commentRepository = commentRepository;
     }
 
     @Bean
@@ -43,5 +47,10 @@ public class SpringConfig {
     @Bean
     public BoardService boardService() {
         return new BoardService(boardRespository);
+    }
+
+    @Bean
+    public CommentService commentService() {
+        return new CommentService(commentRepository, boardRespository);
     }
 }
