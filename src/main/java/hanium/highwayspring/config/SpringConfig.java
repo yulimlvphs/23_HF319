@@ -21,16 +21,16 @@ public class SpringConfig {
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
     private final SchoolRepository schoolRepository;
-    private final BoardRepository boardRespository;
+    private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
-    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRespository, CommentRepository commentRepository) {
+    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, CommentRepository commentRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authRepository = authRepository;
         this.schoolRepository = schoolRepository;
-        this.boardRespository = boardRespository;
+        this.boardRepository = boardRepository;
         this.commentRepository = commentRepository;
     }
 
@@ -46,11 +46,11 @@ public class SpringConfig {
 
     @Bean
     public BoardService boardService() {
-        return new BoardService(boardRespository);
+        return new BoardService(boardRepository);
     }
 
     @Bean
     public CommentService commentService() {
-        return new CommentService(commentRepository, boardRespository);
+        return new CommentService(commentRepository, boardRepository);
     }
 }
