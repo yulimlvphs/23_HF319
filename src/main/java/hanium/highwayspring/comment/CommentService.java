@@ -15,15 +15,15 @@ import java.util.Map;
 @Slf4j
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final BoardRepository boardRespository;
+    private final BoardRepository boardRepository;
 
-    public CommentService(CommentRepository commentRepository, BoardRepository boardRespository) {
+    public CommentService(CommentRepository commentRepository, BoardRepository boardRepository) {
         this.commentRepository = commentRepository;
-        this.boardRespository = boardRespository;
+        this.boardRepository = boardRepository;
     }
 
     public ResponseDTO<?> createComment(CommentRequestDto requestDto) {
-        Board board = boardRespository.findById(requestDto.getBoardId()).orElseThrow();
+        Board board = boardRepository.findById(requestDto.getBoardId()).orElseThrow();
         if (board == null)
             return ResponseDTO.fail("NOT_FOUND", "게시글이 존재하지 않습니다.");
         Comment parent = null;
@@ -68,7 +68,7 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public ResponseDTO<?> getAllCommentsByBoard(Long boardId) {
-        Board board = boardRespository.findById(boardId).orElseThrow();
+        Board board = boardRepository.findById(boardId).orElseThrow();
         if (board == null)
             return ResponseDTO.fail("NOT_FOUND", "게시글이 존재하지 않습니다.");
 
