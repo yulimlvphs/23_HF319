@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SchoolController {
     private final SchoolService schoolService;
 
-    @Autowired
     public SchoolController(SchoolService schoolService) {
         this.schoolService = schoolService;
     }
