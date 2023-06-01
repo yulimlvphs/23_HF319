@@ -1,5 +1,6 @@
 package hanium.highwayspring.user;
 
+import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.config.res.UserRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/idCheck")
-      public Boolean IdCheck(@RequestParam("userId") String id) {
-        return userService.idCheck(id);
+      public ResponseDTO<?> IdCheck(@RequestParam("userId") String id) {
+        return ResponseDTO.success(userService.idCheck(id));
     }
 }
