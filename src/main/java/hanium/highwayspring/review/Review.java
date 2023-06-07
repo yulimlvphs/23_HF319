@@ -19,7 +19,7 @@ public class Review{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //리뷰 id
-    private String author; //리뷰 작성자
+    private String userId; //리뷰 작성자
     private String tags; //리뷰 작성한 사람의 학과
     private String content; //리뷰 내용
     private Integer trafficRate; //별점 리뷰

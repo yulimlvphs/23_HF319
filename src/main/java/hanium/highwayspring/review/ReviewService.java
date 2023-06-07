@@ -26,17 +26,8 @@ public class ReviewService {
         Optional<Review> entity = this.repository.findById(id);
         entity.ifPresent(t ->{
             // 내용이 널이 아니라면 엔티티의 객체를 바꿔준다.
-            if(dto.getAuthor() != null) {
-                t.setAuthor(dto.getAuthor());
-            }
-            if(dto.getTags() != null) {
-                t.setTags(dto.getTags());
-            }
             if(dto.getContent() != null) {
                 t.setContent(dto.getContent());
-            }
-            if(dto.getAuthor() != null) {
-                t.setAuthor(dto.getAuthor());
             }
             if(dto.getTrafficRate() != null) {
                 t.setTrafficRate(dto.getTrafficRate());

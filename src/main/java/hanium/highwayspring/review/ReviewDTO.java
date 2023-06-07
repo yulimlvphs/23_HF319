@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReviewDTO {
     private Long id;
-    private String author;
+    private String userId;
     private String tags;
     private String content;
     private Integer trafficRate;
@@ -38,7 +38,7 @@ public class ReviewDTO {
     public static Review toEntity(final ReviewDTO dto, final School school) {
         return Review.builder()
                 .id(dto.getId())
-                .author(dto.getAuthor())
+                .userId(dto.getUserId())
                 .tags(dto.getTags())
                 .content(dto.getContent())
                 .trafficRate(dto.getTrafficRate())
