@@ -1,5 +1,6 @@
 package hanium.highwayspring.review;
 
+import hanium.highwayspring.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +33,9 @@ public class ReviewDTO {
         this.educationRate = entity.getEducationRate();
         this.employmentRate = entity.getEmploymentRate();
         this.schoolId = entity.getSchoolId();
-    }
+    } */
 
-    public static Review toEntity(final Review dto) {
+    public static Review toEntity(final ReviewDTO dto, final School school) {
         return Review.builder()
                 .id(dto.getId())
                 .author(dto.getAuthor())
@@ -45,7 +46,7 @@ public class ReviewDTO {
                 .cafeteriaRate(dto.getCafeteriaRate())
                 .educationRate(dto.getEducationRate())
                 .employmentRate(dto.getEmploymentRate())
-                .schoolId(dto.getSchoolId())
+                .schoolId(school)
                 .build();
-    }*/
+    }
 }

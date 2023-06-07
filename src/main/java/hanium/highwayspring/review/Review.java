@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "review_TB")
 @Data
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate // 변경 필드만 반영되도록 함.
-@AllArgsConstructor
-public class Review {
+public class Review{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //리뷰 id

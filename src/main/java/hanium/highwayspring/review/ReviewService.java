@@ -1,4 +1,5 @@
 package hanium.highwayspring.review;
+import hanium.highwayspring.school.School;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class ReviewService {
         return entity;
     }
 
-    public List<Review> findAll(Long schoolId){ //학교 아이디를 가져와서 해당 학교에 대한 리뷰 전체를 보여줌
+    public List<Review> findAll(School schoolId){ //학교 아이디를 가져와서 해당 학교에 대한 리뷰 전체를 보여줌
         List<Review> re = repository.findBySchoolId(schoolId);
         return re;
     }
