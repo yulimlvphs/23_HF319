@@ -7,10 +7,7 @@ import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 public class CommentService {
@@ -87,5 +84,42 @@ public class CommentService {
                 }
         );
         return ResponseDTO.success(commentResponseDtoList);
+    }
+
+    @Transactional
+    public ResponseDTO<?> updateComment(CommentRequestDto requestDto){
+        Optional<Comment> comment = commentRepository.findById(requestDto.getId());
+        comment.get().update(requestDto);
+        CommentResponseDto commentResponseDto = null;
+        if (requestDto.getParentId() != null) {
+            commentResponseDto = CommentResponseDto.builder()
+                    .id(comment.get().getId())
+                    .userId(comment.get().getUserId())
+                    .content(comment.get().getContent())
+                    .createDate(comment.get().getCreateDate())
+                    .modifiedDate(comment.get().getModifiedDate())
+                    .parentId(comment.get().getParent().getId())
+                    .build();
+        } else {
+            commentResponseDto = CommentResponseDto.builder()
+                    .id(comment.get().getId())
+                    .userId(comment.get().getUserId())
+                    .content(comment.get().getContent())
+                    .createDate(comment.get().getCreateDate())
+                    .modifiedDate(comment.get().getModifiedDate())
+                    .build();
+        }
+        return ResponseDTO.success(commentResponseDto);
+    }
+
+    @Transactional
+    public ResponseDTO<?> deleteComment(final Comment comment){
+        Comment c = getCommentEntity(comment.getId());
+        commentRepository.delete(c);
+        return ResponseDTO.success(c.getId());
+    }
+
+    private Comment getCommentEntity(Long id){
+        return commentRepository.findById(id).get();
     }
 }

@@ -32,4 +32,21 @@ public class CommentController {
     public ResponseDTO<?> retrieveCommentList(@RequestParam(name = "boardId") Long boardId) {
         return commentService.getAllCommentsByBoard(boardId);
     }
+
+    @PutMapping
+    public ResponseDTO<?> updateComment(CommentRequestDto requestDto){
+        return commentService.updateComment(requestDto);
+    }
+
+    @DeleteMapping
+    public ResponseDTO<?> deleteComment(CommentRequestDto requestDto, HttpServletRequest request){
+        UserDTO user = userService.getUserInfo(request);
+        requestDto.setUserId(user.getUserId());
+        Comment comment = Comment.builder()
+                .id(requestDto.getId())
+                .content(requestDto.getContent())
+                .userId(user.getUserId())
+                .build();
+        return commentService.deleteComment(comment);
+    }
 }
