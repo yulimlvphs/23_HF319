@@ -38,5 +38,5 @@ public class SpringSecurity {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    }//암호화에 필요한 PasswordEncoder Bean 등록
 }

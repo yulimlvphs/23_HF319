@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity(name = "AUTH_TB")
 public class Auth {
-
+// 사용자의 인증 정보를 담는 클래스이다.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

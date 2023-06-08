@@ -41,7 +41,7 @@ public class JwtTokenProvider {
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_VALID_TIME)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)  // 사용할 암호화 알고리즘과
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)  // 사용할 암호화 알고리즘과, secret키의 값
                 .compact();
     }
 
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
+    //HttpServletRequest 객체에서 "ACCESS_TOKEN" 헤더 값을 추출하여 액세스 토큰을 반환. "X-AUTH-TOKEN" : "TOKEN값'
     public String resolveAccessToken(HttpServletRequest request) {
         return request.getHeader("ACCESS_TOKEN");
     }
@@ -68,11 +68,12 @@ public class JwtTokenProvider {
         return request.getHeader("REFRESH_TOKEN");
     }
 
+    //주어진 토큰으로부터 클레임(Claims)을 추출하는 메서드
     public Claims getClaimsFormToken(String token) {
         return Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                .parseClaimsJws(token)
-                .getBody();
+                .parseClaimsJws(token) //주어진 토큰을 파싱하여 검증. 토큰의 서명을 확인하고, 토큰이 유효한지 검증.
+                .getBody(); //파싱된 토큰의 본문 부분을 반환. 이 부분은 클레임 객체로서, 토큰에 포함된 정보를 나타냅니다.
     }
 
     public Claims getClaimsToken(String token) {
@@ -83,6 +84,7 @@ public class JwtTokenProvider {
     }
 
     public Date getTokenExpiration(String token){
+        // Claims 객체는 토큰에 저장된 정보를 손쉽게 액세스할 수 있는 메서드와 속성을 제공. 이를 통해 토큰에 저장된 사용자 정보, 권한, 만료일 등의 데이터에 접근할 수 있음.
         Claims claims = getClaimsFormToken(token);
         return claims.getExpiration();
     }
@@ -94,10 +96,10 @@ public class JwtTokenProvider {
             System.out.println("Access expireTime: " + accessClaims.getExpiration());
             System.out.println("Access userId: " + accessClaims.get("userId"));
             return true;
-        } catch (ExpiredJwtException exception) {
+        } catch (ExpiredJwtException exception) { // JWT 토큰의 유효 기간이 만료된 경우
             System.out.println("Token Expired UserID : " + exception.getClaims().get("userId"));
             return false;
-        } catch (JwtException exception) {
+        } catch (JwtException exception) { // JWT 관련 예외의 기본 클래스
             System.out.println("Token Tampered");
             return false;
         } catch (NullPointerException exception) {
