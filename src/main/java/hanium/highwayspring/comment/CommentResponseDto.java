@@ -1,5 +1,6 @@
 package hanium.highwayspring.comment;
 
+import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.util.List;
 public class CommentResponseDto {
     private Long id;
     private String content;
-    private String userId;
+    private User userId;
     private Long parentId;
     private List<CommentResponseDto> children = new ArrayList<>();
     private LocalDateTime createDate;

@@ -1,6 +1,8 @@
 package hanium.highwayspring.comment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanium.highwayspring.board.Board;
+import hanium.highwayspring.user.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,7 +25,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    @JsonIgnore
+    private User userId;
+    //private String userId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "boardId", nullable = false)

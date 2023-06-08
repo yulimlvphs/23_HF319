@@ -5,6 +5,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanium.highwayspring.comment.Comment;
 import hanium.highwayspring.school.School;
+import hanium.highwayspring.user.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -27,7 +28,11 @@ public class Board {
     private String title;
     private String content;
     private Long category;
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    @JsonIgnore
+    private User userId;
+
     @ManyToOne
     @JoinColumn(name = "schoolId")
     @JsonIgnore
