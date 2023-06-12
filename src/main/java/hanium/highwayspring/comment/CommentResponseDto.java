@@ -17,7 +17,7 @@ import java.util.List;
 public class CommentResponseDto {
     private Long id;
     private String content;
-    private User userId;
+    private String userId;
     private Long parentId;
     private List<CommentResponseDto> children = new ArrayList<>();
     private LocalDateTime createDate;
@@ -26,7 +26,7 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment c) {
         this.id = c.getId();
         this.content = c.getContent();
-        this.userId = c.getUserId();
+        this.userId = c.getUser().getUid();
         this.createDate = c.getCreateDate();
         this.modifiedDate = c.getModifiedDate();
     }

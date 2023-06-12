@@ -28,7 +28,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "userId")
     @JsonIgnore
-    private User userId;
+    private User user;
     //private String userId;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -37,7 +37,7 @@ public class CommentService {
 
         }
         Comment comment = Comment.builder()
-                .userId(requestDto.getUserId())
+                .user(requestDto.getUserId())
                 .board(board)
                 .content(requestDto.getContent())
                 .build();
@@ -48,7 +48,7 @@ public class CommentService {
         if (parent != null) {
             commentResponseDto = CommentResponseDto.builder()
                     .id(comment.getId())
-                    .userId(comment.getUserId())
+                    .userId(comment.getUser().getUid())
                     .content(comment.getContent())
                     .createDate(comment.getCreateDate())
                     .modifiedDate(comment.getModifiedDate())
@@ -57,7 +57,7 @@ public class CommentService {
         } else {
             commentResponseDto = CommentResponseDto.builder()
                     .id(comment.getId())
-                    .userId(comment.getUserId())
+                    .userId(comment.getUser().getUid())
                     .content(comment.getContent())
                     .createDate(comment.getCreateDate())
                     .modifiedDate(comment.getModifiedDate())

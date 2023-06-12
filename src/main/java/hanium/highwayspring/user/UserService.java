@@ -159,6 +159,18 @@ public class UserService {
         return userDTO;
     }
 
+    public Optional<User> getUser(HttpServletRequest request) {
+        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+        System.out.println("accessToken = " + accessToken);
+        System.out.println("refreshToken = " + refreshToken);
+        Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
+        String userId = (String) claimsFormToken.get("userId");
+        Optional<User> user = userRepository.findByUid(userId);
+        return user;
+    }
+
+
     public Boolean idCheck(String id) {
         Optional<User> user = userRepository.findByUid(id);
         if (user == null && id.length() > 0)

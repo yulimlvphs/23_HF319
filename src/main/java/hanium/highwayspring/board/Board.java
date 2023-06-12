@@ -31,7 +31,7 @@ public class Board {
     @ManyToOne
     @JoinColumn(name = "userId")
     @JsonIgnore
-    private User userId;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "schoolId")

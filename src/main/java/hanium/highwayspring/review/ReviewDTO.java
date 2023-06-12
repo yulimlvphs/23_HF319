@@ -1,6 +1,7 @@
 package hanium.highwayspring.review;
 
 import hanium.highwayspring.school.School;
+import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReviewDTO {
     private Long id;
-    private String userId;
+    private User userId;
     private String tags;
     private String content;
     private Integer trafficRate;

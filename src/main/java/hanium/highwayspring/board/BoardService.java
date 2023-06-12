@@ -44,7 +44,7 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         validate(board);
         board.updateBoard(dto);
-        return retrieve(board.getUserId());
+        return retrieve(board.getUser().getUid());
     }
 
     // delete
@@ -56,7 +56,7 @@ public class BoardService {
             log.error("error deleting entity ", entity.getId(), e);
             throw new RuntimeException("error deleteing entity " + entity.getId());
         }
-        return retrieve(entity.getUserId());
+        return retrieve(entity.getUser().getUid());
     }
 
     // 리팩토링하나 메서드
@@ -66,7 +66,7 @@ public class BoardService {
             throw new RuntimeException("entity cannot be null.");
         }
 
-        if (entity.getUserId() == null) {
+        if (entity.getUser() == null) {
             log.warn("Unkown user.");
             throw new RuntimeException("Unknown user");
         }
