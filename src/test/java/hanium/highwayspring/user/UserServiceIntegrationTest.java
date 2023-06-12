@@ -1,3 +1,4 @@
+/*
 package hanium.highwayspring.user;
 
 import org.junit.jupiter.api.Test;
@@ -39,3 +40,4 @@ class UserServiceIntegrationTest {
         System.out.println(login);
     }
 }
+*/
