@@ -113,13 +113,20 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseDTO<?> deleteComment(final Comment comment){
-        Comment c = getCommentEntity(comment.getId());
-        commentRepository.delete(c);
-        return ResponseDTO.success(c.getId());
+    public ResponseDTO<?> deleteComment(Long commentId){
+        Comment comment = commentRepository.findCommentByIdWithParent(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
+        if(comment.getChildren().size() != 0){
+            comment.changeIsDeleted(true);
+        }else{
+            commentRepository.delete(getDeletableAncestorComment(comment));
+        }
+        return ResponseDTO.success("");
     }
 
-    private Comment getCommentEntity(Long id){
-        return commentRepository.findById(id).get();
+    private Comment getDeletableAncestorComment(Comment comment) {
+        Comment parent = comment.getParent();
+        if(parent != null && parent.getIsDeleted() && parent.getChildren().size() == 1)
+            return getDeletableAncestorComment(parent);
+        return comment;
     }
 }

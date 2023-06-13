@@ -1,7 +1,9 @@
 package hanium.highwayspring.comment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanium.highwayspring.board.Board;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,7 +27,11 @@ public class Comment {
     private String content;
     private String userId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ColumnDefault("FALSE")
+    @Column(nullable = false)
+    private Boolean isDeleted;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "boardId", nullable = false)
     private Board board;
 
@@ -44,11 +50,15 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime modifiedDate;
 
-    public void update(CommentRequestDto commentRequestDto){
+    public void update(CommentRequestDto commentRequestDto) {
         this.content = commentRequestDto.getContent();
     }
 
-    public void updateParent(Comment parent){
+    public void updateParent(Comment parent) {
         this.parent = parent;
+    }
+
+    public void changeIsDeleted(Boolean isDeleted){
+        this.isDeleted = isDeleted;
     }
 }

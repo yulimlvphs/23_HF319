@@ -48,15 +48,16 @@ public class BoardService {
     }
 
     // delete
-    public List<Board> delete(final Board entity) {
-        validate(entity);
+    public List<Board> delete(Long boardId) {
+        Board board = findById(boardId);
+        validate(board);
         try {
-            boardRepository.delete(entity);
+            boardRepository.delete(board);
         } catch (Exception e) {
-            log.error("error deleting entity ", entity.getId(), e);
-            throw new RuntimeException("error deleteing entity " + entity.getId());
+            log.error("error deleting entity ", board.getId(), e);
+            throw new RuntimeException("error deleteing entity " + board.getId());
         }
-        return retrieve(entity.getUserId());
+        return retrieve(board.getUserId());
     }
 
     // 리팩토링하나 메서드

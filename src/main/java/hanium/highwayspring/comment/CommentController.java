@@ -39,14 +39,7 @@ public class CommentController {
     }
 
     @DeleteMapping
-    public ResponseDTO<?> deleteComment(CommentRequestDto requestDto, HttpServletRequest request){
-        UserDTO user = userService.getUserInfo(request);
-        requestDto.setUserId(user.getUserId());
-        Comment comment = Comment.builder()
-                .id(requestDto.getId())
-                .content(requestDto.getContent())
-                .userId(user.getUserId())
-                .build();
-        return commentService.deleteComment(comment);
+    public ResponseDTO<?> deleteComment(CommentRequestDto requestDto){
+        return commentService.deleteComment(requestDto.getId());
     }
 }

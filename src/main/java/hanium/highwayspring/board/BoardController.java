@@ -52,11 +52,6 @@ public class BoardController {
 
     @DeleteMapping
     public ResponseEntity<?> deleteBoard(BoardDTO dto, HttpServletRequest request) {
-        UserDTO user = userService.getUserInfo(request);
-        School school = schoolService.findBySchoolId(1L)
-                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        Board entity = BoardDTO.toEntity(dto, school);
-        entity.setUserId(user.getUserId());
-        return ResponseEntity.ok().body(boardService.delete(entity));
+        return ResponseEntity.ok().body(boardService.delete(dto.getId()));
     }
 }

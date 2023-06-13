@@ -13,7 +13,7 @@ import java.util.List;
 
 @SpringBootTest
 //@Transactional
-class BoardCommentServiceTest {
+class BoardServiceTest {
     @Autowired
     BoardService boardService;
     @Autowired
@@ -40,24 +40,10 @@ class BoardCommentServiceTest {
     }
 
     @Test
-    void 댓글작성(){
-        String uid = "admin";
-        String content = "댓글";
-        List<Board> boards = boardService.retrieve(uid);
-        System.out.println(boards.get(0).getId());
-        CommentRequestDto dto = CommentRequestDto.builder()
-                .userId(uid)
-                .boardId(boards.get(0).getId())
-                .content(content)
-                .build();
-        commentService.createComment(dto);
-    }
-
-    @Test
     void 글삭제() {
         String uid = "admin";
         /*List<Board> boards = boardService.retrieve(uid);
         boardService.delete(boards.get(0));*/
-        boardService.delete(boardService.findById(38L));
+        boardService.delete(40L);
     }
 }
