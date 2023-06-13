@@ -37,6 +37,7 @@ public class CommentService {
                 .userId(requestDto.getUserId())
                 .board(board)
                 .content(requestDto.getContent())
+                .isDeleted(false)
                 .build();
         if (parent != null)
             comment.updateParent(parent);
@@ -47,6 +48,7 @@ public class CommentService {
                     .id(comment.getId())
                     .userId(comment.getUserId())
                     .content(comment.getContent())
+                    .isDeleted(comment.getIsDeleted())
                     .createDate(comment.getCreateDate())
                     .modifiedDate(comment.getModifiedDate())
                     .parentId(comment.getParent().getId())
@@ -56,6 +58,7 @@ public class CommentService {
                     .id(comment.getId())
                     .userId(comment.getUserId())
                     .content(comment.getContent())
+                    .isDeleted(comment.getIsDeleted())
                     .createDate(comment.getCreateDate())
                     .modifiedDate(comment.getModifiedDate())
                     .build();
