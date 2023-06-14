@@ -4,6 +4,8 @@ import hanium.highwayspring.comment.CommentRequestDto;
 import hanium.highwayspring.comment.CommentService;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
+import hanium.highwayspring.user.User;
+import hanium.highwayspring.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +22,8 @@ class BoardServiceTest {
     CommentService commentService;
     @Autowired
     SchoolService schoolService;
+    @Autowired
+    UserService userService;
 
     @Test
     void 글작성() {
@@ -29,8 +33,9 @@ class BoardServiceTest {
         String title = "제목";
         String content = "내용";
         Long category = 1L;
+        User user = userService.findByUid(uid);
         Board board = Board.builder()
-                .userId(uid)
+                .user(user)
                 .school(school)
                 .title(title)
                 .content(content)

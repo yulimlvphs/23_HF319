@@ -170,6 +170,9 @@ public class UserService {
         return user;
     }
 
+    public User findByUid(String uid){
+        return userRepository.findByUid(uid).orElseThrow(()-> new IllegalArgumentException("유저 정보가 없습니다."));
+    }
 
     public Boolean idCheck(String id) {
         Optional<User> user = userRepository.findByUid(id);

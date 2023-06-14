@@ -1,6 +1,8 @@
 package hanium.highwayspring.comment;
 
 import hanium.highwayspring.config.res.ResponseDTO;
+import hanium.highwayspring.user.User;
+import hanium.highwayspring.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,15 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 class CommentServiceTest {
     @Autowired
     CommentService commentService;
+    @Autowired
+    UserService userService;
 
     @Test
     void 댓글작성() {
         String uid = "admin";
         String content = "내용";
         Long boardId = 41L;
+        User user = userService.findByUid(uid);
 //        Long parentId = 1L;
         CommentRequestDto dto = CommentRequestDto.builder()
-                .userId(uid)
+                .userId(user)
                 .content(content)
                 .boardId(boardId)
 //                .parentId(parentId)
