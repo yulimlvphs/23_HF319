@@ -1,5 +1,6 @@
 package hanium.highwayspring.comment;
 
+import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment c) {
         this.id = c.getId();
         this.content = c.getContent();
-        this.userId = c.getUserId();
+        this.userId = c.getUser().getUid();
         this.createDate = c.getCreateDate();
         this.modifiedDate = c.getModifiedDate();
     }

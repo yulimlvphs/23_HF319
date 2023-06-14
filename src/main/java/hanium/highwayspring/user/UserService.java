@@ -60,7 +60,7 @@ public class UserService {
     }
 
     @Transactional
-    public TokenResponse doLogin(UserRequest userRequest) throws Exception {
+    public TokenResponse doLogin(UserRequest userRequest) throws Exception { //토큰 발급과 갱신을 수행
         User user = userRepository.findByUid(userRequest.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         Auth auth = authRepository.findByUserId(user.getId())
@@ -74,7 +74,7 @@ public class UserService {
 
         //refresh 토큰은 유효 할 경우
         //사실 이것도 로그인을 하는것이라면 refresh 토큰이 유효한지 파악안하고 그냥 둘다 재발급 하는게 나을듯?
-        if (jwtTokenProvider.isValidRefreshToken(refreshToken)) {
+        if (jwtTokenProvider.isValidRefreshToken(refreshToken)) { //refreshToken의 유효성을 확인
             accessToken = jwtTokenProvider.createAccessToken(user.getUid()); //Access Token 새로 만들어서 줌
             return TokenResponse.builder()
                     .ACCESS_TOKEN(accessToken)
@@ -158,6 +158,18 @@ public class UserService {
         UserDTO userDTO = UserDTO.toEntity(user);
         return userDTO;
     }
+
+    public Optional<User> getUser(HttpServletRequest request) {
+        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+        System.out.println("accessToken = " + accessToken);
+        System.out.println("refreshToken = " + refreshToken);
+        Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
+        String userId = (String) claimsFormToken.get("userId");
+        Optional<User> user = userRepository.findByUid(userId);
+        return user;
+    }
+
 
     public Boolean idCheck(String id) {
         Optional<User> user = userRepository.findByUid(id);
