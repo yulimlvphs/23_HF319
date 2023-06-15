@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Service
 @Slf4j
 @RequiredArgsConstructor
 public class BoardService {
@@ -29,12 +28,10 @@ public class BoardService {
     }
 
     // select
-    public List<Board> retrieve(final String userId) {
-        log.info("Entity userId : {} is find.", userId);
-        List<Board> boards = boardRepository.findByUserId(userId);
-
-        return boardRepository.findByUserId(userId);
-//        return boardRespository.findBySchoolId(1L);
+    public List<Board> retrieve(final Long userNo) {
+        log.info("Entity userId : {} is find.", userNo);
+        List<Board> boards = boardRepository.findByUserNo(userNo);
+        return boardRepository.findByUserNo(userNo);
     }
 
     // update
@@ -44,7 +41,7 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         validate(board);
         board.updateBoard(dto);
-        return retrieve(board.getUser().getUid());
+        return retrieve(board.getUser().getId());
     }
 
     // delete
@@ -57,7 +54,7 @@ public class BoardService {
             log.error("error deleting entity ", board.getId(), e);
             throw new RuntimeException("error deleteing entity " + board.getId());
         }
-        return retrieve(board.getUser().getUid());
+        return retrieve(board.getUser().getId());
     }
 
     // 리팩토링하나 메서드

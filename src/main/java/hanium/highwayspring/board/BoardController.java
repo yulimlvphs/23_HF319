@@ -45,7 +45,7 @@ public class BoardController {
     public ResponseDTO<?> retrieveBoardList(HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        return ResponseDTO.success(boardService.retrieve(user.getUid()));
+        return ResponseDTO.success(boardService.retrieve(user.getId()));
     }
 
     @PutMapping
@@ -54,7 +54,7 @@ public class BoardController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteBoard(BoardDTO dto, HttpServletRequest request) {
+    public ResponseEntity<?> deleteBoard(BoardDTO dto) {
         return ResponseEntity.ok().body(boardService.delete(dto.getId()));
     }
 }
