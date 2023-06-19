@@ -75,7 +75,7 @@ public class JwtTokenProvider {
     //주어진 토큰으로부터 클레임(Claims)을 추출하는 메서드
     public Claims getClaimsFormToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)))
                 .build()
                 .parseClaimsJws(token) //주어진 토큰을 파싱하여 검증. 토큰의 서명을 확인하고, 토큰이 유효한지 검증.
                 .getBody(); //파싱된 토큰의 본문 부분을 반환. 이 부분은 클레임 객체로서, 토큰에 포함된 정보를 나타냅니다.
@@ -83,7 +83,7 @@ public class JwtTokenProvider {
 
     public Claims getClaimsToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
+                .setSigningKey(Keys.hmacShaKeyFor(REFRESH_KEY.getBytes(StandardCharsets.UTF_8)))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
