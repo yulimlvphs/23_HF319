@@ -35,3 +35,11 @@ out/
 
 ### VS Code ###
 .vscode/
+src/main/generated/hanium/highwayspring/auth/QAuth.java
+src/main/generated/hanium/highwayspring/board/QBoard.java
+src/main/generated/hanium/highwayspring/comment/QComment.java
+src/main/generated/hanium/highwayspring/dept/QDept.java
+src/main/generated/hanium/highwayspring/review/QReview.java
+src/main/generated/hanium/highwayspring/school/QSchool.java
+src/main/generated/hanium/highwayspring/tag/QTag.java
+src/main/generated/hanium/highwayspring/user/QUser.java
