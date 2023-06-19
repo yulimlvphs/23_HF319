@@ -41,7 +41,7 @@ public class BoardController {
         return ResponseDTO.success(boardService.create(entity));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseDTO<?> retrieveBoardList(HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));

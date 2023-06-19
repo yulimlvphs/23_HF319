@@ -30,7 +30,7 @@ public class CommentController {
         return commentService.createComment(requestDto);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseDTO<?> retrieveCommentList(@RequestParam(name = "boardId") Long boardId) {
         return commentService.getAllCommentsByBoard(boardId);
     }
