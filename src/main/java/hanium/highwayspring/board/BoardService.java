@@ -34,6 +34,11 @@ public class BoardService {
         return boardRepository.findByUserId(userNo);
     }
 
+    public List<Board> boardList(Long schoolNo) {
+        List<Board> boards = boardRepository.findBySchoolId(schoolNo);
+        return boards;
+    }
+
     // update
     @Transactional
     public List<Board> update(final BoardDTO dto) {

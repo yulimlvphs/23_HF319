@@ -41,11 +41,18 @@ public class BoardController {
         return ResponseDTO.success(boardService.create(entity));
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseDTO<?> retrieveBoardList(HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
         return ResponseDTO.success(boardService.retrieve(user.getId()));
+    }
+
+    @GetMapping("/list")
+    public ResponseDTO<?> getBoardList() {
+        School school = schoolService.findBySchoolId(1L)
+                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
+        return ResponseDTO.success(boardService.boardList(school.getId()));
     }
 
     @PutMapping
