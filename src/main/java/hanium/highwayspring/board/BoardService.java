@@ -30,8 +30,8 @@ public class BoardService {
     // select
     public List<Board> retrieve(final Long userNo) {
         log.info("Entity userId : {} is find.", userNo);
-        List<Board> boards = boardRepository.findByUserNo(userNo);
-        return boardRepository.findByUserNo(userNo);
+        List<Board> boards = boardRepository.findByUserId(userNo);
+        return boardRepository.findByUserId(userNo);
     }
 
     // update

@@ -33,7 +33,7 @@ CREATE TABLE SCHOOL_TB
     BNHH_YN	VARCHAR(512),
     SCHUL_NM	VARCHAR(512),
     USER_TELNO_GA	VARCHAR(512),
-    CONSTRAINT unique_id UNIQUE (id)
+    primary key (id)
 );
 
 /*회원가입 테이블 create문*/

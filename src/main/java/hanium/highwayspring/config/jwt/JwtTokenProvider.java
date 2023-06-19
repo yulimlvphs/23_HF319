@@ -1,6 +1,7 @@
 package hanium.highwayspring.config.jwt;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
@@ -37,11 +40,12 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims();//.setSubject(userPk); // JWT payload 에 저장되는 정보단위
         claims.put("userId", userId);
         Date now = new Date();
+        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_VALID_TIME)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)  // 사용할 암호화 알고리즘과, secret키의 값
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -50,12 +54,12 @@ public class JwtTokenProvider {
         claims.put("userId", userId); //
         Date now = new Date();
         Date expiration = new Date(now.getTime() + REFRESH_TOKEN_VALID_TIME);
-
+        Key key = Keys.hmacShaKeyFor(REFRESH_KEY.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.HS256, REFRESH_KEY)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -70,15 +74,17 @@ public class JwtTokenProvider {
 
     //주어진 토큰으로부터 클레임(Claims)을 추출하는 메서드
     public Claims getClaimsFormToken(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                .build()
                 .parseClaimsJws(token) //주어진 토큰을 파싱하여 검증. 토큰의 서명을 확인하고, 토큰이 유효한지 검증.
                 .getBody(); //파싱된 토큰의 본문 부분을 반환. 이 부분은 클레임 객체로서, 토큰에 포함된 정보를 나타냅니다.
     }
 
     public Claims getClaimsToken(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }

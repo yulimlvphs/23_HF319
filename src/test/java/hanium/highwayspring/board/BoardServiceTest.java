@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @SpringBootTest
-//@Transactional
+@Transactional
 class BoardServiceTest {
     @Autowired
     BoardService boardService;
