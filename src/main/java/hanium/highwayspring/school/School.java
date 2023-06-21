@@ -49,4 +49,10 @@ public class School implements Serializable {
     private String BNHH_YN;
     private String SCHUL_NM;
     private String USER_TELNO_GA;
+
+    //review에서 schoolId값 받아와서 저장할 때 필요한 생성자입니다.
+    public School(Long schoolId) {
+        this.id = schoolId;
+    }
+
 }

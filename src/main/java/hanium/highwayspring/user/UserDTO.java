@@ -1,5 +1,6 @@
 package hanium.highwayspring.user;
 
+import hanium.highwayspring.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class UserDTO{
     private String userGender;
     private Long userAge;
     private Long userRole;
+    private School school;
 
 
     public UserDTO(final User entity) {

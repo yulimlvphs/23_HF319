@@ -24,7 +24,7 @@ public class User {
     private String gender;
     private Long age;
     private Long role;
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "school_id")
-    private School school;*/
+    private School school;
 }

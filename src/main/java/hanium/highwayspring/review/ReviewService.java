@@ -1,4 +1,5 @@
 package hanium.highwayspring.review;
+import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.school.School;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,9 @@ public class ReviewService {
         this.repository = repository;
     }
 
-    public Review save(Review review){
-        return repository.save(review);
+    public ResponseDTO<?> save(Review review){
+        Review re = repository.save(review);
+        return ResponseDTO.success(re);
     }
 
     public Optional<Review> findById(Long id){  //해당 학교 -> 학교에 해당하는 댓글 1개를 가져와서 update에 사용
@@ -22,8 +24,13 @@ public class ReviewService {
         return re;
     }
 
-    public Optional<Review> update(Long id, ReviewDTO dto){
+    public ResponseDTO<?> update(Long id, ReviewDTO dto){
         Optional<Review> entity = this.repository.findById(id);
+
+        if(entity.isEmpty()){
+            return ResponseDTO.fail("isEmpty", "null");
+        }
+
         entity.ifPresent(t ->{
             // 내용이 널이 아니라면 엔티티의 객체를 바꿔준다.
             if(dto.getContent() != null) {
@@ -47,15 +54,27 @@ public class ReviewService {
             // 이걸 실행하면 idx 때문에 update가 실행됩니다.
             this.repository.save(t);
         });
-        return entity;
+
+        return ResponseDTO.success(entity);
     }
 
-    public List<Review> findAll(School schoolId){ //학교 아이디를 가져와서 해당 학교에 대한 리뷰 전체를 보여줌
+    public ResponseDTO<?> findAll(School schoolId){ //학교 아이디를 가져와서 해당 학교에 대한 리뷰 전체를 보여줌
         List<Review> re = repository.findBySchoolId(schoolId);
-        return re;
+        return ResponseDTO.success(re);
     }
 
-    public void delete(Long id){
-        repository.deleteById(id);
+    /*public ResponseDTO<?> delete(Long id){
+        Optional<Review> entity = repository.findById(id);
+        entity.ifPresent(review -> {
+            review.setDeleted(true);
+        });
+        repository.save(Review.builder().build());
+        return ResponseDTO.success("delete success");
+    }*/
+/*
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable Long id) {
+        reviewService.delete(id);
     }
+*/
 }

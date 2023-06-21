@@ -170,7 +170,6 @@ public class UserService {
         return user;
     }
 
-
     public Boolean idCheck(String id) {
         Optional<User> user = userRepository.findByUid(id);
         if (user == null && id.length() > 0)
