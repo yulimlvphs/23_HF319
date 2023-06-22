@@ -10,7 +10,12 @@ public class HeartService {
     private final HeartRepository heartRepository;
     public ResponseDTO<?> insert(final Heart entity){
         heartRepository.save(entity);
-        return ResponseDTO.success(entity);
+        HeartDto dto = HeartDto.builder()
+                .id(entity.getId())
+                .boardId(entity.getBoard().getId())
+                .uid(entity.getUser().getUid())
+                .build();
+        return ResponseDTO.success(dto);
     }
     public ResponseDTO<?> delete(final Heart entity){
         heartRepository.delete(entity);
