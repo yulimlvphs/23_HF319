@@ -31,11 +31,10 @@ public class Review{
     private Integer cafeteriaRate;//별점 리뷰
     private Integer educationRate;//별점 리뷰
     private Integer employmentRate;//별점 리뷰
-    /*@ColumnDefault("false")
-    private boolean isDeleted;//논리적 삭제 여부. ture -> 논리적 삭제*/
+    @ColumnDefault("false")
+    private boolean isDeleted;//논리적 삭제 여부. ture -> 논리적 삭제
     @ManyToOne
     @JoinColumn(name = "schoolId")
     @JsonIgnore
     private School schoolId; //학교 id
-
 }

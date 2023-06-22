@@ -63,14 +63,14 @@ public class ReviewService {
         return ResponseDTO.success(re);
     }
 
-    /*public ResponseDTO<?> delete(Long id){
+    public ResponseDTO<?> delete(Long id){
         Optional<Review> entity = repository.findById(id);
         entity.ifPresent(review -> {
             review.setDeleted(true);
         });
         repository.save(Review.builder().build());
         return ResponseDTO.success("delete success");
-    }*/
+    }
 /*
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id) {
