@@ -1,7 +1,7 @@
-package hanium.highwayspring.comment.repository;
+package hanium.highwayspring.board.comment.repository;
 
 import hanium.highwayspring.board.Board;
-import hanium.highwayspring.comment.Comment;
+import hanium.highwayspring.board.comment.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

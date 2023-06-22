@@ -1,8 +1,8 @@
-package hanium.highwayspring.comment;
+package hanium.highwayspring.board.comment;
 
 import hanium.highwayspring.board.Board;
 import hanium.highwayspring.board.BoardRepository;
-import hanium.highwayspring.comment.repository.CommentRepository;
+import hanium.highwayspring.board.comment.repository.CommentRepository;
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;

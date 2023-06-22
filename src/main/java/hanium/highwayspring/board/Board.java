@@ -3,7 +3,7 @@ package hanium.highwayspring.board;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hanium.highwayspring.comment.Comment;
+import hanium.highwayspring.board.comment.Comment;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.user.User;
 import lombok.*;

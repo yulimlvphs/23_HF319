@@ -1,4 +1,4 @@
-package hanium.highwayspring.comment;
+package hanium.highwayspring.board.comment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanium.highwayspring.board.Board;

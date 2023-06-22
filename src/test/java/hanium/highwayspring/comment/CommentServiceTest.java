@@ -1,12 +1,13 @@
 package hanium.highwayspring.comment;
 
+import hanium.highwayspring.board.comment.CommentRequestDto;
+import hanium.highwayspring.board.comment.CommentService;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.user.User;
 import hanium.highwayspring.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 //@Transactional

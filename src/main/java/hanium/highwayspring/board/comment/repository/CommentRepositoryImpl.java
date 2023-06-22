@@ -1,8 +1,8 @@
-package hanium.highwayspring.comment.repository;
+package hanium.highwayspring.board.comment.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.Board;
-import hanium.highwayspring.comment.Comment;
+import hanium.highwayspring.board.comment.Comment;
 import hanium.highwayspring.comment.QComment;
 import org.springframework.stereotype.Repository;
 

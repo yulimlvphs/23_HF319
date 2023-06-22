@@ -1,7 +1,6 @@
 package hanium.highwayspring.board;
 
-import hanium.highwayspring.comment.CommentRequestDto;
-import hanium.highwayspring.comment.CommentService;
+import hanium.highwayspring.board.comment.CommentService;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.User;
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @SpringBootTest
 @Transactional

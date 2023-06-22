@@ -1,10 +1,10 @@
 package hanium.highwayspring.config;
 
-import hanium.highwayspring.auth.AuthRepository;
+import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.board.BoardRepository;
 import hanium.highwayspring.board.BoardService;
-import hanium.highwayspring.comment.repository.CommentRepository;
-import hanium.highwayspring.comment.CommentService;
+import hanium.highwayspring.board.comment.repository.CommentRepository;
+import hanium.highwayspring.board.comment.CommentService;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
 import hanium.highwayspring.school.SchoolRepository;
 import hanium.highwayspring.school.SchoolService;

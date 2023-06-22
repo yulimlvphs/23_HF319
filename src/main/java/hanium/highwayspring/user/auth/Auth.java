@@ -1,4 +1,4 @@
-package hanium.highwayspring.auth;
+package hanium.highwayspring.user.auth;
 
 import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
