@@ -17,8 +17,9 @@ public class HeartService {
                 .build();
         return ResponseDTO.success(dto);
     }
-    public ResponseDTO<?> delete(final Heart entity){
-        heartRepository.delete(entity);
-        return ResponseDTO.success(entity);
+    public ResponseDTO<?> delete(Long heartId){
+        heartRepository.deleteById(heartId);
+        HeartDto dto = HeartDto.builder().build();
+        return ResponseDTO.success(dto);
     }
 }

@@ -37,14 +37,7 @@ public class HeartController {
     }
 
     @DeleteMapping
-    public ResponseDTO<?> delHeart(HttpServletRequest request, @RequestParam Long boardId){
-        User user = userService.getUser(request)
-                .orElseThrow(()->new IllegalArgumentException("유저 정보가 없습니다."));
-        Board board = boardService.findById(boardId);
-        Heart heart = Heart.builder()
-                .user(user)
-                .board(board)
-                .build();
-        return heartService.delete(heart);
+    public ResponseDTO<?> delHeart(HttpServletRequest request, @RequestParam Long heartId){
+        return heartService.delete(heartId);
     }
 }
