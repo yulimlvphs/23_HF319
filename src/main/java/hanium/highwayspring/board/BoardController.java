@@ -4,7 +4,6 @@ import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.User;
-import hanium.highwayspring.user.UserDTO;
 import hanium.highwayspring.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,18 +40,18 @@ public class BoardController {
         return ResponseDTO.success(boardService.create(entity));
     }
 
-    @GetMapping
-    public ResponseDTO<?> retrieveBoardList(HttpServletRequest request) {
+    @GetMapping("/detail")
+    public ResponseDTO<?> boardDetail(HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        return ResponseDTO.success(boardService.retrieve(user.getId()));
+        return ResponseDTO.success(boardService.getBoardDetail(user.getId()));
     }
 
     @GetMapping("/list")
-    public ResponseDTO<?> getBoardList() {
+    public ResponseDTO<?> boardList() {
         School school = schoolService.findBySchoolId(1L)
                 .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        return ResponseDTO.success(boardService.boardList(school.getId()));
+        return ResponseDTO.success(boardService.getBoardList(school.getId()));
     }
 
     @PutMapping
