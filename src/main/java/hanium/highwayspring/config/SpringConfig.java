@@ -1,5 +1,7 @@
 package hanium.highwayspring.config;
 
+import hanium.highwayspring.board.heart.HeartRepository;
+import hanium.highwayspring.board.heart.HeartService;
 import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.board.BoardRepository;
 import hanium.highwayspring.board.BoardService;
@@ -22,15 +24,17 @@ public class SpringConfig {
     private final AuthRepository authRepository;
     private final SchoolRepository schoolRepository;
     private final BoardRepository boardRepository;
+    private final HeartRepository heartRepository;
     private final CommentRepository commentRepository;
 
-    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, CommentRepository commentRepository) {
+    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, HeartRepository heartRepository, CommentRepository commentRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authRepository = authRepository;
         this.schoolRepository = schoolRepository;
         this.boardRepository = boardRepository;
+        this.heartRepository = heartRepository;
         this.commentRepository = commentRepository;
     }
 
@@ -47,6 +51,11 @@ public class SpringConfig {
     @Bean
     public BoardService boardService() {
         return new BoardService(boardRepository);
+    }
+
+    @Bean
+    public HeartService heartService(){
+        return new HeartService(heartRepository);
     }
 
     @Bean

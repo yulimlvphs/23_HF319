@@ -21,7 +21,6 @@ public class Heart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long count;
     @ManyToOne
     @JoinColumn(name = "userId")
     @JsonIgnore
