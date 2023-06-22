@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
@@ -20,9 +21,9 @@ public class Review{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //리뷰 id
     @ManyToOne
-    @JoinColumn(name = "userId")
-    @JsonIgnore
-    private User userId;//리뷰 작성자
+    @JoinColumn(name = "userid")
+    private User userId;//리뷰 작성자의 인덱스 값
+    private String userName; //리뷰 작성자의 name
     private String tags; //리뷰 작성한 사람의 학과
     private String content; //리뷰 내용
     private Integer trafficRate; //별점 리뷰
@@ -30,8 +31,10 @@ public class Review{
     private Integer cafeteriaRate;//별점 리뷰
     private Integer educationRate;//별점 리뷰
     private Integer employmentRate;//별점 리뷰
+    @ColumnDefault("false")
+    private boolean isDeleted;//논리적 삭제 여부. ture -> 논리적 삭제
     @ManyToOne
     @JoinColumn(name = "schoolId")
+    @JsonIgnore
     private School schoolId; //학교 id
-
 }

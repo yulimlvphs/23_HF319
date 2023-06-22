@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReviewDTO {
     private Long id;
-    private User userId;
+    private String userId;
+    private String userName;
     private String tags;
     private String content;
     private Integer trafficRate;
@@ -21,6 +22,7 @@ public class ReviewDTO {
     private Integer cafeteriaRate;
     private Integer educationRate;
     private Integer employmentRate;
+    /*private boolean isDeleted;*/
     private Long schoolId;
 
     /*public ReviewDTO(final Review entity) {
@@ -36,10 +38,11 @@ public class ReviewDTO {
         this.schoolId = entity.getSchoolId();
     } */
 
-    public static Review toEntity(final ReviewDTO dto, final School school) {
+    public static Review toEntity(final ReviewDTO dto, final User user) {
+        School school = new School(dto.getSchoolId());
         return Review.builder()
-                .id(dto.getId())
-                .userId(dto.getUserId())
+                .userId(user)
+                .userName(user.getUid())
                 .tags(dto.getTags())
                 .content(dto.getContent())
                 .trafficRate(dto.getTrafficRate())
@@ -47,6 +50,7 @@ public class ReviewDTO {
                 .cafeteriaRate(dto.getCafeteriaRate())
                 .educationRate(dto.getEducationRate())
                 .employmentRate(dto.getEmploymentRate())
+               /* .isDeleted(dto.isDeleted())*/
                 .schoolId(school)
                 .build();
     }
