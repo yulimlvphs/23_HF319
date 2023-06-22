@@ -25,10 +25,10 @@ public class HeartController {
     }
 
     @PostMapping
-    public ResponseDTO<?> addHeart(HttpServletRequest request, @RequestBody Long BoardNo){
+    public ResponseDTO<?> addHeart(HttpServletRequest request, @RequestParam Long boardId){
         User user = userService.getUser(request)
                 .orElseThrow(()->new IllegalArgumentException("유저 정보가 없습니다."));
-        Board board = boardService.findById(BoardNo);
+        Board board = boardService.findById(boardId);
         Heart heart = Heart.builder()
                 .user(user)
                 .board(board)
@@ -37,10 +37,10 @@ public class HeartController {
     }
 
     @DeleteMapping
-    public ResponseDTO<?> delHeart(HttpServletRequest request, @RequestBody Long BoardNo){
+    public ResponseDTO<?> delHeart(HttpServletRequest request, @RequestParam Long boardId){
         User user = userService.getUser(request)
                 .orElseThrow(()->new IllegalArgumentException("유저 정보가 없습니다."));
-        Board board = boardService.findById(BoardNo);
+        Board board = boardService.findById(boardId);
         Heart heart = Heart.builder()
                 .user(user)
                 .board(board)
