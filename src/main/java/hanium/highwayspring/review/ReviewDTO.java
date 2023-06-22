@@ -15,6 +15,7 @@ public class ReviewDTO {
     private Long id;
     private String userId;
     private String userName;
+    private Long role;
     private String tags;
     private String content;
     private Integer trafficRate;
@@ -43,6 +44,7 @@ public class ReviewDTO {
         return Review.builder()
                 .userId(user)
                 .userName(user.getUid())
+                .role(user.getRole())
                 .tags(dto.getTags())
                 .content(dto.getContent())
                 .trafficRate(dto.getTrafficRate())
