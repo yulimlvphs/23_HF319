@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 class BoardServiceTest {
     @Autowired
     BoardService boardService;
@@ -26,7 +26,7 @@ class BoardServiceTest {
     void 글작성() {
         School school = schoolService.findBySchoolId(1L)
                 .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        String uid = "admin";
+        String uid = "Lee";
         String title = "제목";
         String content = "내용";
         Long category = 1L;
