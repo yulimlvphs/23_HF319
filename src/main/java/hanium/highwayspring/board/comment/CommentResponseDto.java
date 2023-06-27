@@ -19,6 +19,7 @@ public class CommentResponseDto {
     private String userId;
     private Long parentId;
     private Boolean isDeleted;
+    @Builder.Default
     private List<CommentResponseDto> children = new ArrayList<>();
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
