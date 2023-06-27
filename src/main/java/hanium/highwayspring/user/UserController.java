@@ -42,7 +42,14 @@ public class UserController {
     }
 
     @GetMapping("/idCheck")
-      public ResponseDTO<?> IdCheck(@RequestParam("userId") String id) {
+    public ResponseDTO<?> IdCheck(@RequestParam("userId") String id) {
         return ResponseDTO.success(userService.idCheck(id));
+    }
+
+    @PutMapping("/updatePoint")
+    public ResponseDTO<?> updatePoint(@RequestParam("point") Long point, HttpServletRequest request) {
+        User user = userService.getUser(request)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        return ResponseDTO.success(userService.updatePoint(user.getUid(), point));
     }
 }

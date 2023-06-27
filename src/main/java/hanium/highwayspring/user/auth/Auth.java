@@ -21,6 +21,8 @@ public class Auth {
     private String accessToken;
     private String refreshToken;
 
+    private Long point;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -31,5 +33,9 @@ public class Auth {
 
     public void refreshUpdate(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public void updatePoint(Long point) {
+        this.point = point;
     }
 }

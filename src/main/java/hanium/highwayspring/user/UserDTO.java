@@ -23,7 +23,10 @@ public class UserDTO{
     private String userGender;
     private Long userAge;
     private Long userRole;
+
     private School school;
+
+    private Long point;
 
 
     public UserDTO(final User entity) {
@@ -36,15 +39,15 @@ public class UserDTO{
         this.userRole = entity.getRole();
     }
 
-    public static UserDTO toEntity(final Optional<User> entity) {
+    public static UserDTO toEntity(final User entity) {
         return UserDTO.builder()
-                .userNo(entity.get().getId())
-                .userId(entity.get().getUid())
-                .userName(entity.get().getName())
-                .userEmail(entity.get().getEmail())
-                .userGender(entity.get().getGender())
-                .userAge(entity.get().getAge())
-                .userRole(entity.get().getRole())
+                .userNo(entity.getId())
+                .userId(entity.getUid())
+                .userName(entity.getName())
+                .userEmail(entity.getEmail())
+                .userGender(entity.getGender())
+                .userAge(entity.getAge())
+                .userRole(entity.getRole())
                 .build();
     }
 }
