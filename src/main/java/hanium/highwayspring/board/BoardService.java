@@ -1,9 +1,12 @@
 package hanium.highwayspring.board;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.querydsl.core.Tuple;
 import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.config.res.ResponseDTO;
+import hanium.highwayspring.user.User;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +32,12 @@ public class BoardService {
     }
 
     // select
-    public List<Board> getBoardDetail(final Long userNo) {
-        List<Board> boards = boardRepository.findByUserId(userNo);
-        return boardRepository.findByUserId(userNo);
+    public Optional<Tuple> getBoardDetail(final User user, Long boardId) {
+        return boardRepository.findBoardDetail(user.getId(), boardId);
     }
 
-    public List<Board> getBoardList(Long schoolNo) {
-        List<Board> boards = boardRepository.findBySchoolId(schoolNo);
+    public List<Board> getBoardList(Long schId, Long cateNo) {
+        List<Board> boards = boardRepository.findBoardList(schId, cateNo);
         return boards;
     }
 
@@ -46,7 +48,7 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         validate(board);
         board.updateBoard(dto);
-        return getBoardDetail(board.getUser().getId());
+        return getBoardList(board.getSchool().getId(), board.getCategory());
     }
 
     // delete
@@ -59,7 +61,7 @@ public class BoardService {
             log.error("error deleting entity ", board.getId(), e);
             throw new RuntimeException("error deleteing entity " + board.getId());
         }
-        return getBoardDetail(board.getUser().getId());
+        return getBoardList(board.getSchool().getId(), board.getCategory());
     }
 
     // 리팩토링하나 메서드

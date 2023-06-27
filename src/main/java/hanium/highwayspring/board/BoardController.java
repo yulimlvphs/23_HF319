@@ -7,12 +7,7 @@ import hanium.highwayspring.user.User;
 import hanium.highwayspring.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,18 +35,18 @@ public class BoardController {
         return ResponseDTO.success(boardService.create(entity));
     }
 
-    @GetMapping("/detail")
-    public ResponseDTO<?> boardDetail(HttpServletRequest request) {
+    @GetMapping("/detail/{boardId}")
+    public ResponseDTO<?> boardDetail(HttpServletRequest request, @PathVariable("boardId") Long boardId) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        return ResponseDTO.success(boardService.getBoardDetail(user.getId()));
+        return ResponseDTO.success(boardService.getBoardDetail(user, boardId));
     }
 
-    @GetMapping("/list")
-    public ResponseDTO<?> boardList() {
-        School school = schoolService.findBySchoolId(1L)
+    @GetMapping("/list/{schId}")
+    public ResponseDTO<?> boardList(@PathVariable("schId") Long schId, @RequestParam(name = "cateNo") Long cateNo) {
+        School school = schoolService.findBySchoolId(schId)
                 .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        return ResponseDTO.success(boardService.getBoardList(school.getId()));
+        return ResponseDTO.success(boardService.getBoardList(school.getId(), cateNo));
     }
 
     @PutMapping

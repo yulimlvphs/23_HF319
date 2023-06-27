@@ -39,6 +39,11 @@ public class CommentController {
         return commentService.updateComment(requestDto);
     }
 
+    @PutMapping("/delete")
+    public ResponseDTO<?> sDeleteComment(CommentRequestDto requestDto){
+        return commentService.deleteComment(requestDto.getId());
+    }
+
     @DeleteMapping
     public ResponseDTO<?> deleteComment(CommentRequestDto requestDto){
         return commentService.deleteComment(requestDto.getId());
