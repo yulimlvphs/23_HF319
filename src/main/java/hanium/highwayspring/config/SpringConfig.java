@@ -3,7 +3,7 @@ package hanium.highwayspring.config;
 import hanium.highwayspring.board.heart.HeartRepository;
 import hanium.highwayspring.board.heart.HeartService;
 import hanium.highwayspring.user.auth.AuthRepository;
-import hanium.highwayspring.board.BoardRepository;
+import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.board.BoardService;
 import hanium.highwayspring.board.comment.repository.CommentRepository;
 import hanium.highwayspring.board.comment.CommentService;

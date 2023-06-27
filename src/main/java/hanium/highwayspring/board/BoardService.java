@@ -2,6 +2,7 @@ package hanium.highwayspring.board;
 
 import java.util.List;
 
+import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 
