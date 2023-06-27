@@ -19,16 +19,16 @@ class CommentServiceTest {
 
     @Test
     void 댓글작성() {
-        String uid = "admin";
+        String uid = "Lee";
         String content = "내용";
-        Long boardId = 41L;
+        Long boardId = 1L;
         User user = userService.findByUid(uid);
-//        Long parentId = 1L;
+        Long parentId = 1L;
         CommentRequestDto dto = CommentRequestDto.builder()
                 .userId(user)
                 .content(content)
                 .boardId(boardId)
-//                .parentId(parentId)
+                .parentId(parentId)
                 .build();
         ResponseDTO<?> responseDTO = commentService.createComment(dto);
         System.out.println(responseDTO.getData());
