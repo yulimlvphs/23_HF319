@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface SchoolRepository extends JpaRepository<School, Long> {
     School save(School school);
-    Optional<School> findById(Long sch_id);
+    Optional<School> findById(Long id);
     List<School> findAll();
 }

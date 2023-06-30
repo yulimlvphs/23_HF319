@@ -25,7 +25,7 @@ public class Heart {
     @JsonIgnore
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH})
     @JoinColumn(name = "schoolId")
     @JsonIgnore
     private School school;

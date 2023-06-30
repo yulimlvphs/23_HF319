@@ -6,6 +6,7 @@ import hanium.highwayspring.config.res.UserRequest;
 import hanium.highwayspring.auth.Auth;
 import hanium.highwayspring.auth.AuthRepository;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
+import hanium.highwayspring.school.School;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -177,4 +178,5 @@ public class UserService {
         else
             return false;
     }
+
 }
