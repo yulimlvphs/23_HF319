@@ -28,8 +28,7 @@ public class HeartService {
 
     public  ResponseDTO<?> delete(Long heartId){
         heartRepository.deleteById(heartId);
-        HeartDTO dto = HeartDTO.builder().build();
-        return ResponseDTO.success(dto);
+        return ResponseDTO.success("success");
     }
 
     public  ResponseDTO<List<Long>> findAll(Long userId){

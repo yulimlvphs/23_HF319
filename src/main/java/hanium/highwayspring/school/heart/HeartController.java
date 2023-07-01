@@ -30,7 +30,6 @@ public class HeartController {
         User user = userService.getUser(request)
                 .orElseThrow(()->new IllegalArgumentException("유저 정보가 없습니다."));
         Optional<School> school = schoolService.findBySchoolId(schoolId);
-        user.getFavoriteSchool().clear();
         System.out.println("-------------"+user.getId()+"--------------");
         // 중복 체크 (한번 찜한 학교는 다시 할 수 없음)
         if (heartService.countByUserId(user.getId()) >= 10) {
