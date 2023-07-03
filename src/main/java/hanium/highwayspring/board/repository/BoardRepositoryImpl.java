@@ -1,16 +1,11 @@
 package hanium.highwayspring.board.repository;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.Board;
 import hanium.highwayspring.board.QBoard;
 import hanium.highwayspring.board.ResponseBoardDTO;
-import hanium.highwayspring.board.comment.Comment;
-import hanium.highwayspring.board.comment.QComment;
-import hanium.highwayspring.board.comment.repository.CommentRepositoryCustom;
 import hanium.highwayspring.board.heart.QHeart;
-import org.hibernate.criterion.Projection;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
