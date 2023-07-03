@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -31,8 +32,8 @@ public class UserService {
         this.authRepository = authRepository;
     }
 
-    public TokenResponse register(User u) {
-        log.info(u.getUid());`
+    public TokenResponse register(@RequestBody User u) {
+        log.info(u.getUid());
         User user = User.builder()
                 .uid(u.getUid())
                 .pwd(passwordEncoder.encode(u.getPwd()))
@@ -61,7 +62,7 @@ public class UserService {
     }
 
     @Transactional
-    public TokenResponse doLogin(UserRequest userRequest) throws Exception { //토큰 발급과 갱신을 수행
+    public TokenResponse doLogin(@RequestBody UserRequest userRequest) throws Exception { //토큰 발급과 갱신을 수행
         User user = userRepository.findByUid(userRequest.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         Auth auth = authRepository.findByUserId(user.getId())
