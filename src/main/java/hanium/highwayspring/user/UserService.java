@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public TokenResponse register(User u) {
-        log.info(u.getUid());
+        log.info(u.getUid());`
         User user = User.builder()
                 .uid(u.getUid())
                 .pwd(passwordEncoder.encode(u.getPwd()))
