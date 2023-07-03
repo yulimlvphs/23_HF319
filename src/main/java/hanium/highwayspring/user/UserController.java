@@ -20,7 +20,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity join( @RequestBody User user) {
+    public ResponseEntity join(@RequestBody User user) {
         return ResponseEntity.ok(userService.register(user));
     }
 

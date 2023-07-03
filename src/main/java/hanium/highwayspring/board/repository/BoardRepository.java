@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.querydsl.core.Tuple;
 import hanium.highwayspring.board.Board;
+import hanium.highwayspring.board.ResponseBoardDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom{
@@ -14,5 +15,5 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardReposi
 	@Override
 	List<Board> findBoardList(Long schId, Long cateNo);
 	@Override
-	Optional<Tuple> findBoardDetail(Long userNo, Long boardId);
+	Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId);
 }
