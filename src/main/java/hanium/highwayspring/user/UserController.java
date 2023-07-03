@@ -20,13 +20,13 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity join(User user) {
+    public ResponseEntity join(@RequestBody User user) {
         return ResponseEntity.ok(userService.register(user));
     }
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity login(UserRequest userRequest) throws Exception {
+    public ResponseEntity login(@RequestBody UserRequest userRequest) throws Exception {
         return ResponseEntity.ok().body(userService.doLogin(userRequest));
     }
 
