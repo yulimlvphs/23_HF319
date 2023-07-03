@@ -32,8 +32,9 @@ public class BoardService {
     }
 
     // select
-    public Optional<Tuple> getBoardDetail(final User user, Long boardId) {
-        return boardRepository.findBoardDetail(user.getId(), boardId);
+    public Optional<ResponseBoardDTO> getBoardDetail(final User user, Long boardId) {
+        Optional<ResponseBoardDTO> boardDetail = boardRepository.findBoardDetail(user.getId(), boardId);
+        return boardDetail;
     }
 
     public List<Board> getBoardList(Long schId, Long cateNo) {
