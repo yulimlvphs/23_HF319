@@ -1,5 +1,6 @@
 package hanium.highwayspring.school;
 
+import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,8 @@ import java.util.Optional;
 public class SchoolService {
     private final SchoolRepository schoolRepository;
 
-    public ResponseEntity findAll() {
-        List<School> schoolList = schoolRepository.findAll();
-        return ResponseEntity.ok().body(schoolList);
+    public ResponseDTO<?> findAll() {
+        return ResponseDTO.success(schoolRepository.findAll());
     }
 
     public Optional<School> findBySchoolId(Long id){

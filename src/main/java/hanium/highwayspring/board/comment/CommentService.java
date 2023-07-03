@@ -1,16 +1,13 @@
-package hanium.highwayspring.comment;
+package hanium.highwayspring.board.comment;
 
 import hanium.highwayspring.board.Board;
-import hanium.highwayspring.board.BoardRepository;
-import hanium.highwayspring.comment.repository.CommentRepository;
+import hanium.highwayspring.board.repository.BoardRepository;
+import hanium.highwayspring.board.comment.repository.CommentRepository;
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 public class CommentService {
@@ -40,6 +37,7 @@ public class CommentService {
                 .user(requestDto.getUserId())
                 .board(board)
                 .content(requestDto.getContent())
+                .isDeleted(false)
                 .build();
         if (parent != null)
             comment.updateParent(parent);
@@ -50,6 +48,7 @@ public class CommentService {
                     .id(comment.getId())
                     .userId(comment.getUser().getUid())
                     .content(comment.getContent())
+                    .isDeleted(comment.getIsDeleted())
                     .createDate(comment.getCreateDate())
                     .modifiedDate(comment.getModifiedDate())
                     .parentId(comment.getParent().getId())
@@ -59,6 +58,7 @@ public class CommentService {
                     .id(comment.getId())
                     .userId(comment.getUser().getUid())
                     .content(comment.getContent())
+                    .isDeleted(comment.getIsDeleted())
                     .createDate(comment.getCreateDate())
                     .modifiedDate(comment.getModifiedDate())
                     .build();
@@ -87,5 +87,49 @@ public class CommentService {
                 }
         );
         return ResponseDTO.success(commentResponseDtoList);
+    }
+
+    @Transactional
+    public ResponseDTO<?> updateComment(CommentRequestDto requestDto){
+        Optional<Comment> comment = commentRepository.findById(requestDto.getId());
+        comment.get().update(requestDto);
+        CommentResponseDto commentResponseDto = null;
+        if (requestDto.getParentId() != null) {
+            commentResponseDto = CommentResponseDto.builder()
+                    .id(comment.get().getId())
+                    .userId(comment.get().getUser().getUid())
+                    .content(comment.get().getContent())
+                    .createDate(comment.get().getCreateDate())
+                    .modifiedDate(comment.get().getModifiedDate())
+                    .parentId(comment.get().getParent().getId())
+                    .build();
+        } else {
+            commentResponseDto = CommentResponseDto.builder()
+                    .id(comment.get().getId())
+                    .userId(comment.get().getUser().getUid())
+                    .content(comment.get().getContent())
+                    .createDate(comment.get().getCreateDate())
+                    .modifiedDate(comment.get().getModifiedDate())
+                    .build();
+        }
+        return ResponseDTO.success(commentResponseDto);
+    }
+
+    @Transactional
+    public ResponseDTO<?> deleteComment(Long commentId){
+        Comment comment = commentRepository.findCommentByIdWithParent(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
+        if(comment.getChildren().size() != 0){
+            comment.changeIsDeleted(true);
+        }else{
+            commentRepository.delete(getDeletableAncestorComment(comment));
+        }
+        return ResponseDTO.success("");
+    }
+
+    private Comment getDeletableAncestorComment(Comment comment) {
+        Comment parent = comment.getParent();
+        if(parent != null && parent.getIsDeleted() && parent.getChildren().size() == 1)
+            return getDeletableAncestorComment(parent);
+        return comment;
     }
 }

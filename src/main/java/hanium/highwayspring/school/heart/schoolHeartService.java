@@ -1,7 +1,6 @@
 package hanium.highwayspring.school.heart;
 
 import hanium.highwayspring.config.res.ResponseDTO;
-import hanium.highwayspring.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +11,13 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class HeartService {
-    private final HeartRepository heartRepository;
+public class schoolHeartService {
+    private final schoolHeartRepository heartRepository;
 
     public ResponseDTO<?> insert(final Heart heart){
         heartRepository.save(heart);
 
-        HeartDTO dto = HeartDTO.builder()
+        schoolHeartDTO dto = schoolHeartDTO.builder()
                 .id(heart.getId())
                 .schoolId(heart.getSchool().getId())
                 .uid(heart.getUser().getUid())

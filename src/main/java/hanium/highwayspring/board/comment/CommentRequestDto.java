@@ -1,4 +1,4 @@
-package hanium.highwayspring.comment;
+package hanium.highwayspring.board.comment;
 
 import hanium.highwayspring.board.Board;
 import hanium.highwayspring.user.User;

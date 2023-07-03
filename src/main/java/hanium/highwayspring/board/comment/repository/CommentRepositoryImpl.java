@@ -1,12 +1,13 @@
-package hanium.highwayspring.comment.repository;
+package hanium.highwayspring.board.comment.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.Board;
-import hanium.highwayspring.comment.Comment;
-import hanium.highwayspring.comment.QComment;
+import hanium.highwayspring.board.comment.Comment;
+import hanium.highwayspring.board.comment.QComment;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CommentRepositoryImpl implements CommentRepositoryCustom{
@@ -25,5 +26,15 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 .where(comment.board.id.eq(board.getId()))
                 .orderBy(comment.parent.id.asc().nullsFirst(), comment.createDate.asc())
                 .fetch();
+    }
+    @Override
+    public Optional<Comment> findCommentByIdWithParent(Long id) {
+        QComment comment = QComment.comment;
+        Comment selectedComment = jpaQueryFactory.selectFrom(comment)
+                .leftJoin(comment.parent)
+                .fetchJoin()
+                .where(comment.id.eq(id))
+                .fetchOne();
+        return Optional.ofNullable(selectedComment);
     }
 }

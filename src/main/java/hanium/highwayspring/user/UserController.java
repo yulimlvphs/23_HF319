@@ -1,5 +1,6 @@
 package hanium.highwayspring.user;
 
+import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.config.res.UserRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.OPTIONS, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RestController
 @Slf4j
 public class UserController {
@@ -20,13 +20,13 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity join(User user) {
+    public ResponseEntity join( @RequestBody User user) {
         return ResponseEntity.ok(userService.register(user));
     }
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity login(UserRequest userRequest) throws Exception {
+    public ResponseEntity login(@RequestBody UserRequest userRequest) throws Exception {
         return ResponseEntity.ok().body(userService.doLogin(userRequest));
     }
 
@@ -42,7 +42,14 @@ public class UserController {
     }
 
     @GetMapping("/idCheck")
-      public Boolean IdCheck(@RequestParam("userId") String id) {
-        return userService.idCheck(id);
+    public ResponseDTO<?> IdCheck(@RequestParam("userId") String id) {
+        return ResponseDTO.success(userService.idCheck(id));
+    }
+
+    @PutMapping("/updatePoint")
+    public ResponseDTO<?> updatePoint(@RequestParam("point") Long point, HttpServletRequest request) {
+        User user = userService.getUser(request)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        return ResponseDTO.success(userService.updatePoint(user.getUid(), point));
     }
 }

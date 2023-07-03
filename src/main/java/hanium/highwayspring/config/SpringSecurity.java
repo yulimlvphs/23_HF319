@@ -17,7 +17,9 @@ public class SpringSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable().headers().frameOptions().disable();
+        http.httpBasic().disable()
+                .csrf().disable()
+                .cors();
         return http.build();
     }
 
@@ -40,3 +42,4 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }//암호화에 필요한 PasswordEncoder Bean 등록
 }
+

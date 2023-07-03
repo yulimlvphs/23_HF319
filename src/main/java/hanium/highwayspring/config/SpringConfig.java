@@ -1,18 +1,23 @@
 package hanium.highwayspring.config;
 
-import hanium.highwayspring.auth.AuthRepository;
-import hanium.highwayspring.board.BoardRepository;
+import hanium.highwayspring.board.heart.HeartRepository;
+import hanium.highwayspring.board.heart.HeartService;
+import hanium.highwayspring.user.auth.AuthRepository;
+import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.board.BoardService;
-import hanium.highwayspring.comment.repository.CommentRepository;
-import hanium.highwayspring.comment.CommentService;
+import hanium.highwayspring.board.comment.repository.CommentRepository;
+import hanium.highwayspring.board.comment.CommentService;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
 import hanium.highwayspring.school.SchoolRepository;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.UserRepository;
 import hanium.highwayspring.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SpringConfig {
@@ -22,15 +27,17 @@ public class SpringConfig {
     private final AuthRepository authRepository;
     private final SchoolRepository schoolRepository;
     private final BoardRepository boardRepository;
+    private final HeartRepository heartRepository;
     private final CommentRepository commentRepository;
 
-    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, CommentRepository commentRepository) {
+    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, HeartRepository heartRepository, CommentRepository commentRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authRepository = authRepository;
         this.schoolRepository = schoolRepository;
         this.boardRepository = boardRepository;
+        this.heartRepository = heartRepository;
         this.commentRepository = commentRepository;
     }
 
@@ -50,7 +57,13 @@ public class SpringConfig {
     }
 
     @Bean
+    public HeartService heartService(){
+        return new HeartService(heartRepository);
+    }
+
+    @Bean
     public CommentService commentService() {
         return new CommentService(commentRepository, boardRepository);
     }
+
 }

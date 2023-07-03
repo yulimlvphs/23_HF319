@@ -1,4 +1,4 @@
-package hanium.highwayspring.school.heart;
+package hanium.highwayspring.board.heart;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class HeartDTO {
+public class HeartDto {
     private Long id;
-    private Long schoolId;
+    private Long boardId;
     private String uid;
 }

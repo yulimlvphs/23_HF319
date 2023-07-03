@@ -3,10 +3,9 @@ package hanium.highwayspring.user;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.config.res.TokenResponse;
 import hanium.highwayspring.config.res.UserRequest;
-import hanium.highwayspring.auth.Auth;
-import hanium.highwayspring.auth.AuthRepository;
+import hanium.highwayspring.user.auth.Auth;
+import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
-import hanium.highwayspring.school.School;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +48,7 @@ public class UserService {
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getUid());
         Auth auth = Auth.builder()
                 .user(user)
+                .point(0L)
                 .refreshToken(refreshToken)
                 .build();
         authRepository.save(auth);
@@ -155,8 +155,10 @@ public class UserService {
         System.out.println("refreshToken = " + refreshToken);
         Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
         String userId = (String) claimsFormToken.get("userId");
-        Optional<User> user = userRepository.findByUid(userId);
+        User user = userRepository.findByUid(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         UserDTO userDTO = UserDTO.toEntity(user);
+        Auth auth = authRepository.findByUserId(user.getId()).orElseThrow();
+        userDTO.setPoint(auth.getPoint());
         return userDTO;
     }
 
@@ -171,12 +173,30 @@ public class UserService {
         return user;
     }
 
+    public User findByUid(String uid) {
+        return userRepository.findByUid(uid).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
+    }
+
     public Boolean idCheck(String id) {
         Optional<User> user = userRepository.findByUid(id);
-        if (user == null && id.length() > 0)
+        if (user.isEmpty() && id.length() > 0)
             return true;
         else
             return false;
     }
 
+    @Transactional
+    public UserDTO updatePoint(String userId, Long point) {
+        User user = userRepository.findByUid(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        Auth auth = authRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Token 이 존재하지 않습니다."));
+        if (auth.getPoint() != null)
+            auth.updatePoint(point + auth.getPoint());
+        else
+            auth.updatePoint(point);
+        UserDTO dto = UserDTO.toEntity(user);
+        dto.setPoint(auth.getPoint());
+        return dto;
+    }
 }

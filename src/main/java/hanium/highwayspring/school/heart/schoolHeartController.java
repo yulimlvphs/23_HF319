@@ -8,18 +8,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("school/heart")
 @RestController
 @Slf4j
-public class HeartController {
-    private final HeartService heartService;
+public class schoolHeartController {
+    private final schoolHeartService heartService;
     private final UserService userService;
     private final SchoolService schoolService;
 
-    public HeartController(HeartService heartService, UserService userService, SchoolService schoolService) {
+    public schoolHeartController(schoolHeartService heartService, UserService userService, SchoolService schoolService) {
         this.heartService = heartService;
         this.userService = userService;
         this.schoolService = schoolService;

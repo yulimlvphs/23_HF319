@@ -1,6 +1,5 @@
-package hanium.highwayspring.comment;
+package hanium.highwayspring.board.comment;
 
-import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +18,8 @@ public class CommentResponseDto {
     private String content;
     private String userId;
     private Long parentId;
+    private Boolean isDeleted;
+    @Builder.Default
     private List<CommentResponseDto> children = new ArrayList<>();
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;

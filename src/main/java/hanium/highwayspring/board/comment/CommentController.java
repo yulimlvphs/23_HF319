@@ -1,8 +1,7 @@
-package hanium.highwayspring.comment;
+package hanium.highwayspring.board.comment;
 
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.user.User;
-import hanium.highwayspring.user.UserDTO;
 import hanium.highwayspring.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +29,23 @@ public class CommentController {
         return commentService.createComment(requestDto);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseDTO<?> retrieveCommentList(@RequestParam(name = "boardId") Long boardId) {
         return commentService.getAllCommentsByBoard(boardId);
+    }
+
+    @PutMapping
+    public ResponseDTO<?> updateComment(CommentRequestDto requestDto){
+        return commentService.updateComment(requestDto);
+    }
+
+    @PutMapping("/delete")
+    public ResponseDTO<?> sDeleteComment(CommentRequestDto requestDto){
+        return commentService.deleteComment(requestDto.getId());
+    }
+
+    @DeleteMapping
+    public ResponseDTO<?> deleteComment(CommentRequestDto requestDto){
+        return commentService.deleteComment(requestDto.getId());
     }
 }
