@@ -55,5 +55,4 @@ public class School implements Serializable {
     public School(Long schoolId) {
         this.id = schoolId;
     }
-
 }

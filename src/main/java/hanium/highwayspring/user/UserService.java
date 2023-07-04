@@ -3,6 +3,8 @@ package hanium.highwayspring.user;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.config.res.TokenResponse;
 import hanium.highwayspring.config.res.UserRequest;
+import hanium.highwayspring.school.School;
+import hanium.highwayspring.school.SchoolRepository;
 import hanium.highwayspring.user.auth.Auth;
 import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
@@ -34,6 +36,7 @@ public class UserService {
 
     public TokenResponse register(@RequestBody User u) {
         log.info(u.getUid());
+        School school = new School();
         User user = User.builder()
                 .uid(u.getUid())
                 .pwd(passwordEncoder.encode(u.getPwd()))
@@ -42,6 +45,7 @@ public class UserService {
                 .gender(u.getGender())
                 .age(u.getAge())
                 .role(u.getRole())
+                .school(u.getSchool())
                 .build();
         userRepository.save(user);
 
