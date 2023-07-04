@@ -42,6 +42,7 @@ public class UserService {
                 .gender(u.getGender())
                 .age(u.getAge())
                 .role(u.getRole())
+                .school(u.getSchool())
                 .build();
         userRepository.save(user);
 

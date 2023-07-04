@@ -26,8 +26,13 @@ public class ReviewController {
     public ResponseDTO<?> save(@RequestBody ReviewDTO reviewdto, HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        Review review =  ReviewDTO.toEntity(reviewdto, user);
-        return reviewService.save(review);
+        if(user.getSchool().getId() != reviewdto.getSchoolId()){
+            return ResponseDTO.fail("false","false");
+        }
+        else {
+            Review review =  ReviewDTO.toEntity(reviewdto, user);
+            return reviewService.save(review);
+        }
     }
 
     //해당 학교애 대한 전체 리뷰 보여주기
