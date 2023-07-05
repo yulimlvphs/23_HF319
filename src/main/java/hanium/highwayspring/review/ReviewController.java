@@ -26,12 +26,13 @@ public class ReviewController {
     public ResponseDTO<?> save(@RequestBody ReviewDTO reviewdto, HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        //넘어온 SchoolId 값과 User 정보에 있는 School의 id 값이 같지 않으면 리뷰를 작성할 수 없음.
         if(user.getSchool().getId() != reviewdto.getSchoolId()){
-            throw new IllegalArgumentException("해당 유저는 해당 학교에 리뷰를 작성할 수 없습니다. ");
+            return ResponseDTO.fail("false","false");
         }
-        Review review =  ReviewDTO.toEntity(reviewdto, user);
-        return reviewService.save(review);
+        else {
+            Review review =  ReviewDTO.toEntity(reviewdto, user);
+            return reviewService.save(review);
+        }
     }
 
     //해당 학교애 대한 전체 리뷰 보여주기
