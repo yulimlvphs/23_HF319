@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtTokenInterceptor)
                 .excludePathPatterns("/user/*")
                 .excludePathPatterns("/school/*")
-                .excludePathPatterns("/**/list")
-                .excludePathPatterns("/**/detail");
+                .excludePathPatterns("/**/list/*")
+                .excludePathPatterns("/**/detail/*");
     }
 }
