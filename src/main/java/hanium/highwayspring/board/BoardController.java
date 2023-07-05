@@ -29,9 +29,7 @@ public class BoardController {
     public ResponseDTO<?> createBoard(BoardDTO dto, HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        School school = schoolService.findBySchoolId(1L)
-                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        Board entity = BoardDTO.toEntity(dto, school, user);
+        Board entity = BoardDTO.toEntity(dto, user);
         return ResponseDTO.success(boardService.create(entity));
     }
 

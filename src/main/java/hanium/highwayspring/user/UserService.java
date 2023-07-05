@@ -171,7 +171,7 @@ public class UserService {
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
         System.out.println("accessToken = " + accessToken);
         System.out.println("refreshToken = " + refreshToken);
-        if (accessToken == null || refreshToken == null) {
+        if (accessToken == null) {
             User user = User.builder()
                     .id(0L)
                     .uid("guest")

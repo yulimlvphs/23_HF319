@@ -36,20 +36,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) {
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
-        /*ResponseBoardDTO responseBoardDTO = jpaQueryFactory
-                .select(Projections.constructor(ResponseBoardDTO.class, qBoard, qHeart))
-                .from(qBoard)
-                .leftJoin(qHeart)
-                .on(qBoard.id.eq(qHeart.board.id))
-                .on(qHeart.user.id.eq(userNo))
-                .where(qBoard.id.eq(boardId))
-                .fetchOne();*/
         ResponseBoardDTO responseBoardDTO = jpaQueryFactory
                 .select(new QResponseBoardDTO(qBoard, qHeart))
                 .from(qBoard)
                 .leftJoin(qHeart)
                 .on(qBoard.id.eq(qHeart.board.id))
                 .on(qHeart.user.id.eq(userNo))
+                .fetchJoin()
                 .where(qBoard.id.eq(boardId))
                 .fetchOne();
         return Optional.ofNullable(responseBoardDTO);
