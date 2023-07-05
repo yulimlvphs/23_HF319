@@ -23,7 +23,7 @@ public class UserDTO{
     private String userGender;
     private Long userAge;
     private Long userRole;
-    private School school;
+    private School schoolId;
     private Long point;
 
 
@@ -35,7 +35,7 @@ public class UserDTO{
         this.userGender = entity.getGender();
         this.userAge = entity.getAge();
         this.userRole = entity.getRole();
-        this.school = entity.getSchool();
+        this.schoolId = entity.getSchoolId();
     }
 
     public static UserDTO toEntity(final User entity) {
@@ -47,7 +47,7 @@ public class UserDTO{
                 .userGender(entity.getGender())
                 .userAge(entity.getAge())
                 .userRole(entity.getRole())
-                .school(entity.getSchool())
+                .schoolId(entity.getSchoolId())
                 .build();
     }
 }

@@ -26,7 +26,7 @@ public class ReviewController {
     public ResponseDTO<?> save(@RequestBody ReviewDTO reviewdto, HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
-        if(user.getSchool().getId() != reviewdto.getSchoolId()){
+        if(user.getSchoolId().getId() != reviewdto.getSchoolId()){
             return ResponseDTO.fail("false","false");
         }
         else {

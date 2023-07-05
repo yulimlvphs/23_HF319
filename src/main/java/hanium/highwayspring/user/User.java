@@ -31,5 +31,5 @@ public class User {
     private Long role;
     @ManyToOne
     @JoinColumn(name = "school_id")
-    private School school;
+    private School schoolId;
 }
