@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 @Entity(name = "SCHOOL_TB")
 @Data
@@ -54,5 +55,4 @@ public class School implements Serializable {
     public School(Long schoolId) {
         this.id = schoolId;
     }
-
 }

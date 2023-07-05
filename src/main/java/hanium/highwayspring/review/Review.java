@@ -22,6 +22,7 @@ public class Review{
     private Long id; //리뷰 id
     @ManyToOne
     @JoinColumn(name = "userid")
+    @JsonIgnore
     private User userId;//리뷰 작성자의 인덱스 값
     private String userName; //리뷰 작성자의 name
     private Long role; //0이면 학생 or 1이면 교사

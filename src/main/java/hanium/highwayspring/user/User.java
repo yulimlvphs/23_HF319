@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "USER_TB")
 @Data
@@ -17,8 +21,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String uid;
+    @NotNull
     private String pwd;
+    private String uid;
     private String name;
     private String email;
     private String gender;
@@ -26,5 +31,5 @@ public class User {
     private Long role;
     @ManyToOne
     @JoinColumn(name = "school_id")
-    private School school;
+    private School schoolId;
 }

@@ -12,9 +12,12 @@ import hanium.highwayspring.school.SchoolRepository;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.UserRepository;
 import hanium.highwayspring.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SpringConfig {
@@ -62,4 +65,5 @@ public class SpringConfig {
     public CommentService commentService() {
         return new CommentService(commentRepository, boardRepository);
     }
+
 }

@@ -1,18 +1,16 @@
-package hanium.highwayspring.board.heart;
+package hanium.highwayspring.school.heart;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hanium.highwayspring.board.Board;
+import hanium.highwayspring.school.School;
 import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-@Entity(name = "boardHeart_TB")
-@EntityListeners(AuditingEntityListener.class)
+@Entity(name = "schoolHeart_TB")
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,12 +19,14 @@ public class Heart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name="userId")
     @JsonIgnore
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "boardId")
+
+    @ManyToOne(cascade = {CascadeType.DETACH})
+    @JoinColumn(name = "schoolId")
     @JsonIgnore
-    private Board board;
+    private School school;
 }
