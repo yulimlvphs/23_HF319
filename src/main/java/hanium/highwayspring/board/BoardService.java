@@ -40,6 +40,10 @@ public class BoardService {
         List<Board> boards = boardRepository.findBoardList(schId, cateNo);
         return boards;
     }
+    public List<Board> getBoardHeartList(final User user) {
+        List<Board> boards = boardRepository.findBoardHeartList(user.getId());
+        return boards;
+    }
 
     // update
     @Transactional
