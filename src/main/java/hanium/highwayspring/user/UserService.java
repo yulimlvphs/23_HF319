@@ -11,7 +11,6 @@ import hanium.highwayspring.config.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,12 +25,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
+    private final SchoolRepository schoolRepository;
 
-    public UserService(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder1, AuthRepository authRepository) {
+    public UserService(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder1, AuthRepository authRepository, SchoolRepository schoolRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder1;
         this.authRepository = authRepository;
+        this.schoolRepository = schoolRepository;
     }
 
     public TokenResponse register(@RequestBody User u) {
@@ -134,22 +135,8 @@ public class UserService {
                 .build();
     }
 
-    public ResponseEntity findByToken(HttpServletRequest request) {
-        /*String accessToken = jwtTokenProvider.resolveAccessToken(request);
-        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
-        System.out.println("accessToken = " + accessToken);
-        System.out.println("refreshToken = " + refreshToken);*/
-        try {
-            /*Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
-            String userId = (String) claimsFormToken.get("userId");
-            Optional<User> user = userRepository.findByUid(userId);
-            UserDTO userDTO = UserDTO.toEntity(user);*/
-            return ResponseEntity.ok().body(getUserInfo(request));
-        } catch (Exception e) {
-            String error = e.getMessage();
-            ResponseDTO<UserDTO> response = ResponseDTO.fail("Error", error);
-            return ResponseEntity.badRequest().body(response);
-        }
+    public ResponseDTO<?> findByToken(HttpServletRequest request) {
+        return ResponseDTO.success(getUserInfo(request));
     }
 
     public UserDTO getUserInfo(HttpServletRequest request) {
@@ -163,6 +150,8 @@ public class UserService {
         UserDTO userDTO = UserDTO.toEntity(user);
         Auth auth = authRepository.findByUserId(user.getId()).orElseThrow();
         userDTO.setPoint(auth.getPoint());
+        School school = schoolRepository.findById(user.getSchoolId().getId()).orElseThrow();
+        userDTO.setSchoolName(school.getSCHUL_NM());
         return userDTO;
     }
 

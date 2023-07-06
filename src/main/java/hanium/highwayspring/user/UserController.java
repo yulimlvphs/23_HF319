@@ -37,8 +37,8 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity findUserAPI(HttpServletRequest request) {
-        return ResponseEntity.ok().body(userService.findByToken(request));
+    public ResponseDTO<?> findUserAPI(HttpServletRequest request) {
+        return userService.findByToken(request);
     }
 
     @GetMapping("/idCheck")
