@@ -47,4 +47,18 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetchOne();
         return Optional.ofNullable(responseBoardDTO);
     }
+
+    @Override
+    public List<Board> findBoardHeartList(Long uId) {
+        QBoard qBoard = QBoard.board;
+        QHeart qHeart = QHeart.heart;
+        List<Board> list = jpaQueryFactory
+                .select(qBoard)
+                .from(qBoard)
+                .innerJoin(qHeart)
+                .on(qHeart.board.eq(qBoard))
+                .where(qBoard.user.id.eq(uId))
+                .fetch();
+        return list;
+    }
 }

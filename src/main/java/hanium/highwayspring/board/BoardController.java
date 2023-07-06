@@ -47,6 +47,13 @@ public class BoardController {
         return ResponseDTO.success(boardService.getBoardList(school.getId(), cateNo));
     }
 
+    @GetMapping("/list/heart")
+    public ResponseDTO<?> boardHeartList(HttpServletRequest request) {
+        User user = userService.getUser(request)
+                .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
+        return ResponseDTO.success(boardService.getBoardHeartList(user));
+    }
+
     @PutMapping
     public ResponseDTO<?> updateBoard(BoardDTO dto) {
         return ResponseDTO.success((boardService.update(dto)));
