@@ -18,16 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
     private final BoardRepository boardRepository;
     // insert
-    public ResponseEntity create(final Board entity) {
+    public ResponseDTO<?> create(final Board entity) {
         try {
             validate(entity);
-            log.info("Entity Id : {}  is saved.", entity.getId());
+            log.info("user", entity.getUser().getId());
             boardRepository.save(entity);
-            return ResponseEntity.ok().body(boardRepository.findById(entity.getId()));
+            return ResponseDTO.success(boardRepository.findById(entity.getId()));
         } catch (Exception e) {
             String error = e.getMessage();
-            ResponseDTO<BoardDTO> response = ResponseDTO.fail("Error", error);
-            return ResponseEntity.badRequest().body(response);
+            return ResponseDTO.fail("Error", error);
         }
     }
 

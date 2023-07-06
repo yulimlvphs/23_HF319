@@ -1,9 +1,11 @@
 package hanium.highwayspring.board.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.Board;
 import hanium.highwayspring.board.QBoard;
+import hanium.highwayspring.board.QResponseBoardDTO;
 import hanium.highwayspring.board.ResponseBoardDTO;
 import hanium.highwayspring.board.heart.QHeart;
 import org.springframework.stereotype.Repository;
@@ -35,11 +37,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
         ResponseBoardDTO responseBoardDTO = jpaQueryFactory
-                .select(Projections.constructor(ResponseBoardDTO.class, qBoard, qHeart))
+                .select(new QResponseBoardDTO(qBoard, qHeart))
                 .from(qBoard)
                 .leftJoin(qHeart)
                 .on(qBoard.id.eq(qHeart.board.id))
                 .on(qHeart.user.id.eq(userNo))
+                .fetchJoin()
                 .where(qBoard.id.eq(boardId))
                 .fetchOne();
         return Optional.ofNullable(responseBoardDTO);

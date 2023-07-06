@@ -171,10 +171,17 @@ public class UserService {
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
         System.out.println("accessToken = " + accessToken);
         System.out.println("refreshToken = " + refreshToken);
-        Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
-        String userId = (String) claimsFormToken.get("userId");
-        Optional<User> user = userRepository.findByUid(userId);
-        return user;
+        if (accessToken == null) {
+            User user = User.builder()
+                    .id(0L)
+                    .uid("guest")
+                    .build();
+            return Optional.ofNullable(user);
+        } else {
+            Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
+            String userId = (String) claimsFormToken.get("userId");
+            return userRepository.findByUid(userId);
+        }
     }
 
     public User findByUid(String uid) {
