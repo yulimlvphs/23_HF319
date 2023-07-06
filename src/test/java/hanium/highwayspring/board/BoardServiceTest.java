@@ -44,7 +44,7 @@ class BoardServiceTest {
     @Test
     void 글삭제() {
         String uid = "admin";
-        /*List<Board> boards = boardService.retrieve(uid);
+        /*List<board> boards = boardService.retrieve(uid);
         boardService.delete(boards.get(0));*/
         boardService.delete(40L);
     }

@@ -26,6 +26,7 @@ public class ReviewController {
     public ResponseDTO<?> save(@RequestBody ReviewDTO reviewdto, HttpServletRequest request) {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
+        // 유저 데이터에 있는 schoolId값과 넘어온 schoolId의 값이 같지 않으면 리뷰를 작성할 수 없음.
         if(user.getSchoolId().getId() != reviewdto.getSchoolId()){
             return ResponseDTO.fail("false","false");
         }
