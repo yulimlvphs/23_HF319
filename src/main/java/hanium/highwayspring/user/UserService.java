@@ -151,7 +151,7 @@ public class UserService {
         Auth auth = authRepository.findByUserId(user.getId()).orElseThrow();
         userDTO.setPoint(auth.getPoint());
         School school = schoolRepository.findById(user.getSchoolId().getId()).orElseThrow();
-        userDTO.setSchoolName(school.getSCHUL_NM());
+        userDTO.setSchoolName(school.getSchoolName());
         return userDTO;
     }
 
