@@ -5,6 +5,8 @@ import hanium.highwayspring.config.res.TokenResponse;
 import hanium.highwayspring.config.res.UserRequest;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolRepository;
+import hanium.highwayspring.tag.TagDTO;
+import hanium.highwayspring.tag.TagRepository;
 import hanium.highwayspring.user.auth.Auth;
 import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -26,13 +29,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
     private final SchoolRepository schoolRepository;
+    private final TagRepository tagRepository;
 
-    public UserService(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder1, AuthRepository authRepository, SchoolRepository schoolRepository) {
+    public UserService(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder1, AuthRepository authRepository, SchoolRepository schoolRepository, TagRepository tagRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder1;
         this.authRepository = authRepository;
         this.schoolRepository = schoolRepository;
+        this.tagRepository = tagRepository;
     }
 
     public TokenResponse register(@RequestBody User u) {
@@ -146,12 +151,23 @@ public class UserService {
         System.out.println("refreshToken = " + refreshToken);
         Claims claimsFormToken = jwtTokenProvider.getClaimsFormToken(accessToken);
         String userId = (String) claimsFormToken.get("userId");
+
+        //User 정보 조회 / 저장
         User user = userRepository.findByUid(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-        UserDTO userDTO = UserDTO.toEntity(user);
+        UserDTO userDTO = UserDTO.toEntity(user); //조회한 user 정보 저장/반환
+
         Auth auth = authRepository.findByUserId(user.getId()).orElseThrow();
-        userDTO.setPoint(auth.getPoint());
+        userDTO.setPoint(auth.getPoint()); //user point 저장/반환
+
+        //학교 관련 조회 / 저장
         School school = schoolRepository.findById(user.getSchoolId().getId()).orElseThrow();
-        userDTO.setSchoolName(school.getSchoolName());
+        userDTO.setSchoolName(school.getSchoolName()); //학교 이름 저장/반환
+        userDTO.setSchoolId(school.getId()); //학교 id 저장/반환
+
+        //사용자가 지정한 학교에 대한 태그를 반환
+        List<TagDTO> tags = tagRepository.findNameAndCodeById(school.getId());
+        userDTO.setTag(tags);
+
         return userDTO;
     }
 

@@ -46,7 +46,7 @@ public class SpringConfig {
 
     @Bean
     public UserService userService() {
-        return new UserService(jwtTokenProvider, userRepository, passwordEncoder, authRepository, schoolRepository);
+        return new UserService(jwtTokenProvider, userRepository, passwordEncoder, authRepository, schoolRepository, tagRepository);
     }
 
     @Bean
