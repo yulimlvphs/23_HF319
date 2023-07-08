@@ -19,12 +19,5 @@ public class Dept {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "school_id")
-    private School school;
-
-    @OneToOne
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    private Long schoolId;
 }

@@ -2,6 +2,8 @@ package hanium.highwayspring.config;
 
 import hanium.highwayspring.board.heart.HeartRepository;
 import hanium.highwayspring.board.heart.HeartService;
+import hanium.highwayspring.dept.DeptRepository;
+import hanium.highwayspring.tag.TagRepository;
 import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.board.BoardService;
@@ -26,8 +28,10 @@ public class SpringConfig {
     private final BoardRepository boardRepository;
     private final HeartRepository heartRepository;
     private final CommentRepository commentRepository;
+    private final TagRepository tagRepository;
+    private final DeptRepository deptRepository;
 
-    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, HeartRepository heartRepository, CommentRepository commentRepository) {
+    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, HeartRepository heartRepository, CommentRepository commentRepository, TagRepository tagRepository, DeptRepository deptRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -36,6 +40,8 @@ public class SpringConfig {
         this.boardRepository = boardRepository;
         this.heartRepository = heartRepository;
         this.commentRepository = commentRepository;
+        this.tagRepository = tagRepository;
+        this.deptRepository = deptRepository;
     }
 
     @Bean
@@ -45,7 +51,7 @@ public class SpringConfig {
 
     @Bean
     public SchoolService schoolService(){
-        return new SchoolService(schoolRepository);
+        return new SchoolService(schoolRepository ,tagRepository, deptRepository);
     }
 
     @Bean

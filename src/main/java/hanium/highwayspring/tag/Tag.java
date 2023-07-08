@@ -1,24 +1,23 @@
 package hanium.highwayspring.tag;
 
+import hanium.highwayspring.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.*;
+@Entity(name = "TAG_TB")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "TAG_TB")
+// 태크 entity (ex) it, 농업..
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long schoolId;
     private String name;
     private Long code;
 }

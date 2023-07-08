@@ -1,10 +1,13 @@
 package hanium.highwayspring.school;
+import hanium.highwayspring.dept.Dept;
+import hanium.highwayspring.tag.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "SCHOOL_TB")
 @Data
