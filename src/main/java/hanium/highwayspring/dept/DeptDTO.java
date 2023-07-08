@@ -9,7 +9,7 @@ import lombok.*;
 public class DeptDTO {
     private String deptName;
 
-    public DeptDTO(String dept) {
+    public DeptDTO(String deptName) {
         this.deptName = deptName;
     }
 }
