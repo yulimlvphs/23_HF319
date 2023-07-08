@@ -8,8 +8,10 @@ import lombok.*;
 @Setter
 public class DeptDTO {
     private String deptName;
+    private String description;
 
-    public DeptDTO(String deptName) {
+    public DeptDTO(String deptName, String description) {
         this.deptName = deptName;
+        this.description = description;
     }
 }

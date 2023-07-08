@@ -20,4 +20,5 @@ public class Dept {
     private Long id;
     private String name;
     private Long schoolId;
+    private String description;
 }
