@@ -1,16 +1,14 @@
 package hanium.highwayspring.school.heart;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Getter
+@Setter
 public class schoolHeartDTO {
-    private Long id;
+    private Long heartId;
     private Long schoolId;
-    private String uid;
 }

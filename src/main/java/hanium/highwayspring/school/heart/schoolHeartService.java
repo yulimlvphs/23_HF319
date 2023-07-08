@@ -1,13 +1,10 @@
 package hanium.highwayspring.school.heart;
-
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +15,8 @@ public class schoolHeartService {
         heartRepository.save(heart);
 
         schoolHeartDTO dto = schoolHeartDTO.builder()
-                .id(heart.getId())
+                .heartId(heart.getId())
                 .schoolId(heart.getSchool().getId())
-                .uid(heart.getUser().getUid())
                 .build();
         return ResponseDTO.success(dto);
     }
@@ -30,14 +26,17 @@ public class schoolHeartService {
         return ResponseDTO.success("success");
     }
 
-    public  ResponseDTO<List<Long>> findAll(Long userId){
-        List<Heart> hearts = heartRepository.findByUserId(userId);
-        Set<Long> schoolIds = new HashSet<>();
+    public  ResponseDTO<?> findAll(Long userId){
+        List<Heart> hearts = heartRepository.findAllByUserId(userId);
+        List<schoolHeartDTO> heartDTOs = new ArrayList<>();
+
         for (Heart heart : hearts) {
-            schoolIds.add(heart.getSchool().getId());
+            schoolHeartDTO dto = new schoolHeartDTO();
+            dto.setHeartId(heart.getId());
+            dto.setSchoolId(heart.getSchool().getId());
+            heartDTOs.add(dto);
         }
-        List<Long> schoolIdList = new ArrayList<>(schoolIds);
-        return ResponseDTO.success(schoolIdList);
+        return ResponseDTO.success(heartDTOs);
     }
 
     public boolean existsByUserIdAndSchoolId(Long userId, Long schoolId) {
