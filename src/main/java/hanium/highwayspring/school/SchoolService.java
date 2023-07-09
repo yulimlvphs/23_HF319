@@ -26,11 +26,6 @@ public class SchoolService {
     private final TagRepository tagRepository;
     private final DeptRepository deptRepository;
 
-
-    public ResponseDTO<?> findAll() {
-        return ResponseDTO.success(schoolRepository.findAll());
-    }
-
     public Optional<School> findBySchoolId(Long id){
         Optional<School> sch = schoolRepository.findById(id);
         return sch;

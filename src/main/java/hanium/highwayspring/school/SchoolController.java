@@ -2,8 +2,6 @@ package hanium.highwayspring.school;
 
 import hanium.highwayspring.config.res.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,14 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SchoolController {
     private final SchoolService schoolService;
+    private final SchoolRepositoryImpl impl;
 
-    public SchoolController(SchoolService schoolService) {
+    public SchoolController(SchoolService schoolService, SchoolRepositoryImpl impl) {
         this.schoolService = schoolService;
+        this.impl = impl;
     }
 
     @GetMapping("/list")
     public ResponseDTO<?> findSchoolList() {
-        return schoolService.findAll();
+        return ResponseDTO.success(impl.findSchoolInfoWithTags());
     }
 
     @GetMapping("/info")

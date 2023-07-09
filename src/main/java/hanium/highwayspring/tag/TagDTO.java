@@ -1,13 +1,13 @@
 package hanium.highwayspring.tag;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 @Builder
 @NoArgsConstructor
 @Data
+@Setter
+@Getter
 public class TagDTO {
     private String tagName;
     private Long tagCode;
