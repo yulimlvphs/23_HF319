@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SchoolController {
     private final SchoolService schoolService;
-    private final SchoolRepositoryImpl impl;
 
-    public SchoolController(SchoolService schoolService, SchoolRepositoryImpl impl) {
+    public SchoolController(SchoolService schoolService) {
         this.schoolService = schoolService;
-        this.impl = impl;
     }
 
     @GetMapping("/list")
     public ResponseDTO<?> findSchoolList() {
-        return ResponseDTO.success(impl.findSchoolInfoWithTags());
+        return ResponseDTO.success(schoolService.findSchoolInfoWithTags());
     }
 
     @GetMapping("/info")

@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Setter
-public class SchoolInfoDTO {
+public class SchoolInfoDTO { //findSchoolInfoWithTags()에서 활용할 DTO
     private Long id;
     private String schoolName;
     private String websiteAddress;
