@@ -37,7 +37,7 @@ public class ReviewController {
     }
 
     //해당 학교애 대한 전체 리뷰 보여주기
-    @GetMapping()
+    @GetMapping("/list")
     public ResponseDTO<?> getReviewsBySchoolId(@RequestParam(name = "schoolId") Long schoolId) {
         School school = schoolService.findBySchoolId(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
