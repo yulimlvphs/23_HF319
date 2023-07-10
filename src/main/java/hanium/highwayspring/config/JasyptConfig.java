@@ -5,7 +5,6 @@ import org.jasypt.encryption.pbe.config.SimplePBEConfig;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.jasypt.salt.RandomSaltGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -31,7 +30,6 @@ public class JasyptConfig {
         config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
         config.setStringOutputType("base64");	//  암호화 이후 어떤 형태로 값 받을지
         ((SimplePBEConfig) config).setSaltGenerator(new RandomSaltGenerator());
-
         encryptor.setConfig(config);
         return encryptor;
     }
