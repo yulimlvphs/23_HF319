@@ -1,6 +1,7 @@
 package hanium.highwayspring.school;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.ResponseBoardDTO;
@@ -12,6 +13,7 @@ import hanium.highwayspring.tag.QTag;
 import hanium.highwayspring.tag.Tag;
 import hanium.highwayspring.tag.TagDTO;
 import hanium.highwayspring.tag.TagRepository;
+import hanium.highwayspring.user.QUser;
 import hanium.highwayspring.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +34,7 @@ public class SchoolService {
     @Autowired
     private EntityManager entityManager;
 
-    public Optional<School> findBySchoolId(Long id){
+    public Optional<School> findBySchoolId(Long id) {
         Optional<School> sch = schoolRepository.findById(id);
         return sch;
     }
@@ -51,37 +53,40 @@ public class SchoolService {
     }
 
     //school 테이블에서 원하는 속성과 tag 테이블에서 원하는 속성을 골라 하나의 객체로 반환하는 메소드입니다.
-    public List<SchoolInfoDTO> findSchoolInfoWithTags() {
+    public List<SchoolInfoDTO> findSchoolInfoWithTagsAndUserCount() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
         QSchool school = QSchool.school;
         QTag tag = QTag.tag;
+        QUser user = QUser.user;
 
-        JPQLQuery<Tuple> query = queryFactory
-                .select(school.id, school.schoolName, school.websiteAddress, tag.name)
+        List<SchoolInfoDTO> schoolInfoList = queryFactory
+                .select(Projections.constructor(SchoolInfoDTO.class,
+                        school.id, school.schoolName))
                 .from(school)
-                .leftJoin(tag).on(school.id.eq(tag.schoolId));
+                .leftJoin(tag).on(school.id.eq(tag.schoolId))
+                .leftJoin(user).on(school.id.eq(user.schoolId.id))
+                .groupBy(school.id, school.schoolName)
+                .fetch();
 
-        List<Tuple> rows = query.fetch();
+        for (SchoolInfoDTO schoolInfo : schoolInfoList) {
+            List<String> tags = queryFactory
+                    .select(tag.name)
+                    .from(tag)
+                    .where(tag.schoolId.eq(schoolInfo.getId()))
+                    .fetch();
 
-        Map<Long, SchoolInfoDTO> schoolMap = new HashMap<>();
-        for (Tuple row : rows) {
-            Long schoolId = row.get(school.id);
-            String schoolName = row.get(school.schoolName);
-            String websiteAddress = row.get(school.websiteAddress);
-            String tagName = row.get(tag.name);
+            schoolInfo.setTag(tags);
 
-            SchoolInfoDTO schoolDTO = schoolMap.get(schoolId);
-            if (schoolDTO == null) {
-                schoolDTO = new SchoolInfoDTO(schoolId, schoolName, websiteAddress);
-                schoolMap.put(schoolId, schoolDTO);
-            }
+            Long userCount = queryFactory
+                    .select(user.id.count())
+                    .from(user)
+                    .where(user.schoolId.id.eq(schoolInfo.getId()))
+                    .fetchOne();
 
-            if (tagName != null) {
-                schoolDTO.getTag().add(tagName);
-            }
+            schoolInfo.setUserCount(userCount != null ? userCount.intValue() : 0);
         }
 
-        return new ArrayList<>(schoolMap.values());
+        return schoolInfoList;
     }
 }
