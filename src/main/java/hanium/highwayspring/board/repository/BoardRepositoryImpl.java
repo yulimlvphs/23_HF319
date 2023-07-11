@@ -37,7 +37,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
         ResponseBoardDTO responseBoardDTO = jpaQueryFactory
-                .select(new QResponseBoardDTO(qBoard, qHeart))
+                .select(new QResponseBoardDTO(qBoard, qHeart, qBoard.user.id))
                 .from(qBoard)
                 .leftJoin(qHeart)
                 .on(qBoard.id.eq(qHeart.board.id))

@@ -15,9 +15,11 @@ import lombok.NoArgsConstructor;
 public class ResponseBoardDTO {
 	private Board board;
 	private Heart heart;
+	private Long userNo;
 	@QueryProjection
-	public ResponseBoardDTO(Board board, Heart heart) {
+	public ResponseBoardDTO(Board board, Heart heart, Long userNo) {
 		this.board = board;
 		this.heart = heart;
+		this.userNo = userNo;
 	}
 }
