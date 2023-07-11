@@ -10,17 +10,21 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Setter
+@Getter
 public class SchoolInfoDTO { //findSchoolInfoWithTags()에서 활용할 DTO
     private Long id;
     private String schoolName;
-    private String websiteAddress;
+    private int studentCount;
     private List<String> tag;
 
-    public SchoolInfoDTO(Long id, String schoolName, String websiteAddress) {
+    public SchoolInfoDTO(Long id, String schoolName) {
         this.id = id;
         this.schoolName = schoolName;
-        this.websiteAddress = websiteAddress;
         this.tag = new ArrayList<>();
+    }
+
+    public void setUserCount(int studentCount) {
+        this.studentCount = studentCount;
     }
 }
 
