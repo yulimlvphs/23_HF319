@@ -16,10 +16,12 @@ public class ResponseBoardDTO {
 	private Board board;
 	private Heart heart;
 	private Long userNo;
+	private String userName;
 	@QueryProjection
-	public ResponseBoardDTO(Board board, Heart heart, Long userNo) {
+	public ResponseBoardDTO(Board board, Heart heart, User user) {
 		this.board = board;
 		this.heart = heart;
-		this.userNo = userNo;
+		this.userNo = user.getId();
+		this.userName = user.getName();
 	}
 }
