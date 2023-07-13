@@ -23,14 +23,14 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseDTO<?> createComment(CommentRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDTO<?> createComment(@RequestBody CommentRequestDto requestDto, HttpServletRequest request) {
         Optional<User> user = userService.getUser(request);
         requestDto.setUserId(user.get());
         return commentService.createComment(requestDto);
     }
 
-    @GetMapping("/list")
-    public ResponseDTO<?> retrieveCommentList(@RequestParam(name = "boardId") Long boardId) {
+    @GetMapping("/list/{id}")
+    public ResponseDTO<?> retrieveCommentList(@PathVariable(name = "id") Long boardId) {
         return commentService.getAllCommentsByBoard(boardId);
     }
 
