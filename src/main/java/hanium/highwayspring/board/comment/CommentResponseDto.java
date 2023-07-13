@@ -29,6 +29,6 @@ public class CommentResponseDto {
         this.userId = c.getUser().getUid();
         this.createDate = c.getCreateDate();
         this.modifiedDate = c.getModifiedDate();
-        this.isDeleted = false;
+        this.isDeleted = c.getIsDeleted();
     }
 }
