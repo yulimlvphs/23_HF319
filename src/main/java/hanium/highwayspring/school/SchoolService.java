@@ -1,26 +1,16 @@
 package hanium.highwayspring.school;
-
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import hanium.highwayspring.board.ResponseBoardDTO;
-import hanium.highwayspring.config.res.ResponseDTO;
-import hanium.highwayspring.dept.Dept;
 import hanium.highwayspring.dept.DeptDTO;
 import hanium.highwayspring.dept.DeptRepository;
 import hanium.highwayspring.tag.QTag;
-import hanium.highwayspring.tag.Tag;
 import hanium.highwayspring.tag.TagDTO;
 import hanium.highwayspring.tag.TagRepository;
 import hanium.highwayspring.user.QUser;
-import hanium.highwayspring.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import java.util.*;
 
@@ -52,7 +42,8 @@ public class SchoolService {
         return Optional.of(responseSchoolDTO);
     }
 
-    //school 테이블에서 원하는 속성과 tag 테이블에서 원하는 속성을 골라 하나의 객체로 반환하는 메소드입니다.
+    //school 리스트를 반환하는 메소드
+    //school_tb : id와 schoolName, tag_tb : name(태그명), user_tb : schoolId를 counting. 총 3개의 테이블을 조인하여 반환
     public List<SchoolInfoDTO> findSchoolInfoWithTagsAndUserCount() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
