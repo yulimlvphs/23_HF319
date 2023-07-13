@@ -126,6 +126,13 @@ public class CommentService {
         return ResponseDTO.success("");
     }
 
+    @Transactional
+    public ResponseDTO<?> sDeleteComment(Long commentId){
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
+        comment.changeIsDeleted(true);
+        return ResponseDTO.success("");
+    }
+
     private Comment getDeletableAncestorComment(Comment comment) {
         Comment parent = comment.getParent();
         if(parent != null && parent.getIsDeleted() && parent.getChildren().size() == 1)

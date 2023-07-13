@@ -35,13 +35,13 @@ public class CommentController {
     }
 
     @PutMapping
-    public ResponseDTO<?> updateComment(CommentRequestDto requestDto){
+    public ResponseDTO<?> updateComment(@RequestBody CommentRequestDto requestDto){
         return commentService.updateComment(requestDto);
     }
 
     @PutMapping("/delete")
-    public ResponseDTO<?> sDeleteComment(CommentRequestDto requestDto){
-        return commentService.deleteComment(requestDto.getId());
+    public ResponseDTO<?> sDeleteComment(@RequestBody CommentRequestDto requestDto){
+        return commentService.sDeleteComment(requestDto.getId());
     }
 
     @DeleteMapping
