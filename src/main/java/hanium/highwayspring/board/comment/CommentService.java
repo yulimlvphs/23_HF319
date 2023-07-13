@@ -116,6 +116,13 @@ public class CommentService {
     }
 
     @Transactional
+    public ResponseDTO<?> sDeleteComment(Long commentId){
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
+        comment.changeIsDeleted(true);
+        return ResponseDTO.success("");
+    }
+
+    @Transactional
     public ResponseDTO<?> deleteComment(Long commentId){
         Comment comment = commentRepository.findCommentByIdWithParent(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
         if(comment.getChildren().size() != 0){
@@ -123,13 +130,6 @@ public class CommentService {
         }else{
             commentRepository.delete(getDeletableAncestorComment(comment));
         }
-        return ResponseDTO.success("");
-    }
-
-    @Transactional
-    public ResponseDTO<?> sDeleteComment(Long commentId){
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
-        comment.changeIsDeleted(true);
         return ResponseDTO.success("");
     }
 
