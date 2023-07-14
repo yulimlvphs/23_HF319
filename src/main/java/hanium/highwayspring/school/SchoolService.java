@@ -1,6 +1,7 @@
 package hanium.highwayspring.school;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.dept.DeptDTO;
 import hanium.highwayspring.dept.DeptRepository;
 import hanium.highwayspring.tag.QTag;
@@ -44,7 +45,7 @@ public class SchoolService {
 
     //school 리스트를 반환하는 메소드
     //school_tb : id와 schoolName, tag_tb : name(태그명), user_tb : schoolId를 counting. 총 3개의 테이블을 조인하여 반환
-    public List<SchoolInfoDTO> findSchoolInfoWithTagsAndUserCount() {
+    public ResponseDTO<?> findSchoolInfoWithTagsAndUserCount() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
         QSchool school = QSchool.school;
@@ -64,7 +65,7 @@ public class SchoolService {
             List<String> tags = queryFactory
                     .select(tag.name)
                     .from(tag)
-                    .where(tag.schoolId.eq(schoolInfo.getId()))
+                    .where(tag.schoolId.eq(schoolInfo.getSchoolId()))
                     .fetch();
 
             schoolInfo.setTag(tags);
@@ -72,12 +73,12 @@ public class SchoolService {
             Long userCount = queryFactory
                     .select(user.id.count())
                     .from(user)
-                    .where(user.schoolId.id.eq(schoolInfo.getId()))
+                    .where(user.schoolId.id.eq(schoolInfo.getSchoolId()))
                     .fetchOne();
 
             schoolInfo.setUserCount(userCount != null ? userCount.intValue() : 0);
         }
 
-        return schoolInfoList;
+        return ResponseDTO.success(schoolInfoList);
     }
 }
