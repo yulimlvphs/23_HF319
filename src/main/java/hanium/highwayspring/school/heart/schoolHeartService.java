@@ -3,17 +3,15 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.school.QSchool;
-import hanium.highwayspring.school.heart.QHeart;
 import hanium.highwayspring.tag.QTag;
 import hanium.highwayspring.user.QUser;
-import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-
+import hanium.highwayspring.school.heart.QHeart;
 @Service
 @RequiredArgsConstructor
 public class schoolHeartService {
