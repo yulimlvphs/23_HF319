@@ -1,4 +1,4 @@
-package hanium.highwayspring.school.heart;
+package hanium.highwayspring.school.heart.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
