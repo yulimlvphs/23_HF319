@@ -10,7 +10,7 @@ import hanium.highwayspring.board.BoardService;
 import hanium.highwayspring.board.comment.repository.CommentRepository;
 import hanium.highwayspring.board.comment.CommentService;
 import hanium.highwayspring.config.jwt.JwtTokenProvider;
-import hanium.highwayspring.school.SchoolRepository;
+import hanium.highwayspring.school.repository.SchoolRepository;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.UserRepository;
 import hanium.highwayspring.user.UserService;
