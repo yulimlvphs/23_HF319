@@ -5,6 +5,7 @@ import org.jasypt.encryption.pbe.config.SimplePBEConfig;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.jasypt.salt.RandomSaltGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -13,16 +14,18 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 @Component
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application-server.properties")
 public class JasyptConfig {
-    @Autowired
-    private Environment environment;
+
+    @Value("${password}")
+    private String password;
 
     @Bean("jasyptStringEncryptor")	// 위에서 지정한 빈 이름으로 암호기 생성
     public StringEncryptor stringEncryptor() {
+        System.setProperty("password", password);
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword(environment.getProperty("password"));
+        config.setPassword(password);
         config.setAlgorithm("PBEWithMD5AndDES");
         config.setKeyObtentionIterations("1000");	// 암호화 키를 얻기위해 반복해야하는 해시 횟수
         config.setPoolSize("1");	// 암호화 요청의 pool 크기
