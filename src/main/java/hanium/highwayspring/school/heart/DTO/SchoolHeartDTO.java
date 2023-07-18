@@ -1,4 +1,4 @@
-package hanium.highwayspring.school.heart;
+package hanium.highwayspring.school.heart.DTO;
 
 import lombok.*;
 
@@ -6,7 +6,6 @@ import java.util.List;
 
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Getter
 @Setter
@@ -21,8 +20,11 @@ public class SchoolHeartDTO {
         this.studentCount = studentCount;
     }
 
-    public SchoolHeartDTO(Long id, String schoolName) {
-        this.schoolId = id;
+    public SchoolHeartDTO(Long id, Long schoolId, String schoolName, int studentCount, List<String> tag) {
+        this.heartId = id;
+        this.schoolId = schoolId;
         this.schoolName = schoolName;
+        this.studentCount = studentCount;
+        this.tag = tag;
     }
 }

@@ -4,7 +4,7 @@ import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.config.res.TokenResponse;
 import hanium.highwayspring.config.res.UserRequest;
 import hanium.highwayspring.school.School;
-import hanium.highwayspring.school.SchoolRepository;
+import hanium.highwayspring.school.repository.SchoolRepository;
 import hanium.highwayspring.tag.TagDTO;
 import hanium.highwayspring.tag.TagRepository;
 import hanium.highwayspring.user.auth.Auth;

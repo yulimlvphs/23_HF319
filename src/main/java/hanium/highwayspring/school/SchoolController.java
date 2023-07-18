@@ -19,7 +19,7 @@ public class SchoolController {
 
     @GetMapping("/list")
     public ResponseDTO<?> findSchoolList() {
-        return ResponseDTO.success(schoolService.findSchoolInfoWithTagsAndUserCount());
+        return ResponseDTO.success(schoolService.findAll());
     }
 
     @GetMapping("/info")
