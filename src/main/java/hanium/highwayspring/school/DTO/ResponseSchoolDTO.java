@@ -1,7 +1,8 @@
-package hanium.highwayspring.school;
+package hanium.highwayspring.school.DTO;
 
 import hanium.highwayspring.dept.Dept;
 import hanium.highwayspring.dept.DeptDTO;
+import hanium.highwayspring.school.School;
 import hanium.highwayspring.tag.Tag;
 import hanium.highwayspring.tag.TagDTO;
 import lombok.AllArgsConstructor;
