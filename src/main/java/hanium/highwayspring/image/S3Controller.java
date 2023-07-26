@@ -20,7 +20,7 @@ public class S3Controller {
     }
 
     @ResponseBody
-    @PostMapping(value="/diary/new", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value="/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Long saveDiary(HttpServletRequest request, @ModelAttribute Image diary, @RequestParam(value="image") MultipartFile image) throws IOException {
         Long ImageId = service.keepImage(image, diary);
         return ImageId;
