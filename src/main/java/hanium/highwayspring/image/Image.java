@@ -16,7 +16,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // 일기 pk
+    private Long id;  // Image 객체 pk
 
     @Column
     private String imageUrl;
