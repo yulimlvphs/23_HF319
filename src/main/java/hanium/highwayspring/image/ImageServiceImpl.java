@@ -21,7 +21,6 @@ public class ImageServiceImpl {
 
    @Transactional
    public Long keepImage(MultipartFile image, Image entity) throws IOException {
-       System.out.println("Image service saveDiary");
        if (!image.isEmpty()) {
            try {
                String storedFileName = s3Uploader.upload(image, "images");
