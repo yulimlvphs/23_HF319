@@ -18,6 +18,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/test")
+    public ResponseDTO<?> awsTest(){
+        return ResponseDTO.success(true);
+    }
+
     // 회원가입
     @PostMapping("/join")
     public ResponseEntity join(@RequestBody User user) {
