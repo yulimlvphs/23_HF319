@@ -13,5 +13,4 @@ public class HighwaySpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HighwaySpringApplication.class, args);
 	}
-
 }
