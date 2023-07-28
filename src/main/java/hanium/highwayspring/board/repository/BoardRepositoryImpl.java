@@ -55,7 +55,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(qBoard)
                 .innerJoin(qHeart)
                 .on(qHeart.board.eq(qBoard))
-                .where(qBoard.user.id.eq(uId))
+                .where(qHeart.user.id.eq(uId))
                 .fetch();
         return list;
     }
