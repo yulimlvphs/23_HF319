@@ -1,4 +1,6 @@
-package hanium.highwayspring.school;
+package hanium.highwayspring.school.DTO;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
 import hanium.highwayspring.tag.TagDTO;
 import lombok.*;
 
@@ -7,23 +9,22 @@ import java.util.List;
 
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Setter
 @Getter
 public class SchoolInfoDTO { //findSchoolInfoWithTagsAndUserCount()에서 활용할 DTO
     private Long schoolId; //(school 테이블)
     private String schoolName; //학교 이름 (school 테이블)
-    private int studentCount; //해당 학교에 재학중인 user 수 (user 테이블)
+    private Integer studentCount; //해당 학교에 재학중인 user 수 (user 테이블)
     private List<String> tag; //해당 학교에 있는 태그 리스트트 (school 테이블)
 
-    public void setUserCount(int studentCount) {
-        this.studentCount = studentCount;
-    }
-    public SchoolInfoDTO(Long id, String schoolName) {
+    public SchoolInfoDTO(Long id, String schoolName, Integer studentCount, List<String> tag) {
         this.schoolId = id;
         this.schoolName = schoolName;
+        this.studentCount = studentCount;
+        this.tag = tag;
     }
+
 }
 
 
