@@ -1,11 +1,9 @@
 package hanium.highwayspring.board.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import hanium.highwayspring.board.Board;
-import hanium.highwayspring.board.QBoard;
-import hanium.highwayspring.board.QResponseBoardDTO;
-import hanium.highwayspring.board.ResponseBoardDTO;
+import hanium.highwayspring.board.*;
 import hanium.highwayspring.board.heart.QHeart;
+import hanium.highwayspring.image.QImage;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,6 +20,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     @Override
     public List<Board> findBoardList(Long schId, Long cateNo) {
         QBoard qBoard = QBoard.board;
+        QImage qImage = QImage.image;
+
         List<Board> list = jpaQueryFactory
                 .selectFrom(qBoard)
                 .where(qBoard.school.id.eq(schId))
@@ -34,6 +34,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) {
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
+        QImage qImage = QImage.image;
         ResponseBoardDTO responseBoardDTO = jpaQueryFactory
                 .select(new QResponseBoardDTO(qBoard, qHeart, qBoard.user))
                 .from(qBoard)
@@ -43,7 +44,17 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetchJoin()
                 .where(qBoard.id.eq(boardId))
                 .fetchOne();
-        return Optional.ofNullable(responseBoardDTO);
+
+        List<String> imageUrls = jpaQueryFactory
+                .select(qImage.imageUrl)
+                .from(qImage)
+                .where(qImage.boardId.eq(boardId))
+                .fetch();
+
+        assert responseBoardDTO != null; //responseBoardDTO의 null값 여부 확인
+        responseBoardDTO.setImageUrls(imageUrls);
+
+        return Optional.of(responseBoardDTO);
     }
 
     @Override
@@ -51,12 +62,26 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
         List<Board> list = jpaQueryFactory
-                .select(qBoard)
-                .from(qBoard)
+                .selectFrom(qBoard)
                 .innerJoin(qHeart)
                 .on(qHeart.board.eq(qBoard))
                 .where(qBoard.user.id.eq(uId))
                 .fetch();
         return list;
     }
+
+    /*@Override
+    public Board findByIdWithImage(Long boardId) {
+        QBoard qBoard = QBoard.board;
+        QImage qImage = QImage.image;
+
+        Board board = jpaQueryFactory
+                .selectFrom(qBoard)
+                .leftJoin(qBoard.images, qImage)
+                .fetchJoin()
+                .where(qImage.boardId.eq(boardId))
+                .fetchOne();
+
+        return board;
+    }*/
 }

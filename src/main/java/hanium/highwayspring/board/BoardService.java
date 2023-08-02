@@ -6,23 +6,28 @@ import java.util.Optional;
 import com.querydsl.core.Tuple;
 import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.config.res.ResponseDTO;
+import hanium.highwayspring.image.imageService;
 import hanium.highwayspring.user.User;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final imageService imageService;
+
     // insert
-    public ResponseDTO<?> create(final Board entity) {
+    public ResponseDTO<?> create(final Board entity, final List<MultipartFile> imageList) {
         try {
             validate(entity);
-            log.info("user", entity.getUser().getId());
-            boardRepository.save(entity);
+            boardRepository.save(entity); //이미지를 뺀 나머지 컬럼 저장
+            imageService.upload(imageList, entity.getId()); //이미지 저장 코드
             return ResponseDTO.success(boardRepository.findById(entity.getId()));
         } catch (Exception e) {
             String error = e.getMessage();
@@ -40,6 +45,7 @@ public class BoardService {
         List<Board> boards = boardRepository.findBoardList(schId, cateNo);
         return boards;
     }
+
     public List<Board> getBoardHeartList(final User user) {
         List<Board> boards = boardRepository.findBoardHeartList(user.getId());
         return boards;

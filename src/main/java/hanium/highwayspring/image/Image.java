@@ -1,17 +1,15 @@
 package hanium.highwayspring.image;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
+
 @Entity(name = "image_TB")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Image {
 
     @Id
@@ -19,9 +17,14 @@ public class Image {
     private Long id;  // Image 객체 pk
 
     @Column
+    private Long boardId;
+
+    @Column
     private String imageUrl;
 
-    public Image(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public Image(Long boardId, String url) {
+        this.boardId = boardId;
+        this.imageUrl = url;
     }
 }
+

@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanium.highwayspring.board.comment.Comment;
+import hanium.highwayspring.image.Image;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.user.User;
 import lombok.*;

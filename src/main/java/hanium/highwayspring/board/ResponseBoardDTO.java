@@ -2,12 +2,15 @@ package hanium.highwayspring.board;
 import com.querydsl.core.annotations.QueryProjection;
 import hanium.highwayspring.board.heart.Heart;
 import hanium.highwayspring.board.heart.QHeart;
+import hanium.highwayspring.image.Image;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -17,6 +20,7 @@ public class ResponseBoardDTO {
 	private Heart heart;
 	private Long userNo;
 	private String userName;
+	List<String> imageUrls;
 	@QueryProjection
 	public ResponseBoardDTO(Board board, Heart heart, User user) {
 		this.board = board;

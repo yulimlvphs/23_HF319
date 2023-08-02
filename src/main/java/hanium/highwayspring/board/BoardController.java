@@ -8,8 +8,11 @@ import hanium.highwayspring.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
 
 @RequestMapping("/board")
 @RestController
@@ -26,11 +29,11 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseDTO<?> createBoard(BoardDTO dto, HttpServletRequest request) {
+    public ResponseDTO<?> createBoard(BoardDTO dto, HttpServletRequest request, @RequestParam(value="image") List<MultipartFile> imageList) throws IOException {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
         Board entity = BoardDTO.toEntity(dto, user);
-        return ResponseDTO.success(boardService.create(entity));
+        return boardService.create(entity, imageList);
     }
 
     @GetMapping("/detail/{boardId}")
@@ -40,8 +43,10 @@ public class BoardController {
         return ResponseDTO.success(boardService.getBoardDetail(user, boardId));
     }
 
-    @GetMapping("/list/{schId}")
-    public ResponseDTO<?> boardList(@PathVariable("schId") Long schId, @RequestParam(name = "cateNo") Long cateNo) {
+    //cateNo = 학교별, 분야별...
+    //detailNo = 학교별 -> 학교 id, 분야별 -> 해당 분야의 id
+    @GetMapping("/list/{cateNo}/{schId}")
+    public ResponseDTO<?> boardList(@PathVariable("cateNo") Long cateNo, @PathVariable(name = "schId") Long schId) {
         School school = schoolService.findBySchoolId(schId)
                 .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
         return ResponseDTO.success(boardService.getBoardList(school.getId(), cateNo));

@@ -2,17 +2,20 @@ package hanium.highwayspring.image;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,29 +23,35 @@ import java.util.UUID;
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
 @Component
 @Service
-public class S3Uploader {
+public class imageService {
     private final AmazonS3Client amazonS3Client;
+    private final imageRepository repository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        // 메타데이터 설정
-        File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        System.out.println("변환된 이미지 파일 이름: " + uploadFile.getName());
-        return upload(uploadFile, dirName);
+    @Transactional
+    public void upload(List<MultipartFile> multipartFileList, Long boardId) throws IOException {
+        for(MultipartFile multipartFile : multipartFileList) {
+            if(!multipartFile.isEmpty()){
+                // 메타데이터 설정
+                File uploadFile = convert(multipartFile)
+                        .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
+                log.info("변환된 이미지 파일 이름: " + uploadFile.getName());
+                String url = upload(uploadFile, "static"); //dirName = 이미지가 저장될 s3 폴더명
+                Image img = new Image(boardId, url);
+                log.info("------------------"+img.getImageUrl()+"-------------");
+                repository.save(img);
+            }
+        }
     }
 
-
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID() + "." + uploadFile.getName();
+        String fileName = dirName + "/" + UUID.randomUUID() + "." + uploadFile.getName(); //이름 중복 방지를 위한 렌덤 코드를 추가(UUID.randomUUID())
         String uploadImageUrl = putS3(uploadFile, fileName);
-
-        removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
-
-        return uploadImageUrl;      // 업로드된 파일의 S3 URL 주소 반환
+        removeNewFile(uploadFile);
+        return uploadImageUrl; //이미지 url 반환
     }
 
     private String putS3(File uploadFile, String fileName) {
@@ -74,6 +83,11 @@ public class S3Uploader {
         }
 
         return Optional.of(convertFile);
+    }
+
+    public void deleteFile(String fileName) {
+        DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
+        amazonS3Client.deleteObject(request);
     }
 
 }
