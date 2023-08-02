@@ -1,7 +1,5 @@
 package hanium.highwayspring.board.repository;
 
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.Board;
 import hanium.highwayspring.board.QBoard;
@@ -57,7 +55,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(qBoard)
                 .innerJoin(qHeart)
                 .on(qHeart.board.eq(qBoard))
-                .where(qBoard.user.id.eq(uId))
+                .where(qHeart.user.id.eq(uId))
                 .fetch();
         return list;
     }
