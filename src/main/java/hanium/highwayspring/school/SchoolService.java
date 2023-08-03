@@ -19,9 +19,15 @@ import static com.querydsl.core.group.GroupBy.list;
 
 @Transactional
 @Slf4j
-@RequiredArgsConstructor
 public class SchoolService {
     private final SchoolRepository schoolRepository;
+
+    public SchoolService(SchoolRepository schoolRepository, TagRepository tagRepository, DeptRepository deptRepository) {
+        this.schoolRepository = schoolRepository;
+        this.tagRepository = tagRepository;
+        this.deptRepository = deptRepository;
+    }
+
     private final TagRepository tagRepository;
     private final DeptRepository deptRepository;
 

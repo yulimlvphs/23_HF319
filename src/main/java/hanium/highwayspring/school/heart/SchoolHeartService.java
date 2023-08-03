@@ -1,14 +1,14 @@
 package hanium.highwayspring.school.heart;
 import hanium.highwayspring.config.res.ResponseDTO;
-import hanium.highwayspring.school.heart.DTO.SchoolHeartInsertDTO;
-import hanium.highwayspring.school.heart.repository.schoolHeartRepository;
+import hanium.highwayspring.school.heart.dto.SchoolHeartInsertDTO;
+import hanium.highwayspring.school.heart.repository.SchoolHeartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class schoolHeartService {
-    private final schoolHeartRepository heartRepository;
+public class SchoolHeartService {
+    private final SchoolHeartRepository heartRepository;
 
     public ResponseDTO<?> insert(final Heart heart){
         heartRepository.save(heart);
@@ -25,7 +25,7 @@ public class schoolHeartService {
     }
 
     public ResponseDTO<?> findAll(Long userId) {
-        return heartRepository.findAll(userId);
+        return ResponseDTO.success(heartRepository.findAllByUserId(userId));
     }
 
     public boolean existsByUserIdAndSchoolId(Long userId, Long schoolId) {
