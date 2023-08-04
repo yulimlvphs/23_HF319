@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface SchoolHeartRepositoryCustom {
-    boolean existsByUserIdAndSchoolId(Long userId, Long schoolId);
+    public ResponseDTO<?> findAll(Long userId);
 }
