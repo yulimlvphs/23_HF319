@@ -41,8 +41,8 @@ public class BoardService {
         return boardDetail;
     }
 
-    public List<Board> getBoardList(Long schId, Long cateNo) {
-        List<Board> boards = boardRepository.findBoardList(schId, cateNo);
+    public List<BoardWithImageDTO> getBoardList(Long schId, Long cateNo) {
+        List<BoardWithImageDTO> boards = boardRepository.findBoardList(schId, cateNo);
         return boards;
     }
 
@@ -52,17 +52,17 @@ public class BoardService {
     }
 
     // update
-    @Transactional
+    /*@Transactional
     public List<Board> update(final BoardDTO dto) {
         Board board = boardRepository.findById(dto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         validate(board);
         board.updateBoard(dto);
         return getBoardList(board.getSchool().getId(), board.getCategory());
-    }
+    }*/
 
     // delete
-    public List<Board> delete(Long boardId) {
+    /*public List<Board> delete(Long boardId) {
         Board board = findById(boardId);
         validate(board);
         try {
@@ -72,7 +72,7 @@ public class BoardService {
             throw new RuntimeException("error deleteing entity " + board.getId());
         }
         return getBoardList(board.getSchool().getId(), board.getCategory());
-    }
+    }*/
 
     // 리팩토링하나 메서드
     private void validate(final Board entity) {

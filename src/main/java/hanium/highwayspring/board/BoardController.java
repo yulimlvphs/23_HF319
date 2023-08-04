@@ -58,7 +58,7 @@ public class BoardController {
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
         return ResponseDTO.success(boardService.getBoardHeartList(user));
     }
-
+/*
     @PutMapping
     public ResponseDTO<?> updateBoard(BoardDTO dto) {
         return ResponseDTO.success((boardService.update(dto)));
@@ -67,5 +67,5 @@ public class BoardController {
     @DeleteMapping
     public ResponseEntity<?> deleteBoard(BoardDTO dto) {
         return ResponseEntity.ok().body(boardService.delete(dto.getId()));
-    }
+    }*/
 }

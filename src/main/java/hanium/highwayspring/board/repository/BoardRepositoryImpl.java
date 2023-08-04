@@ -1,13 +1,18 @@
 package hanium.highwayspring.board.repository;
 
+import com.querydsl.core.Tuple;
+import com.querydsl.core.group.GroupBy;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.*;
 import hanium.highwayspring.board.heart.QHeart;
+import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.image.QImage;
+import hanium.highwayspring.school.heart.DTO.SchoolHeartDTO;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class BoardRepositoryImpl implements BoardRepositoryCustom {
@@ -18,16 +23,33 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public List<Board> findBoardList(Long schId, Long cateNo) {
+    public List<BoardWithImageDTO> findBoardList(Long schId, Long cateNo) {
         QBoard qBoard = QBoard.board;
         QImage qImage = QImage.image;
 
-        List<Board> list = jpaQueryFactory
-                .selectFrom(qBoard)
+        List<Tuple> tuples = jpaQueryFactory
+                .select(qBoard, qImage.imageUrl)
+                .from(qBoard)
+                .leftJoin(qImage)
+                .on(qImage.boardId.eq(qBoard.id))
                 .where(qBoard.school.id.eq(schId))
                 .where(qBoard.category.eq(cateNo))
                 .fetch();
-        return list;
+
+        Map<Board, List<String>> boardImageMap = new HashMap<>();
+        tuples.forEach(tuple -> {
+            Board board = tuple.get(qBoard);
+            String imageUrl = tuple.get(qImage.imageUrl);
+            if (imageUrl != null) {
+                boardImageMap.computeIfAbsent(board, k -> new ArrayList<>()).add(imageUrl);
+            }
+        });
+
+        List<BoardWithImageDTO> resultList = boardImageMap.entrySet().stream()
+                .map(entry -> new BoardWithImageDTO(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+
+        return resultList;
     }
 
     @Override

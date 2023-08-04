@@ -1,9 +1,9 @@
 package hanium.highwayspring.image;
-
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
-
 
 @Entity(name = "image_TB")
 @Data
