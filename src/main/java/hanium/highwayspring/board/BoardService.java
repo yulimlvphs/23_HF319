@@ -3,7 +3,9 @@ package hanium.highwayspring.board;
 import java.util.List;
 import java.util.Optional;
 
-import com.querydsl.core.Tuple;
+import hanium.highwayspring.board.DTO.BoardDTO;
+import hanium.highwayspring.board.DTO.BoardWithImageDTO;
+import hanium.highwayspring.board.DTO.ResponseBoardDTO;
 import hanium.highwayspring.board.repository.BoardRepository;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.image.imageService;
@@ -11,10 +13,9 @@ import hanium.highwayspring.user.User;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,31 +36,33 @@ public class BoardService {
         }
     }
 
-    // select
+    // 게시글 상세보기
     public Optional<ResponseBoardDTO> getBoardDetail(final User user, Long boardId) {
         Optional<ResponseBoardDTO> boardDetail = boardRepository.findBoardDetail(user.getId(), boardId);
         return boardDetail;
     }
 
+    // 게시글 전체보기
     public List<BoardWithImageDTO> getBoardList(Long schId, Long cateNo) {
         List<BoardWithImageDTO> boards = boardRepository.findBoardList(schId, cateNo);
         return boards;
     }
 
+    //좋아요 누른 학교 보여주기
     public List<Board> getBoardHeartList(final User user) {
         List<Board> boards = boardRepository.findBoardHeartList(user.getId());
         return boards;
     }
 
     // update
-    /*@Transactional
-    public List<Board> update(final BoardDTO dto) {
+    @Transactional
+    public List<BoardWithImageDTO> update(final BoardDTO dto) {
         Board board = boardRepository.findById(dto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         validate(board);
         board.updateBoard(dto);
         return getBoardList(board.getSchool().getId(), board.getCategory());
-    }*/
+    }
 
     // delete
     /*public List<Board> delete(Long boardId) {

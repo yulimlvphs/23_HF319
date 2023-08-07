@@ -1,14 +1,13 @@
 package hanium.highwayspring.board.repository;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.group.GroupBy;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.*;
+import hanium.highwayspring.board.DTO.BoardWithImageDTO;
+import hanium.highwayspring.board.DTO.QResponseBoardDTO;
+import hanium.highwayspring.board.DTO.ResponseBoardDTO;
 import hanium.highwayspring.board.heart.QHeart;
-import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.image.QImage;
-import hanium.highwayspring.school.heart.DTO.SchoolHeartDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -91,19 +90,4 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
         return list;
     }
-
-    /*@Override
-    public Board findByIdWithImage(Long boardId) {
-        QBoard qBoard = QBoard.board;
-        QImage qImage = QImage.image;
-
-        Board board = jpaQueryFactory
-                .selectFrom(qBoard)
-                .leftJoin(qBoard.images, qImage)
-                .fetchJoin()
-                .where(qImage.boardId.eq(boardId))
-                .fetchOne();
-
-        return board;
-    }*/
 }

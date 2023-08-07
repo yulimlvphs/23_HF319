@@ -3,8 +3,8 @@ package hanium.highwayspring.board;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hanium.highwayspring.board.DTO.BoardDTO;
 import hanium.highwayspring.board.comment.Comment;
-import hanium.highwayspring.image.Image;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.user.User;
 import lombok.*;
@@ -46,6 +46,7 @@ public class Board {
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime createDate;
+
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime modifiedDate;

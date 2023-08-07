@@ -41,7 +41,6 @@ public class imageService {
                 log.info("변환된 이미지 파일 이름: " + uploadFile.getName());
                 String url = upload(uploadFile, "static"); //dirName = 이미지가 저장될 s3 폴더명
                 Image img = new Image(boardId, url);
-                log.info("------------------"+img.getImageUrl()+"-------------");
                 repository.save(img);
             }
         }

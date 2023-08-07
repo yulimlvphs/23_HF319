@@ -3,13 +3,11 @@ package hanium.highwayspring.board.repository;
 import java.util.List;
 import java.util.Optional;
 import hanium.highwayspring.board.Board;
-import hanium.highwayspring.board.BoardWithImageDTO;
-import hanium.highwayspring.board.ResponseBoardDTO;
+import hanium.highwayspring.board.DTO.BoardWithImageDTO;
+import hanium.highwayspring.board.DTO.ResponseBoardDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom{
-	List<Board> findByUserId(Long userNo);
-	List<Board> findBySchoolId(Long schoolId);
 	Optional<Board> findById(Long id);
 	@Override
 	List<BoardWithImageDTO> findBoardList(Long schId, Long cateNo);

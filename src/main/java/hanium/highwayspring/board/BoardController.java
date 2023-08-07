@@ -1,12 +1,12 @@
 package hanium.highwayspring.board;
 
+import hanium.highwayspring.board.DTO.BoardDTO;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.User;
 import hanium.highwayspring.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,12 +58,12 @@ public class BoardController {
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
         return ResponseDTO.success(boardService.getBoardHeartList(user));
     }
-/*
+
     @PutMapping
     public ResponseDTO<?> updateBoard(BoardDTO dto) {
         return ResponseDTO.success((boardService.update(dto)));
     }
-
+/*
     @DeleteMapping
     public ResponseEntity<?> deleteBoard(BoardDTO dto) {
         return ResponseEntity.ok().body(boardService.delete(dto.getId()));

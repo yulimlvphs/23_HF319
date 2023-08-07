@@ -29,8 +29,7 @@ public class schoolHeartController {
         User user = userService.getUser(request)
                 .orElseThrow(()->new IllegalArgumentException("유저 정보가 없습니다."));
         Optional<School> school = schoolService.findBySchoolId(schoolId);
-        System.out.println("-------------"+user.getId()+"--------------");
-        // 중복 체크 (한번 찜한 학교는 다시 할 수 없음)
+        // 한도 개수 체크 (10이상 학교를 찜할 수 없음)
         if (heartService.countByUserId(user.getId()) >= 10) {
             throw new IllegalArgumentException("이미 10개 이상의 학교를 찜하였습니다.");
         }

@@ -1,7 +1,8 @@
-package hanium.highwayspring.board;
-
+package hanium.highwayspring.board.DTO;
+import hanium.highwayspring.board.Board;
 import java.util.List;
 
+/* findBoardList 메소드에서 쓰이는 DTO */
 public class BoardWithImageDTO {
     private Board board;
     private List<String> imageUrls;
