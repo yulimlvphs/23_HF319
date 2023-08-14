@@ -19,7 +19,7 @@ public class CommentResponseDto {
     private String userId;
     private Long parentId;
     private Boolean isDeleted;
-    private List<CommentResponseDto> children = new ArrayList<>();
+    private final List<CommentResponseDto> children = new ArrayList<>();
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
 
