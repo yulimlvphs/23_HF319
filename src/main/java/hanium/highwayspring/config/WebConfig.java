@@ -14,7 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtTokenInterceptor)
-                .excludePathPatterns("/healthcheck") //aws 엔드포인트 테스트
                 .excludePathPatterns("/user/*")
                 .excludePathPatterns("/school/*")
                 .excludePathPatterns("/**/list/*")
