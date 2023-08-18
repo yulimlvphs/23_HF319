@@ -32,7 +32,7 @@ public class School implements Serializable {
     private Long locationCode; // 지역코드 (ADRCD_CD)
     private String schoolAddressDetails; // 학교도로명 상세주소 (SCHUL_RDNDA)
     private String schoolName; // 학교명 (SCHUL_NM)
-    private String adminPhone; // 관리실 전화번호 (...)/행정실 전화번호 (USER_TELNO_GA)
+    private String adminPhone; //행정실 전화번호 (USER_TELNO_GA)
 
     //review에서 schoolId값 받아와서 저장할 때 필요한 생성자입니다.
     public School(Long schoolId) {
