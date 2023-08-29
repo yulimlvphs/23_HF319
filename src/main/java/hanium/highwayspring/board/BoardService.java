@@ -24,12 +24,12 @@ public class BoardService {
     private final imageService imageService;
 
     // insert
-    public ResponseDTO<?> create(final Board entity, final List<MultipartFile> imageList) {
+    public ResponseDTO<?> create(final Board entity, final List<String> imageUrls) {
         try {
             validate(entity);
             boardRepository.save(entity); //이미지를 뺀 나머지 컬럼 저장
-            imageService.upload(imageList, entity.getId()); //이미지 저장 코드
-            return ResponseDTO.success(boardRepository.findById(entity.getId()));
+            imageService.moveImagesToFinalLocation(imageUrls, entity.getId());
+            return ResponseDTO.success(boardRepository.findBoardCreate(entity.getId()));
         } catch (Exception e) {
             String error = e.getMessage();
             return ResponseDTO.fail("Error", error);
@@ -61,23 +61,27 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         validate(board);
         board.updateBoard(dto);
+        List<String> newImageList = dto.getImageList(); // JSON 데이터에서 newImageList를 가져옴
+        for(String aa : newImageList){
+            System.out.println("----------------------------------처음 들어오는 데이터"+aa);
+        }
+        imageService.updateImages(newImageList, dto.getId());
         return getBoardList(board.getSchool().getId(), board.getCategory());
     }
 
     // delete
-    /*public List<Board> delete(Long boardId) {
+    public List<BoardWithImageDTO> delete(Long boardId) {
         Board board = findById(boardId);
-        validate(board);
         try {
+            imageService.deleteImages(boardId);
             boardRepository.delete(board);
         } catch (Exception e) {
             log.error("error deleting entity ", board.getId(), e);
             throw new RuntimeException("error deleteing entity " + board.getId());
         }
-        return getBoardList(board.getSchool().getId(), board.getCategory());
-    }*/
+        return boardRepository.findBoardList(board.getSchool().getId(), board.getCategory());
+    }
 
-    // 리팩토링하나 메서드
     private void validate(final Board entity) {
         if (entity == null) {
             log.warn("Entity cannot be null.");

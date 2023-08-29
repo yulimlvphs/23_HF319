@@ -2,6 +2,8 @@ package hanium.highwayspring.board;
 
 import hanium.highwayspring.board.DTO.BoardDTO;
 import hanium.highwayspring.config.res.ResponseDTO;
+import hanium.highwayspring.image.ImageRequestDTO;
+import hanium.highwayspring.review.ReviewDTO;
 import hanium.highwayspring.school.School;
 import hanium.highwayspring.school.SchoolService;
 import hanium.highwayspring.user.User;
@@ -29,10 +31,11 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseDTO<?> createBoard(BoardDTO dto, HttpServletRequest request, @RequestParam(value="image") List<MultipartFile> imageList) throws IOException {
+    public ResponseDTO<?> createBoard(@RequestBody BoardDTO dto, HttpServletRequest request) throws IOException {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
         Board entity = BoardDTO.toEntity(dto, user);
+        List<String> imageList = dto.getImageList();
         return boardService.create(entity, imageList);
     }
 
@@ -60,12 +63,18 @@ public class BoardController {
     }
 
     @PutMapping
-    public ResponseDTO<?> updateBoard(BoardDTO dto) {
-        return ResponseDTO.success((boardService.update(dto)));
+    public ResponseDTO<?> updateBoard(@RequestBody BoardDTO dto) {
+        // 데이터베이스에서 해당 ID로 게시글 조회
+        Board existingBoard = boardService.findById(dto.getId());
+        // 조회 결과가 없으면 오류 발생
+        if (existingBoard == null) {
+            throw new IllegalArgumentException("게시글이 존재하지 않습니다. ID: " + dto.getId());
+        }
+        return ResponseDTO.success(boardService.update(dto));
     }
-/*
+
     @DeleteMapping
-    public ResponseEntity<?> deleteBoard(BoardDTO dto) {
-        return ResponseEntity.ok().body(boardService.delete(dto.getId()));
-    }*/
+    public ResponseDTO<?> deleteBoard(BoardDTO dto) {
+        return ResponseDTO.success(boardService.delete(dto.getId()));
+    }
 }

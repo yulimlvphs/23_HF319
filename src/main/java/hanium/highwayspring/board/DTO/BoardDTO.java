@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Builder
 @NoArgsConstructor
@@ -16,6 +18,11 @@ public class BoardDTO {
 	private String title;
 	private String content;
 	private Long category;
+	private List<String> imageList;
+
+	public List<String> getImageList() {
+		return imageList;
+	}
 
 	public static Board toEntity(final BoardDTO dto, final User user) {
 		return Board.builder()

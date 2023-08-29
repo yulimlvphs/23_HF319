@@ -1,11 +1,13 @@
 package hanium.highwayspring.board.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.*;
 import hanium.highwayspring.board.DTO.BoardWithImageDTO;
 import hanium.highwayspring.board.DTO.QResponseBoardDTO;
 import hanium.highwayspring.board.DTO.ResponseBoardDTO;
+import hanium.highwayspring.board.DTO.createBoardDTO;
 import hanium.highwayspring.board.heart.QHeart;
 import hanium.highwayspring.image.QImage;
 import org.springframework.stereotype.Repository;
@@ -22,7 +24,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public List<BoardWithImageDTO> findBoardList(Long schId, Long cateNo) {
+    public List<BoardWithImageDTO> findBoardList(Long schId, Long cateNo) { //게시글 전체 조회
         QBoard qBoard = QBoard.board;
         QImage qImage = QImage.image;
 
@@ -52,7 +54,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) {
+    public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) { //게시글 1개 조회
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
         QImage qImage = QImage.image;
@@ -76,6 +78,28 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         responseBoardDTO.setImageUrls(imageUrls);
 
         return Optional.of(responseBoardDTO);
+    }
+
+    @Override
+    public Optional<createBoardDTO> findBoardCreate(Long boardId) { //게시판 생성시 반환해주는 메서드
+        QBoard qBoard = QBoard.board;
+        QImage qImage = QImage.image;
+        createBoardDTO dto = jpaQueryFactory
+                .select(Projections.constructor(createBoardDTO.class, qBoard))
+                .from(qBoard)
+                .where(qBoard.id.eq(boardId))
+                .fetchOne();
+
+        List<String> imageUrls = jpaQueryFactory
+                .select(qImage.imageUrl)
+                .from(qImage)
+                .where(qImage.boardId.eq(boardId))
+                .fetch();
+
+        assert dto != null; //responseBoardDTO의 null값 여부 확인
+        dto.setImageUrls(imageUrls);
+
+        return Optional.of(dto);
     }
 
     @Override
