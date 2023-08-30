@@ -1,4 +1,4 @@
-package hanium.highwayspring.school.heart.dto;
+package hanium.highwayspring.school.heart.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,3 +13,4 @@ public class SchoolHeartInsertDTO {
     private Long heartId;
     private Long schoolId;
 }
+

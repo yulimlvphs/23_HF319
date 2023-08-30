@@ -1,4 +1,4 @@
-package hanium.highwayspring.school.heart.dto;
+package hanium.highwayspring.school.heart.DTO;
 
 import lombok.*;
 

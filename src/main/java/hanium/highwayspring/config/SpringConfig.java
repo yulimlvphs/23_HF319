@@ -3,6 +3,7 @@ package hanium.highwayspring.config;
 import hanium.highwayspring.board.heart.HeartRepository;
 import hanium.highwayspring.board.heart.HeartService;
 import hanium.highwayspring.dept.DeptRepository;
+import hanium.highwayspring.image.imageService;
 import hanium.highwayspring.tag.TagRepository;
 import hanium.highwayspring.user.auth.AuthRepository;
 import hanium.highwayspring.board.repository.BoardRepository;
@@ -30,8 +31,9 @@ public class SpringConfig {
     private final CommentRepository commentRepository;
     private final TagRepository tagRepository;
     private final DeptRepository deptRepository;
+    private final imageService imageService;
 
-    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, HeartRepository heartRepository, CommentRepository commentRepository, TagRepository tagRepository, DeptRepository deptRepository) {
+    public SpringConfig(JwtTokenProvider jwtTokenProvider, UserRepository userRepository, PasswordEncoder passwordEncoder, AuthRepository authRepository, SchoolRepository schoolRepository, BoardRepository boardRepository, HeartRepository heartRepository, CommentRepository commentRepository, TagRepository tagRepository, DeptRepository deptRepository, hanium.highwayspring.image.imageService imageService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -42,6 +44,7 @@ public class SpringConfig {
         this.commentRepository = commentRepository;
         this.tagRepository = tagRepository;
         this.deptRepository = deptRepository;
+        this.imageService = imageService;
     }
 
     @Bean
@@ -56,7 +59,7 @@ public class SpringConfig {
 
     @Bean
     public BoardService boardService() {
-        return new BoardService(boardRepository);
+        return new BoardService(boardRepository, imageService);
     }
 
     @Bean

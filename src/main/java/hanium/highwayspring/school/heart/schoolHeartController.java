@@ -13,12 +13,12 @@ import java.util.Optional;
 @RequestMapping("school/heart")
 @RestController
 @Slf4j
-public class SchoolHeartController {
-    private final SchoolHeartService heartService;
+public class schoolHeartController {
+    private final schoolHeartService heartService;
     private final UserService userService;
     private final SchoolService schoolService;
 
-    public SchoolHeartController(SchoolHeartService heartService, UserService userService, SchoolService schoolService) {
+    public schoolHeartController(schoolHeartService heartService, UserService userService, SchoolService schoolService) {
         this.heartService = heartService;
         this.userService = userService;
         this.schoolService = schoolService;
@@ -29,7 +29,7 @@ public class SchoolHeartController {
         User user = userService.getUser(request)
                 .orElseThrow(()->new IllegalArgumentException("유저 정보가 없습니다."));
         Optional<School> school = schoolService.findBySchoolId(schoolId);
-        // 중복 체크 (한번 찜한 학교는 다시 할 수 없음)
+        // 한도 개수 체크 (10이상 학교를 찜할 수 없음)
         if (heartService.countByUserId(user.getId()) >= 10) {
             throw new IllegalArgumentException("이미 10개 이상의 학교를 찜하였습니다.");
         }
@@ -58,4 +58,3 @@ public class SchoolHeartController {
         return heartService.delete(heartId);
     }
 }
-
