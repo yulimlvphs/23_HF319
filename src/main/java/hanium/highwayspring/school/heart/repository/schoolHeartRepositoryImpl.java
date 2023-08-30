@@ -37,6 +37,7 @@ public class schoolHeartRepositoryImpl implements schoolHeartRepositoryCustom {
                         qHeart.school.id,
                         school.schoolName,
                         user.schoolId.id.count().intValue(),
+                        school.schoolImage,
                         GroupBy.list(tag.name)
                 )));
 

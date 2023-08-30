@@ -30,12 +30,13 @@ public class SchoolRepositoryImpl implements SchoolRepositoryCustom {
                 .selectFrom(school)
                 .leftJoin(tag).on(tag.schoolId.eq(school.id))
                 .leftJoin(user).on(user.schoolId.id.eq(school.id))
-                .groupBy(school.id, school.schoolName, tag.name)
+                .groupBy(school.id, school.schoolName,tag.name)
                 .transform(GroupBy.groupBy(school.id).list(Projections.constructor(
                         SchoolInfoDTO.class,
                         school.id,
                         school.schoolName,
                         user.schoolId.id.count().intValue(),
+                        school.schoolImage,
                         GroupBy.list(tag.name)
                 )));
 
