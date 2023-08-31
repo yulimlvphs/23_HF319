@@ -16,10 +16,10 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // Image 객체 pk
 
-    @Column
+    @Column(name="board_id")
     private Long boardId;
 
-    @Column
+    @Column(name="image_url")
     private String imageUrl;
 
     public Image(Long boardId, String url) {

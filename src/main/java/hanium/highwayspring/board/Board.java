@@ -30,12 +30,12 @@ public class Board {
     private String content;
     private Long category;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schoolId")
+    @JoinColumn(name = "school_id")
     @JsonIgnore
     private School school;
 
@@ -45,10 +45,12 @@ public class Board {
 
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    @Column(name="create_date")
     private LocalDateTime createDate;
 
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    @Column(name="modified_date")
     private LocalDateTime modifiedDate;
 
     public void updateBoard(BoardDTO dto){

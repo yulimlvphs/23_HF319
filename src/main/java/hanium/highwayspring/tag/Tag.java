@@ -17,7 +17,11 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "school_id")
     private Long schoolId;
+
     private String name;
+
     private Long code;
 }

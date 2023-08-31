@@ -18,7 +18,11 @@ public class Dept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    @Column(name="school_id")
     private Long schoolId;
+
     private String description;
 }

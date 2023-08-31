@@ -21,12 +21,12 @@ public class Heart {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="userId")
+    @JoinColumn(name="user_id")
     @JsonIgnore
     private User user;
 
     @ManyToOne(cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "schoolId")
+    @JoinColumn(name = "school_id")
     @JsonIgnore
     private School school;
 }

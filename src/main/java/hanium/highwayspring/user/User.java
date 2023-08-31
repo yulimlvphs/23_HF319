@@ -22,6 +22,6 @@ public class User {
     private Long age;
     private Long role;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schoolId")
+    @JoinColumn(name = "school_id")
     private School schoolId;
 }

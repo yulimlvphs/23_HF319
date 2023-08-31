@@ -33,7 +33,7 @@ public class Comment {
     //private String userId;
 
     @ColumnDefault("FALSE")
-    @Column(nullable = false)
+    @Column(nullable = false, name="is_deleted")
     private Boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,9 +50,12 @@ public class Comment {
 
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    @Column(name="create_date")
     private LocalDateTime createDate;
+
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    @Column(name="modeified_date")
     private LocalDateTime modifiedDate;
 
     public void update(CommentRequestDto commentRequestDto) {
