@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "AUTH_TB")
+@Entity(name = "auth_tb")
 public class Auth {
 // 사용자의 인증 정보를 담는 클래스이다.
     @Id

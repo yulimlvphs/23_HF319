@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
-@Entity(name = "schoolHeart_TB")
+@Entity(name = "schoolheart_tb")
 @Data
 @Builder
 @NoArgsConstructor

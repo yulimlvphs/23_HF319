@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity(name = "board_TB")
+@Entity(name = "board_tb")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Builder

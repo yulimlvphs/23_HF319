@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "comment_TB")
+@Entity(name = "comment_tb")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Builder

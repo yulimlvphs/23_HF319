@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-@Entity(name = "boardHeart_TB")
+@Entity(name = "boardheart_tb")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Builder

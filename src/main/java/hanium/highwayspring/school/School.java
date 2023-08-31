@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(name = "SCHOOL_TB")
+@Entity(name = "school_tb")
 @Data
 @Builder
 @NoArgsConstructor

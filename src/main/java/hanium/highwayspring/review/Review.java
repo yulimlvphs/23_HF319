@@ -10,7 +10,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
-@Entity(name = "review_TB")
+@Entity(name = "review_tb")
 @Data
 @Builder
 @AllArgsConstructor

@@ -4,7 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "USER_TB")
+@Entity(name = "user_tb")
 @Data
 @Builder
 @NoArgsConstructor
