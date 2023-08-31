@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-@Entity(name = "TAG_TB")
+@Entity(name = "tag_tb")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
