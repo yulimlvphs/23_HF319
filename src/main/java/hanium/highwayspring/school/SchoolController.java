@@ -21,7 +21,7 @@ public class SchoolController {
 
     @GetMapping("/list")
     public ResponseDTO<?> findSchoolList() {
-        return ResponseDTO.success(schoolService.findAll());
+        return schoolService.findAll();
     }
 
     @GetMapping("/info")
