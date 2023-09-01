@@ -35,8 +35,7 @@ public class BoardController {
         User user = userService.getUser(request)
                 .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
         Board entity = BoardDTO.toEntity(dto, user);
-        List<String> imageList = dto.getImageList();
-        return boardService.create(entity, imageList);
+        return boardService.create(entity, dto.getImageList());
     }
 
     @GetMapping("/detail/{boardId}")
@@ -53,6 +52,13 @@ public class BoardController {
         School school = schoolService.findBySchoolId(schId)
                 .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
         return ResponseDTO.success(boardService.getBoardList(school.getId(), cateNo));
+    }
+
+    @GetMapping("/user")
+    public ResponseDTO<?> userBoard(HttpServletRequest request) {
+        User user = userService.getUser(request)
+                .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
+        return ResponseDTO.success(boardService.getBoardListByUser(user.getId()));
     }
 
     @GetMapping("/list/heart")

@@ -1,6 +1,4 @@
 package hanium.highwayspring.board.repository;
-
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.*;
@@ -11,7 +9,6 @@ import hanium.highwayspring.board.DTO.createBoardDTO;
 import hanium.highwayspring.board.heart.QHeart;
 import hanium.highwayspring.image.QImage;
 import org.springframework.stereotype.Repository;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,40 +21,38 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public List<BoardWithImageDTO> findBoardList(Long schId, Long cateNo) { //게시글 전체 조회
+    public List<BoardWithImageDTO> findAllBoardList(Long schId, Long cateNo) {
         QBoard qBoard = QBoard.board;
         QImage qImage = QImage.image;
 
-        List<Tuple> tuples = jpaQueryFactory
-                .select(qBoard, qImage.imageUrl)
-                .from(qBoard)
-                .leftJoin(qImage)
-                .on(qImage.boardId.eq(qBoard.id))
+        // 게시글 조회
+        List<Board> boards = jpaQueryFactory
+                .selectFrom(qBoard)
                 .where(qBoard.school.id.eq(schId))
                 .where(qBoard.category.eq(cateNo))
                 .fetch();
 
-        Map<Board, List<String>> boardImageMap = new HashMap<>();
-        tuples.forEach(tuple -> {
-            Board board = tuple.get(qBoard);
-            String imageUrl = tuple.get(qImage.imageUrl);
-            if (imageUrl != null) {
-                boardImageMap.computeIfAbsent(board, k -> new ArrayList<>()).add(imageUrl);
-            }
-        });
-
-        List<BoardWithImageDTO> resultList = boardImageMap.entrySet().stream()
-                .map(entry -> new BoardWithImageDTO(entry.getKey(), entry.getValue()))
+        // 게시글의 이미지 조회
+        List<BoardWithImageDTO> resultList = boards.stream()
+                .map(board -> {
+                    List<String> imageUrls = jpaQueryFactory
+                            .select(qImage.imageUrl)
+                            .from(qImage)
+                            .where(qImage.boardId.eq(board.getId())) // 이미지의 boardId와 매칭되어야 합니다.
+                            .fetch();
+                    return new BoardWithImageDTO(board, imageUrls);
+                })
                 .collect(Collectors.toList());
 
         return resultList;
     }
 
     @Override
-    public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) { //게시글 1개 조회
+    public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) {
         QBoard qBoard = QBoard.board;
         QHeart qHeart = QHeart.heart;
         QImage qImage = QImage.image;
+
         ResponseBoardDTO responseBoardDTO = jpaQueryFactory
                 .select(new QResponseBoardDTO(qBoard, qHeart, qBoard.user))
                 .from(qBoard)
@@ -68,13 +63,16 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(qBoard.id.eq(boardId))
                 .fetchOne();
 
+        if (responseBoardDTO == null) {
+            return Optional.empty(); // 결과가 없으면 빈 Optional 반환
+        }
+
         List<String> imageUrls = jpaQueryFactory
                 .select(qImage.imageUrl)
                 .from(qImage)
                 .where(qImage.boardId.eq(boardId))
                 .fetch();
 
-        assert responseBoardDTO != null; //responseBoardDTO의 null값 여부 확인
         responseBoardDTO.setImageUrls(imageUrls);
 
         return Optional.of(responseBoardDTO);
@@ -113,5 +111,31 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(qHeart.user.id.eq(uId))
                 .fetch();
         return list;
+    }
+
+    @Override
+    public List<BoardWithImageDTO> findAllBoardByUserId(Long userId) { //유저가 작성한 글 List 보기
+        QBoard qBoard = QBoard.board;
+        QImage qImage = QImage.image;
+
+        // 게시글 조회
+        List<Board> boards = jpaQueryFactory
+                .selectFrom(qBoard)
+                .where(qBoard.user.id.eq(userId)) // 해당 userId와 일치하는 게시글만 선택
+                .fetch();
+
+        // 게시글의 이미지 조회
+        List<BoardWithImageDTO> resultList = boards.stream()
+                .map(board -> {
+                    List<String> imageUrls = jpaQueryFactory
+                            .select(qImage.imageUrl)
+                            .from(qImage)
+                            .where(qImage.boardId.eq(board.getId()))
+                            .fetch();
+                    return new BoardWithImageDTO(board, imageUrls);
+                })
+                .collect(Collectors.toList());
+
+        return resultList;
     }
 }

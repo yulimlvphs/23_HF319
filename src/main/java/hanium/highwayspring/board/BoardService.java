@@ -44,7 +44,7 @@ public class BoardService {
 
     // 게시글 전체보기
     public List<BoardWithImageDTO> getBoardList(Long schId, Long cateNo) {
-        List<BoardWithImageDTO> boards = boardRepository.findBoardList(schId, cateNo);
+        List<BoardWithImageDTO> boards = boardRepository.findAllBoardList(schId, cateNo);
         return boards;
     }
 
@@ -52,6 +52,11 @@ public class BoardService {
     public List<Board> getBoardHeartList(final User user) {
         List<Board> boards = boardRepository.findBoardHeartList(user.getId());
         return boards;
+    }
+
+    //사용자가 작성한 게시글 list 보여주기
+    public List<BoardWithImageDTO> getBoardListByUser(Long id){
+        return boardRepository.findAllBoardByUserId(id);
     }
 
     // update
@@ -75,7 +80,7 @@ public class BoardService {
             log.error("error deleting entity ", board.getId(), e);
             throw new RuntimeException("error deleteing entity " + board.getId());
         }
-        return boardRepository.findBoardList(board.getSchool().getId(), board.getCategory());
+        return boardRepository.findAllBoardList(board.getSchool().getId(), board.getCategory());
     }
 
     private void validate(final Board entity) {
@@ -89,6 +94,7 @@ public class BoardService {
             throw new RuntimeException("Unknown user");
         }
     }
+
 
     public Board findById(Long boardId){
         return boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
