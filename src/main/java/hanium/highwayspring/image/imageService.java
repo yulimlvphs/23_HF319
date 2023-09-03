@@ -17,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,11 +70,13 @@ public class imageService {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID() + "." + uploadFile.getName(); //이름 중복 방지를 위한 렌덤 코드를 추가(UUID.randomUUID())
+        String fileName = dirName + "/" + UUID.randomUUID() + "." + UUID.randomUUID(); //이름 중복 방지를 위한 렌덤 코드를 추가(UUID.randomUUID())
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl; //이미지 url 반환
     }
+
+
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(

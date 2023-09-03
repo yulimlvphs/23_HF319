@@ -45,8 +45,8 @@ public class BoardController {
         return ResponseDTO.success(boardService.getBoardDetail(user, boardId));
     }
 
-    //cateNo = 학교별, 분야별...
-    //detailNo = 학교별 -> 학교 id, 분야별 -> 해당 분야의 id
+    //cateNo = 카테고리
+    //schId = 학교별 -> 학교 id, 분야별 -> 해당 분야의 id
     @GetMapping("/list/{cateNo}/{schId}")
     public ResponseDTO<?> boardList(@PathVariable("cateNo") Long cateNo, @PathVariable(name = "schId") Long schId) {
         School school = schoolService.findBySchoolId(schId)
