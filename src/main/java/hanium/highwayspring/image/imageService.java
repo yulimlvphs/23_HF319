@@ -69,13 +69,13 @@ public class imageService {
         return uploadedFileNames;
     }
 
+
     private String upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + UUID.randomUUID() + "." + UUID.randomUUID(); //이름 중복 방지를 위한 렌덤 코드를 추가(UUID.randomUUID())
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl; //이미지 url 반환
     }
-
 
 
     private String putS3(File uploadFile, String fileName) {
@@ -85,6 +85,7 @@ public class imageService {
         );
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
+
 
     public boolean isValidImage(InputStream inputStream) {
         try {
@@ -98,9 +99,11 @@ public class imageService {
         }
     }
 
+
     public boolean isImageSizeValid(MultipartFile imageFile, long maxSizeInBytes) {
         return imageFile.getSize() <= maxSizeInBytes;
     }
+
 
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
@@ -109,6 +112,7 @@ public class imageService {
             log.info("파일이 삭제되지 못했습니다.");
         }
     }
+
 
     private Optional<File> convert(MultipartFile file) {
         File convertFile = new File(file.getOriginalFilename());
@@ -124,6 +128,7 @@ public class imageService {
 
         return Optional.of(convertFile);
     }
+
 
     @Transactional
     public void updateImages(List<String> newImageList, Long boardId) {
@@ -195,10 +200,12 @@ public class imageService {
         }
     }
 
+
     private String getImageNameFromUrl(String imageUrl) { // 이미지 URL에서 파일 이름 추출
         // 이미지 URL에서 파일 이름 추출
         return imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
     }
+
 
     private String moveImageToFinalFolder(String imageName) { // 이미지를 임시 폴더에서 정식 폴더로 이동하는 로직 구현
         String sourceKey = "temporary/" + imageName;

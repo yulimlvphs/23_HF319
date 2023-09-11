@@ -2,6 +2,7 @@ package hanium.highwayspring.review;
 import hanium.highwayspring.config.res.ResponseDTO;
 import hanium.highwayspring.school.School;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,38 +25,43 @@ public class ReviewService {
         return re;
     }
 
+    @Transactional
     public ResponseDTO<?> update(Long id, ReviewDTO dto){
-        Optional<Review> entity = this.repository.findById(id);
+        try {
+            Optional<Review> entity = this.repository.findById(id);
 
-        if(entity.isEmpty()){
-            return ResponseDTO.fail("isEmpty", "null");
+            if (entity.isEmpty()) {
+                return ResponseDTO.fail("isEmpty", "null");
+            }
+
+            entity.ifPresent(t -> {
+                // 내용이 널이 아니라면 엔티티의 객체를 바꿔준다.
+                if (dto.getContent() != null) {
+                    t.setContent(dto.getContent());
+                }
+                if (dto.getTrafficRate() != null) {
+                    t.setTrafficRate(dto.getTrafficRate());
+                }
+                if (dto.getFacilityRate() != null) {
+                    t.setFacilityRate(dto.getFacilityRate());
+                }
+                if (dto.getCafeteriaRate() != null) {
+                    t.setCafeteriaRate(dto.getCafeteriaRate());
+                }
+                if (dto.getEducationRate() != null) {
+                    t.setEducationRate(dto.getEducationRate());
+                }
+                if (dto.getEmploymentRate() != null) {
+                    t.setEmploymentRate(dto.getEmploymentRate());
+                }
+                // 이걸 실행하면 idx 때문에 update가 실행됩니다.
+                this.repository.save(t);
+            });
+            return ResponseDTO.success(entity);
         }
-
-        entity.ifPresent(t ->{
-            // 내용이 널이 아니라면 엔티티의 객체를 바꿔준다.
-            if(dto.getContent() != null) {
-                t.setContent(dto.getContent());
-            }
-            if(dto.getTrafficRate() != null) {
-                t.setTrafficRate(dto.getTrafficRate());
-            }
-            if(dto.getFacilityRate() != null) {
-                t.setFacilityRate(dto.getFacilityRate());
-            }
-            if(dto.getCafeteriaRate() != null) {
-                t.setCafeteriaRate(dto.getCafeteriaRate());
-            }
-            if(dto.getEducationRate() != null) {
-                t.setEducationRate(dto.getEducationRate());
-            }
-            if(dto.getEmploymentRate() != null) {
-                t.setEmploymentRate(dto.getEmploymentRate());
-            }
-            // 이걸 실행하면 idx 때문에 update가 실행됩니다.
-            this.repository.save(t);
-        });
-
-        return ResponseDTO.success(entity);
+        catch (Exception e) {
+            return ResponseDTO.fail("error", e.getMessage());
+        }
     }
 
     public ResponseDTO<?> findAll(School schoolId){ //학교 아이디를 가져와서 해당 학교에 대한 리뷰 전체를 보여줌
