@@ -18,6 +18,6 @@ public class curriculumController {
 
     @GetMapping("/curri/list/{schoolId}")
     public ResponseDTO<?> curriculumList(@PathVariable Long schoolId){
-        return ResponseDTO.success(cservice.curriculumList(schoolId));
+        return ResponseDTO.success(cservice.getGroupedCurriculum(schoolId));
     }
 }

@@ -2,10 +2,14 @@ package hanium.highwayspring.school.Curriculum;
 
 import hanium.highwayspring.config.res.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class curriculumService {
@@ -16,12 +20,28 @@ public class curriculumService {
         this.repository = repository;
     }
 
-    public List<String> curriculumList(Long schoolId){
-        List<Curriculum> firstdto = repository.findAllBySchoolId(schoolId);
-        List<String> contentList = new ArrayList<>();
-        for (Curriculum dto : firstdto) {
-            contentList.add(dto.getContent());
+    public Map<String, Map<String, Object>> getGroupedCurriculum(Long schoolId) {
+        List<Curriculum> curriculumList = repository.findAllBySchoolId(schoolId);
+
+        // 학과별로 그룹화한 데이터 생성
+        Map<String, Map<String, Object>> curriculumMap = new HashMap<>();
+
+        for (Curriculum curriculum : curriculumList) {
+            String department = curriculum.getDepart();
+
+            if (!curriculumMap.containsKey(department)) {
+                curriculumMap.put(department, new HashMap<>());
+                curriculumMap.get(department).put("grades", new ArrayList<>());
+            }
+
+            Map<String, Object> curriculumInfo = new HashMap<>();
+            curriculumInfo.put("grade", curriculum.getGrade());
+            curriculumInfo.put("content", curriculum.getContent());
+
+            ((List<Map<String, Object>>) curriculumMap.get(department).get("grades")).add(curriculumInfo);
         }
-        return contentList;
+
+        return curriculumMap;
     }
+
 }

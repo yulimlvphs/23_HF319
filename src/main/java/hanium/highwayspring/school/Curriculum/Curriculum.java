@@ -20,6 +20,12 @@ public class Curriculum {
     @Column(name = "school_id")
     private Long schoolId;
 
+    @Column(name = "depart")
+    private String depart;
+
+    @Column(name = "grade")
+    private Long grade;
+
     @Column(name = "content")
     private String content;
 }
