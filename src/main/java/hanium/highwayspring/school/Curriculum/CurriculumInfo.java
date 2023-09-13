@@ -1,5 +1,4 @@
 package hanium.highwayspring.school.Curriculum;
-
 import lombok.Data;
 
 @Data
