@@ -20,25 +20,23 @@ public class curriculumService {
         this.repository = repository;
     }
 
-    public Map<String, Map<String, Object>> getGroupedCurriculum(Long schoolId) {
+    public Map<String, List<Map<String, Object>>> getGroupedCurriculum(Long schoolId) {
         List<Curriculum> curriculumList = repository.findAllBySchoolId(schoolId);
 
         // 학과별로 그룹화한 데이터 생성
-        Map<String, Map<String, Object>> curriculumMap = new HashMap<>();
+        Map<String, List<Map<String, Object>>> curriculumMap = new HashMap<>();
 
         for (Curriculum curriculum : curriculumList) {
             String department = curriculum.getDepart();
 
-            if (!curriculumMap.containsKey(department)) {
-                curriculumMap.put(department, new HashMap<>());
-                curriculumMap.get(department).put("grades", new ArrayList<>());
-            }
+            // 학과별로 List를 생성하고 그 안에 Map을 추가
+            curriculumMap.computeIfAbsent(department, k -> new ArrayList<>());
 
             Map<String, Object> curriculumInfo = new HashMap<>();
             curriculumInfo.put("grade", curriculum.getGrade());
             curriculumInfo.put("content", curriculum.getContent());
 
-            ((List<Map<String, Object>>) curriculumMap.get(department).get("grades")).add(curriculumInfo);
+            curriculumMap.get(department).add(curriculumInfo);
         }
 
         return curriculumMap;
