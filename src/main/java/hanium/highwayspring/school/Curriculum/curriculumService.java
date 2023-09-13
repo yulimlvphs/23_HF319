@@ -20,26 +20,34 @@ public class curriculumService {
         this.repository = repository;
     }
 
-    public Map<String, List<CurriculumInfo>> getGroupedCurriculum(Long schoolId) {
+    public List<DepartmentDTO> getGroupedCurriculum(Long schoolId) {
         List<Curriculum> curriculumList = repository.findAllBySchoolId(schoolId);
 
-        // 학과별로 그룹화한 데이터 생성
-        Map<String, List<CurriculumInfo>> curriculumMap = new HashMap<>();
+        List<DepartmentDTO> departmentDTOList = new ArrayList<>();
 
         for (Curriculum curriculum : curriculumList) {
             String department = curriculum.getDepart();
 
-            // 학과별로 List를 생성하고 그 안에 CurriculumInfo 객체를 추가
-            curriculumMap.computeIfAbsent(department, k -> new ArrayList<>());
+            // 해당 학과의 데이터를 찾거나 새로 생성
+            DepartmentDTO departmentDTO = departmentDTOList.stream()
+                    .filter(dto -> dto.getDepartment().equals(department))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        DepartmentDTO newDTO = new DepartmentDTO();
+                        newDTO.setDepartment(department);
+                        newDTO.setGrades(new ArrayList<>());
+                        departmentDTOList.add(newDTO);
+                        return newDTO;
+                    });
 
-            CurriculumInfo curriculumInfo = new CurriculumInfo();
-            curriculumInfo.setGrade(curriculum.getGrade());
-            curriculumInfo.setContent(curriculum.getContent());
+            Map<String, Object> curriculumInfo = new HashMap<>();
+            curriculumInfo.put("grade", curriculum.getGrade());
+            curriculumInfo.put("content", curriculum.getContent());
 
-            curriculumMap.get(department).add(curriculumInfo);
+            departmentDTO.getGrades().add(curriculumInfo);
         }
 
-        return curriculumMap;
+        return departmentDTOList;
     }
 
 }
