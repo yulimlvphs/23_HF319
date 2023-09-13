@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class curriculumService {
@@ -29,17 +26,27 @@ public class curriculumService {
         for (Curriculum curriculum : curriculumList) {
             String department = curriculum.getDepart();
 
-            // 학과별로 List를 생성하고 그 안에 CurriculumInfo 객체를 추가
+            // Optional을 사용하여 null 값 처리
+            Optional<CurriculumInfo> optionalCurriculumInfo = createCurriculumInfo(curriculum);
+
             curriculumMap.computeIfAbsent(department, k -> new ArrayList<>());
 
-            CurriculumInfo curriculumInfo = new CurriculumInfo();
-            curriculumInfo.setGrade(curriculum.getGrade());
-            curriculumInfo.setContent(curriculum.getContent());
-
-            curriculumMap.get(department).add(curriculumInfo);
+            optionalCurriculumInfo.ifPresent(curriculumInfo -> curriculumMap.get(department).add(curriculumInfo));
         }
 
         return curriculumMap;
+    }
+
+    // CurriculumInfo 객체 생성하는 메서드
+    private Optional<CurriculumInfo> createCurriculumInfo(Curriculum curriculum) {
+        if (curriculum != null) {
+            CurriculumInfo curriculumInfo = new CurriculumInfo();
+            curriculumInfo.setGrade(curriculum.getGrade());
+            curriculumInfo.setContent(curriculum.getContent());
+            return Optional.of(curriculumInfo);
+        } else {
+            return Optional.empty(); // null인 경우 Optional.empty() 반환
+        }
     }
 
 }
