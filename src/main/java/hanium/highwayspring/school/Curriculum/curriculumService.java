@@ -27,22 +27,28 @@ public class curriculumService {
 
         for (Curriculum curriculum : curriculumList) {
             String department = curriculum.getDepart();
+            Long grade = curriculum.getGrade();
+            String content = curriculum.getContent();
 
-            // 해당 학과의 데이터를 찾거나 새로 생성
-            DepartmentDTO departmentDTO = departmentDTOList.stream()
-                    .filter(dto -> dto.getDepartment().equals(department))
-                    .findFirst()
-                    .orElseGet(() -> {
-                        DepartmentDTO newDTO = new DepartmentDTO();
-                        newDTO.setDepartment(department);
-                        newDTO.setGrades(new ArrayList<>());
-                        departmentDTOList.add(newDTO);
-                        return newDTO;
-                    });
+            DepartmentDTO departmentDTO = null;
 
-            Map<String, Object> curriculumInfo = new HashMap<>();
-            curriculumInfo.put("grade", curriculum.getGrade());
-            curriculumInfo.put("content", curriculum.getContent());
+            for (DepartmentDTO dto : departmentDTOList) {
+                if (dto.getDepartment().equals(department)) {
+                    departmentDTO = dto;
+                    break;
+                }
+            }
+
+            if (departmentDTO == null) {
+                departmentDTO = new DepartmentDTO();
+                departmentDTO.setDepartment(department);
+                departmentDTO.setGrades(new ArrayList<>());
+                departmentDTOList.add(departmentDTO);
+            }
+
+            CurriculumInfo curriculumInfo = new CurriculumInfo();
+            curriculumInfo.setGrade(grade);
+            curriculumInfo.setContent(content);
 
             departmentDTO.getGrades().add(curriculumInfo);
         }
