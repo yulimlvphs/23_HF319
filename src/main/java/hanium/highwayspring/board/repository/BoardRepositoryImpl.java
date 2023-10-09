@@ -1,13 +1,13 @@
 package hanium.highwayspring.board.repository;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.*;
-import hanium.highwayspring.board.DTO.BoardWithImageDTO;
-import hanium.highwayspring.board.DTO.QResponseBoardDTO;
-import hanium.highwayspring.board.DTO.ResponseBoardDTO;
-import hanium.highwayspring.board.DTO.createBoardDTO;
+import hanium.highwayspring.board.DTO.*;
 import hanium.highwayspring.board.heart.QHeart;
 import hanium.highwayspring.image.QImage;
+import hanium.highwayspring.user.QUser;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,33 +50,57 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     @Override
     public Optional<ResponseBoardDTO> findBoardDetail(Long userNo, Long boardId) {
         QBoard qBoard = QBoard.board;
-        QHeart qHeart = QHeart.heart;
+        QUser qUser = QUser.user;
         QImage qImage = QImage.image;
+        QHeart qHeart = QHeart.heart;
 
+        // 게시물 정보 조회
         ResponseBoardDTO responseBoardDTO = jpaQueryFactory
-                .select(new QResponseBoardDTO(qBoard, qHeart, qBoard.user))
+                .select(Projections.constructor(
+                        ResponseBoardDTO.class,
+                        qBoard,
+                        qUser.id,
+                        qUser.name,
+                        JPAExpressions //이 부분은 게시글의 좋아요 개수를 count
+                                .select(qHeart.count())
+                                .from(qHeart)
+                                .where(qHeart.board.id.eq(boardId))
+                ))
                 .from(qBoard)
-                .leftJoin(qHeart)
-                .on(qBoard.id.eq(qHeart.board.id))
-                .on(qHeart.user.id.eq(userNo))
-                .fetchJoin()
-                .where(qBoard.id.eq(boardId))
+                .innerJoin(qBoard.user, qUser)
+                .on(qBoard.id.eq(boardId))
                 .fetchOne();
 
         if (responseBoardDTO == null) {
-            return Optional.empty(); // 결과가 없으면 빈 Optional 반환
+            return Optional.empty();
         }
 
+        // 게시물 좋아요 정보 + 추가적인 데이터 요구 사항 함께 반환
+        List<BoardHeartDTO> boardHeartInfo = jpaQueryFactory
+                .select(Projections.constructor(
+                        BoardHeartDTO.class,
+                        qBoard.id,
+                        qHeart.id,
+                        qHeart.user.uid
+                ))
+                .from(qHeart)
+                .where(qHeart.board.id.eq(boardId))
+                .fetch();
+
+        // 이미지 URL 조회
         List<String> imageUrls = jpaQueryFactory
                 .select(qImage.imageUrl)
                 .from(qImage)
                 .where(qImage.boardId.eq(boardId))
                 .fetch();
 
+        responseBoardDTO.setBoardHeartInfo(boardHeartInfo);
         responseBoardDTO.setImageUrls(imageUrls);
 
         return Optional.of(responseBoardDTO);
     }
+
+
 
     @Override
     public Optional<createBoardDTO> findBoardCreate(Long boardId) { //게시판 생성시 반환해주는 메서드
