@@ -1,14 +1,9 @@
 package hanium.highwayspring.feedback;
 
-import hanium.highwayspring.board.Board;
-import hanium.highwayspring.board.DTO.BoardDTO;
 import hanium.highwayspring.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
