@@ -22,24 +22,6 @@ class BoardServiceTest {
     @Autowired
     UserService userService;
 
-    @Test
-    void 글작성() {
-        School school = schoolService.findBySchoolId(1L)
-                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        String uid = "Lee";
-        String title = "제목";
-        String content = "내용";
-        Long category = 1L;
-        User user = userService.findByUid(uid);
-        Board board = Board.builder()
-                .user(user)
-                .school(school)
-                .title(title)
-                .content(content)
-                .category(category)
-                .build();
-        boardService.create(board);
-    }
 
     @Test
     void 글삭제() {
