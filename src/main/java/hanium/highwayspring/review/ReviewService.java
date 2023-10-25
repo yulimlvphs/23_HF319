@@ -67,15 +67,15 @@ public class ReviewService {
         return ResponseDTO.success(reviewAll);
     }
 
-
+    @Transactional
     public ResponseDTO<?> softDelete(Long id) {
         Optional<Review> entity = repository.findById(id);
 
         if (entity.isPresent()) {
             Review review = entity.get();
-            review.setDeleted(true);
-            repository.save(review); // 해당 엔티티를 삭제하는 대신 "deleted" 속성을 변경합니다.
-            return ResponseDTO.success("reviewId : " + id);
+            review.setDeleted(true); // 해당 엔티티를 삭제하는 대신 "deleted" 속성을 ture로 변경
+            repository.save(review);
+            return ResponseDTO.success(id); // 이렇게 반환하는 이유 : 프론트에서 요청해서
         } else {
             return ResponseDTO.fail("not found", "Review not found with ID: " + id);
         }
