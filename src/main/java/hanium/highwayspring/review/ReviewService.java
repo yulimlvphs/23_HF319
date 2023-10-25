@@ -26,61 +26,59 @@ public class ReviewService {
     }
 
     @Transactional
-    public ResponseDTO<?> update(Long id, ReviewDTO dto){
+    public ResponseDTO<?> update(Long id, ReviewDTO dto) {
         try {
-            Optional<Review> entity = this.repository.findById(id);
+            Review entity = this.repository.findById(id).orElse(null);
 
-            if (entity.isEmpty()) {
+            if (entity == null) {
                 return ResponseDTO.fail("isEmpty", "null");
             }
 
-            entity.ifPresent(t -> {
-                // 내용이 널이 아니라면 엔티티의 객체를 바꿔준다.
-                if (dto.getContent() != null) {
-                    t.setContent(dto.getContent());
-                }
-                if (dto.getTrafficRate() != null) {
-                    t.setTrafficRate(dto.getTrafficRate());
-                }
-                if (dto.getFacilityRate() != null) {
-                    t.setFacilityRate(dto.getFacilityRate());
-                }
-                if (dto.getCafeteriaRate() != null) {
-                    t.setCafeteriaRate(dto.getCafeteriaRate());
-                }
-                if (dto.getEducationRate() != null) {
-                    t.setEducationRate(dto.getEducationRate());
-                }
-                if (dto.getEmploymentRate() != null) {
-                    t.setEmploymentRate(dto.getEmploymentRate());
-                }
-                // 이걸 실행하면 idx 때문에 update가 실행됩니다.
-                this.repository.save(t);
-            });
+            if (dto.getContent() != null) {
+                entity.setContent(dto.getContent());
+            }
+            if (dto.getTrafficRate() != null) {
+                entity.setTrafficRate(dto.getTrafficRate());
+            }
+            if (dto.getFacilityRate() != null) {
+                entity.setFacilityRate(dto.getFacilityRate());
+            }
+            if (dto.getCafeteriaRate() != null) {
+                entity.setCafeteriaRate(dto.getCafeteriaRate());
+            }
+            if (dto.getEducationRate() != null) {
+                entity.setEducationRate(dto.getEducationRate());
+            }
+            if (dto.getEmploymentRate() != null) {
+                entity.setEmploymentRate(dto.getEmploymentRate());
+            }
+
+            this.repository.save(entity);
+
             return ResponseDTO.success(entity);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseDTO.fail("error", e.getMessage());
         }
     }
 
+
     public ResponseDTO<?> findAll(School schoolId){ //학교 아이디를 가져와서 해당 학교에 대한 리뷰 전체를 보여줌
-        List<Review> re = repository.findBySchoolId(schoolId);
-        return ResponseDTO.success(re);
+        List<Review> reviewAll = repository.findBySchoolId(schoolId);
+        return ResponseDTO.success(reviewAll);
     }
 
-    public ResponseDTO<?> delete(Long id){
+
+    public ResponseDTO<?> softDelete(Long id) {
         Optional<Review> entity = repository.findById(id);
-        entity.ifPresent(review -> {
+
+        if (entity.isPresent()) {
+            Review review = entity.get();
             review.setDeleted(true);
-        });
-        repository.save(Review.builder().build());
-        return ResponseDTO.success("delete success");
+            repository.save(review); // 해당 엔티티를 삭제하는 대신 "deleted" 속성을 변경합니다.
+            return ResponseDTO.success("reviewId : " + id);
+        } else {
+            return ResponseDTO.fail("not found", "Review not found with ID: " + id);
+        }
     }
-/*
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
-        reviewService.delete(id);
-    }
-*/
+
 }

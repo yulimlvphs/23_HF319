@@ -52,7 +52,7 @@ public class ReviewController {
 
     //delete
     @PostMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
-        reviewService.delete(id);
+    public ResponseDTO<?> delete(@PathVariable Long id) {
+        return reviewService.softDelete(id);
     }
 }
