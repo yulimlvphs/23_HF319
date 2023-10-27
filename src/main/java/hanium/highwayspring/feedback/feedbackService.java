@@ -52,9 +52,7 @@ public class feedbackService {
 
     // 피드백 1개 상세조회 (권한 필요 O)
     public ResponseDTO<?> getFeedback(Long id, User user) {
-        return processFeedbackRequest(id, user, feedback -> {
-            return ResponseDTO.success(Optional.of(feedback));
-        });
+        return processFeedbackRequest(id, user, feedback -> ResponseDTO.success(Optional.of(feedback)));
     }
 
     // 피드백 삭제 (권한 필요 O)

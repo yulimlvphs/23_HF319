@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -159,13 +160,15 @@ public class UserService {
         Auth auth = authRepository.findByUserId(user.getId()).orElseThrow();
         userDTO.setPoint(auth.getPoint()); //user point 저장/반환
 
-        //학교 관련 조회 / 저장
-        School school = schoolRepository.findById(user.getSchoolId().getId()).orElseThrow();
-        userDTO.setSchoolName(school.getSchoolName()); //학교 이름 저장/반환
-        userDTO.setSchoolId(school.getId()); //학교 id 저장/반환
+        // 학교관련 조회
+        Optional<School> schoolOptional = Optional.ofNullable(user.getSchoolId()) //user의 SchoolId가 null이 아니라면 학교를 조회
+                .map(schoolId -> schoolRepository.findById(schoolId.getId()).orElse(null));
+        userDTO.setSchoolName(schoolOptional.map(School::getSchoolName).orElse(null));
+        userDTO.setSchoolId(schoolOptional.map(School::getId).orElse(null));
 
         //사용자가 지정한 학교에 대한 태그를 반환
-        List<TagDTO> tags = tagRepository.findNameAndCodeById(school.getId());
+        List<TagDTO> tags = schoolOptional.map(school -> tagRepository.findNameAndCodeById(school.getId()))
+                .orElse(Collections.emptyList());
         userDTO.setTag(tags);
 
         return userDTO;
