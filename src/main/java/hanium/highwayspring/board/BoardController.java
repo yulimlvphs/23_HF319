@@ -33,7 +33,7 @@ public class BoardController {
     @PostMapping
     public ResponseDTO<?> createBoard(@RequestBody BoardDTO dto, HttpServletRequest request) throws IOException {
         User user = userService.getUser(request)
-                .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
+                .orElseThrow(()-> new IllegalArgumentException("유저 정보가 없습니다."));
         Board entity = BoardDTO.toEntity(dto, user);
         return boardService.create(entity, dto.getImageList());
     }
@@ -41,18 +41,26 @@ public class BoardController {
     @GetMapping("/detail/{boardId}")
     public ResponseDTO<?> boardDetail(HttpServletRequest request, @PathVariable("boardId") Long boardId) {
         User user = userService.getUser(request)
-                .orElseThrow(()-> new IllegalArgumentException("유저 정보가 업습니다."));
+                .orElseThrow(()-> new IllegalArgumentException("유저 정보가 없습니다."));
         return ResponseDTO.success(boardService.getBoardDetail(user, boardId));
     }
 
     //cateNo = 카테고리
     //schId = 학교별 -> 학교 id, 분야별 -> 해당 분야의 id
+    @GetMapping("/list/{cateNo}/{schId}")
+    public ResponseDTO<?> boardList(@PathVariable(name = "cateNo") Long cateNo, @PathVariable(name = "schId") Long schId) {
+        School school = schoolService.findBySchoolId(schId)
+                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
+        return ResponseDTO.success(boardService.getBoardList(school.getId(), cateNo));
+    }
+
+    //cateNo = 카테고리
+    //schId = 해당 메소드는 schoolId의 값이 null인 데이터를 처리
     @GetMapping("/list/{cateNo}")
-    public ResponseDTO<?> boardList(@PathVariable(name = "cateNo") Long cateNo, @PathVariable(name = "schId", required = false) Long schId) {
+    public ResponseDTO<?> boardListNoschId(@PathVariable(name = "cateNo") Long cateNo, @PathVariable(name = "schId", required = false) Long schId) {
         Long schoolId = (schId != null) ? schId : null;
         return ResponseDTO.success(boardService.getBoardList(schoolId, cateNo));
     }
-
 
     @GetMapping("/user")
     public ResponseDTO<?> userBoard(HttpServletRequest request) {
