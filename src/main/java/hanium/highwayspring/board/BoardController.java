@@ -47,12 +47,12 @@ public class BoardController {
 
     //cateNo = 카테고리
     //schId = 학교별 -> 학교 id, 분야별 -> 해당 분야의 id
-    @GetMapping("/list/{cateNo}/{schId}")
-    public ResponseDTO<?> boardList(@PathVariable("cateNo") Long cateNo, @PathVariable(name = "schId") Long schId) {
-        School school = schoolService.findBySchoolId(schId)
-                .orElseThrow(() -> new IllegalArgumentException("학교가 존재하지 않습니다."));
-        return ResponseDTO.success(boardService.getBoardList(school.getId(), cateNo));
+    @GetMapping("/list/{cateNo}")
+    public ResponseDTO<?> boardList(@PathVariable(name = "cateNo") Long cateNo, @PathVariable(name = "schId", required = false) Long schId) {
+        Long schoolId = (schId != null) ? schId : null;
+        return ResponseDTO.success(boardService.getBoardList(schoolId, cateNo));
     }
+
 
     @GetMapping("/user")
     public ResponseDTO<?> userBoard(HttpServletRequest request) {

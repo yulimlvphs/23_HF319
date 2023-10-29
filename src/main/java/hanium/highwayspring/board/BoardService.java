@@ -48,6 +48,7 @@ public class BoardService {
         return boards;
     }
 
+
     //좋아요 누른 학교 보여주기
     public List<Board> getBoardHeartList(final User user) {
         List<Board> boards = boardRepository.findBoardHeartList(user.getId());

@@ -2,6 +2,7 @@ package hanium.highwayspring.board.repository;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hanium.highwayspring.board.*;
 import hanium.highwayspring.board.DTO.*;
@@ -25,20 +26,26 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         QBoard qBoard = QBoard.board;
         QImage qImage = QImage.image;
 
-        // 게시글 조회
-        List<Board> boards = jpaQueryFactory
-                .selectFrom(qBoard)
-                .where(qBoard.school.id.eq(schId))
-                .where(qBoard.category.eq(cateNo))
-                .fetch();
+        JPAQuery<Board> query = jpaQueryFactory.selectFrom(qBoard);
 
-        // 게시글의 이미지 조회
+        // schId 값이 null인 경우, schoolId가 null인 레코드를 포함하여 조회
+        if (schId == null) {
+            query.where(qBoard.school.id.isNull());
+        } else {
+            query.where(qBoard.school.id.eq(schId));
+        }
+
+        // cateNo 조건은 항상 추가
+        query.where(qBoard.category.eq(cateNo));
+
+        List<Board> boards = query.fetch();
+
         List<BoardWithImageDTO> resultList = boards.stream()
                 .map(board -> {
                     List<String> imageUrls = jpaQueryFactory
                             .select(qImage.imageUrl)
                             .from(qImage)
-                            .where(qImage.boardId.eq(board.getId())) // 이미지의 boardId와 매칭되어야 합니다.
+                            .where(qImage.boardId.eq(board.getId()))
                             .fetch();
                     return new BoardWithImageDTO(board, imageUrls);
                 })
