@@ -71,7 +71,7 @@ public class feedbackService {
             Optional<FeedbackBoard> feedbackOptional = repository.findById(id);
 
             return feedbackOptional.map(feedback -> {
-                if (user.getId() == feedback.getUser().getId() || user.getRole() == 1) {
+                if (user.getId() == feedback.getUser().getId() || user.getRole() == 0) {
                     return action.apply(feedback);
                 } else {
                     return ResponseDTO.fail("Unauthorized", "You are not authorized to access this feedback.");
